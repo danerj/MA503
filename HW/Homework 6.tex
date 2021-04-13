@@ -1,0 +1,125 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 6}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Definition} For each set $A$ of real numbers consider the set of countable sets $\{I_n\}$ of open intervals such that $A \subset \bigcup I_n$. For each set of intervals $\{I_n\}$, consider the sum of the lengths of the intervals in the set. Since these lengths are nonnegative this sum is uniquely defined independent of the ordering of the intervals. We define the {\bf outer measure} of $A$, $m^*(A)$, as the infimum of all such sums.
+
+$$m^*(A) = \text{inf}\{\sum_n l(I_n) : A \subset \bigcup I_n\} \;.$$
+
+{\bf Note} Since any collection of intervals covers the empty set, taking $\{(0,1/n)\}$ for each natural number $n$ shows $m^*(\emptyset) \leq 0$ and since the sum of lengths of any collection of intervals is nonnegative that $m^*(\emptyset) = 0$. If $A\subset B$, then $\{\sum_n l(I_n) : B \subset \bigcup I_n\} \subset \{\sum_n l(I_n) : A \subset \bigcup I_n\}$ since any collection of intervals that covers $B$ must also cover $A$. For sets $C \subset D$ of real numbers bounded below, $\text{inf } D \leq \text{inf } C$. Since $\{\sum_n l(I_n) : B \subset \bigcup I_n\}$ and $\{\sum_n l(I_n) : A \subset \bigcup I_n\}$ are nonempty and bounded below by 0, $m^*(A) \leq m^*(B)$.\\
+
+{\bf Proposition 1} The outer measure of an interval is its length. \\
+
+{\bf Proposition 2} Let $A_n$ be a countable collection of sets of real numbers.
+$$m^*\left(\bigcup A_n\right) \leq \sum m^*(A_n) \;.$$ \\
+
+
+{\bf Corollary Stringbean} For sets $A$ and $B$, $m^*(A\cup B) \leq m^*(A) + m^*(B)$.\\
+
+Proof: Set $C_1 = A$, $C_2 = B$, and $C_n = \emptyset$ for $n \geq 3$. Then by Proposition 2, $m^*(A\cup B) = m^*\left(\bigcup C_n\right) \leq \sum m^*(D_n) = m^*(A) + m^*(B)$. \\
+
+{\bf Problem 5} Let $A$ be a set of rational numbers between 0 and 1, and let $\{I_n\}$ be a finite collection of open intervals covering $A$. Prove that $\sum l(I_n) \geq 1$. \\
+
+Let $A = \mathbb{Q}\cap [0,1]$ and $\{I_n\}$ a finite collection of $N$ open intervals such that $A\subset \bigcup_{n=1}^N I_n$. For each $n$, denote $I_n = (a_n,b_n)$ for $a_n,b_n \in \mathbb{R}$. Assume, relabeling the finite number indices if necessary, that $a_1 \leq ... \leq a_N$. For $i\neq j$ and $a_i \leq a_j$, if $b_i \geq b_j$, then $(a_j,b_j) \subset (a_i,b_i)$ and we can remove the interval $(a_j,b_j)$ from the collection without losing coverage of $A$. Also, if we have any intervals $(a_j,b_j)$ with either $a_j \geq 1$ or $b_j \geq 0$ then remove this interval as well as $(a_j,b_j) \cap A = \emptyset$. After removing $k$ such superfluous intervals, assume we have $N := N-k$ (possibly just reassigning $N$ to avoid introducing an extra letter to the proof) intervals $(a_1,b_1),...,(a_N,b_N)$ remaining with $A \subset \bigcup_{n = 1}^N I_n = \bigcup_{n =1}^N (a_n,b_n)$. If $a_1> 0 $, then since $a_1\leq a_j$ for each $j$, $[0,a_1)$ is not contained in any interval in the collection and so $A \not\subset \bigcup (a_n,b_n)$. So we must have $a_1 < 0$. Similarly, if $b_N < 1$, then since $b_N \geq b_j$ for each $j$ (this is a result of the process of removing superfluous intervals - if $b_j > b_N$ for $j < N$ then $a_j \leq a_N$ and $b_j > b_N$ $\implies (a_N,b_N) \subset (a_j, b_j)$, which means $(a_N,b_N)$ would have been removed), $A \not\subset \bigcup (a_n,b_n)$. So we must have $b_N > 1$.  If $N=1$, then
+
+$$\sum l(I_n) \geq \sum_{n=1}^1 (a_n,b_n) = b_N - a_N > 1-0 = 1 \;.$$
+Otherwise for $N < 1$, for each $n \in \{1,...,N-1\}$, $b_n \geq a_{n+1}$. Suppose instead that $b_n < a_{n+1}$. There is a rational number $r$ such that $r \in (b_n,a_{n+1})$. We know that $b_n > 0$ and $a_{n+1} < 1$ by the process used to remove unnecessary sets. Then $r \in A$ but $r \not \in \bigcup (a_n,b_n)$. So $b_n \geq a_{n+1}$ for $n \in \{1,...,N-1\}$. Note that we can only have $b_n = a_{n+1}$ if $b_n = a_{n+1}$ is irrational, but that this consideration will not affect the inequalities given next. Therefore $0\leq  -(a_{n+1} - b_n$) and
+
+\begin{align*}
+\sum l(I_n) & \geq \sum_{n=1}^N l(I_n) \quad \text{ removing the superfluous intervals of nonnegative length}\\
+&= \sum_{n=1}^N l((a_n,b_n)) \quad \text{we chose to denote } I_n = (a_n,b_n)\\
+&= (b_N - a_N) + (b_{N-1} -a_{N-1}) + ... + (b_1 - a_1)\\
+&= b_N - (a_{N}-b_{N-1}) - ... - a_1 \\
+&\geq b_N - a_1 \quad \text{because } -(a_{n+1} - b_n) \geq 0,\quad  n \in \{1,...,N-1\}\\
+&> 1 - 0 \quad \text{because } b_N > 1, \quad a_1 < 0\\
+&= 1
+\end{align*}
+
+{\bf Definition} We say that $F \in F_\sigma$ if $F$ is a countable union of closed sets. We say that $G \in G_\delta$ if $G$ is a countable intersection of open sets ($\delta$ is for durchschnitt - durchschnitten means to "cut through" or "intersect" in German).\\ 
+
+{\bf Proposition 5} Given any set $A$ and $\epsilon > 0$, there is an open set $\mathcal{O}$ such that $A\subset \mathcal{O}$ and $m^*(O) \leq m^*(A) + \epsilon$. There is a $G \in G_\delta$ such that $A \subset G$ and $m^*(A) = m^*(G)$. \\
+
+{\bf Problem 6} Prove Proposition 5.\\
+
+Proof: Let $A\subset \mathbb{R}$ and $\epsilon > 0$. We have seen that $m^*(A)$ is defined for any set of real numbers. First if $A = \emptyset$, then since $\emptyset$ is open and $\emptyset \subset \emptyset$ we have $m^*(\emptyset) = 0 < 0 + \epsilon = m^*(A) + \epsilon$. Otherwise if $A$ is such that $m^*(A) = \infty$, then since $\mathbb{R}$ is open and $A \subset \mathbb{R}$ by hypothesis, $m^*(A) = \infty =: \infty + \epsilon$ and $m^*(\mathbb{R})  = \infty$ so $m^*(\mathbb{R}) \leq m^*(A) + \epsilon$.\\
+
+Assume that $A \subset \mathbb{R}$ such that $m^*(A) \in [0,\infty)$ but $A \neq \emptyset$. By definition of infimum, $m^*(A) + \epsilon$ is not a lower bound of the set $\{\sum l(I_n) : A \subset \bigcup I_n\}$ (where all collections $\{I_n\}$ are countable collections of open intervals). So there is a countable collection of open intervals $\{I_n\}$ such that $A \subset \bigcup I_n$ and $m^*(A) \leq \sum l(I_n) < m^*(A) + \epsilon$. Then $\mathcal{O} := \bigcup I_n$ is open as a union of open sets and 
+\begin{align*}
+m^*(\mathcal{O}) &= m^*\left(\bigcup I_n\right) \\
+&\leq \sum m^*(I_n) \quad \text{ (Proposition 2)}\\
+&= \sum l(I_n) \quad \text{ (Proposition 1)}\\
+&< m^*(A) +\epsilon \;.
+\end{align*}
+
+Therefore $m^*(\mathcal{O}) < m^*(A) + \epsilon \implies
+m^*(\mathcal{O}) \leq m^*(A) + \epsilon$.\\
+
+Next we consider the claim that there is a countable intersection of open sets, $G$, such that $A \subset G$ and $m^*(A) = m^*(G)$. If $A = \emptyset$, take $G = \cap_{n \in \mathbb{N}} G_n$ with $G_n = \emptyset$ for all $n$. Then $A = \emptyset = G$ and $m^*(A) = 0 = m^*(G)$. If $A$ is such that $m^*(A) = \infty$, take $G = \cap_{n \in \mathbb{N}}$ with $G_n = \mathbb{R}$ for all $n$ so that $A \subset G = \mathbb{R}$ and $m^*(A) = \infty = m^*(G)$. \\
+
+Assume that $A \subset \mathbb{R}$ such that $m^*(A) \in [0,\infty)$ and $A \neq \emptyset$. For each $n \in \mathbb{N}$, by the reasoning explained in the first part of the proof, there is a countable collection of open intervals $\{I_m^n\}_{m \in \mathbb{N}}$ such that $A \subset \bigcup_{m} I_m^n$ and $m^*(A) \leq m^*\left(\bigcup_{m} I_m^n \right) < m^*(A) + 1/n$. For notational convenience, denote $G_n = \bigcup_{m} I_m^n$. Then for each $n$, $G_n$ is open as a union of open sets. Since $A \subset G_n$ for each $n$, $A \subset G:= \bigcap_{n \in \mathbb{N}} G_n$ and $G$ is a countable intersection of open sets. For each $n \in \mathbb{N}$
+
+\begin{align*}
+m^*(A) &\leq m^*(G) \quad (\text{as } A \subset G)\\
+&\leq m^*(G_n) \quad (\text{as } G \subset G_n)\\
+&< m^*(A) + 1/n \;.
+\end{align*}
+
+Since this holds for each $n$, $m^*(A) \leq m^*(G) \leq m^*(A)$. Therefore, $G$ is a $G_\delta$ set, $A\subset G$, and $m^*(A) = m^*(G)$. \\
+
+{\bf Problem 7} Prove that $m^*$ is translation invariant.\\
+
+Let $A \subset \mathbb{R}$ and $y \in \mathbb{R}$.
+If $A = \emptyset$, then $A+y = \emptyset$ and $m^*(A) = m^*(\emptyset) = m^*(A+y)$. \\
+
+For $A,A+y \neq \emptyset$, let $s \in \{\sum l(I_n) : A \subset \bigcup I_n \}$, where each collection $\{I_n\}$ is a countable collection of open intervals ($s > 0$ since at least one of the intervals is a true open interval, i.e. not of the form $(x,x) = \emptyset)$). Then $s \in (0,\infty]$ and $s = \sum l(I_n)$ for some countable collection of open intervals $\{I_n := (a_n,b_n)\}$ such that $A \subset \bigcup I_n$. The countable collection of open intervals $\{I_n + y = (a_n + y, b_n + y)\}$ covers $A + y$. That is, $A + y \subset \{I_n + y = (a_n + y, b_n + y)\}$. To prove this let $x \in A+y$. Then $x = a+y$ for some $a \in A$. Since $A\subset \bigcup I_n$, there is an open interval in the collection $\{I_n\}$ such that $a \in I_j = (a_j,b_j)$. Since $a_j < a<b_j$, $a_j + y < a+ y < b_j + y$ so that $a+y \in (a_j + y, b_j + y) = I_j + y \subset \bigcup (I_n + y)$. Next note that $\sum l((I_n + y)) = \sum l((a_n + y, b_n+y)) = \sum b_n - a_n = \sum l((a_n,b_n)) = \sum l(I_n) = s$. Therefore $s = \sum l(I_n +y)$ for some countable collection of open intervals $\{I_n + y\}$ such that $A+y \subset \bigcup (I_n + y)$ and so $s \in \{\sum l(I_n + y) : A +y\subset \bigcup (I_n+y) \}$. Therefore $\{\sum l(I_n) : A \subset \bigcup I_n \} \subset \{\sum l(I_n + y) : A +y\subset \bigcup (I_n+y) \}$. Since these steps are reversible, we have similarly that $\{\sum l(I_n+y) : A +y\subset \bigcup (I_n+y) \} \subset \{\sum l(I_n) : A \subset \bigcup I_n \}$.\\
+
+Therefore, $\{\sum l(I_n) : A \subset \bigcup I_n \} = \{\sum l(I_n+y) : A +y\subset \bigcup (I_n+y) \}$. This set is a set of real numbers bounded below by 0 and $m^*(A) = \text{inf}\{\sum l(I_n) : A \subset \bigcup I_n \} = \text{inf}\{\sum l(I_n + y) : A \subset \bigcup (I_n+y) \} = m^*(A+y)$. \\
+
+{\bf Problem 8} Prove that if $m^*(A) = 0$, then $m^*(A\cup B) = m^*(B)$.\\
+
+Suppose $m^*(A) = 0$. Since $B \subset A\cup B$, by the note made following the definition of outer measure $m^*(B) \leq m^*(A\cup B)$ and $m^*(\emptyset) = 0$. Define the sequence $(D_n)$ by $D_1 = A, D_2 = B$, and $D_n = \emptyset$ for $n \geq 3$. By Proposition 2,  $$m^*(A\cup B) = m^*\left(\bigcup D_n\right) \leq \sum m^*(D_n) = m^*(A) + m^*(B) + \sum_{n\geq 3} m^*(\emptyset) = 0 + m^*(B) + 0 = m^*(B) \;.$$
+
+Since $m^*(B) \leq m^*(A\cup B)$ and $m^*(B) \geq m^*(A\cup B)$, $m^*(B) = m^*(A\cup B)$.
+
+
+\end{document}

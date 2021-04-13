@@ -1,0 +1,92 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 13}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Problem 2.40}
+
+Let $F$ be a closed set of real numbers and $f$ a real valued function which is defined and continuous on $F$. Show there is a function $g : \mathbb{R}\rightarrow \mathbb{R}$ such that $g$ is continuous and $f(x) = g(x)$ for each $x \in F$. \\
+
+{\bf Proposition 15} Let $E$ be a given set. The following five statements are equivalent.\\
+
+i. $E$ is measurable.\\
+ii. Given $\epsilon > 0$ there is an open set $O \supset E$ such that $m^*(O \backslash E) < \epsilon$. \\
+iii. Given $\epsilon > 0$ there is a closed set $F \subset E$ such that $m^*(E \backslash F) < \epsilon$.\\
+iv. There is a $G \in G_{\delta}$ with $E \subset O$ such that $m^*(G \backslash E) = 0$.\\
+v. There is an $F \in F_\sigma$ with $F \subset E$ such that $m^*(E \backslash F) = 0$. \\
+
+If $m^*(E) < \infty$, the above statements are equivalent to:\\
+
+vi. Given $\epsilon > 0$, there is a finite union $U$ of open intervals such that $m^*(U \bigtriangleup E) < \epsilon$.\\
+
+{\bf Proposition 22} Let $f$ be a measurable function defined on an interval $[a,b]$, and assume that $f$ takes on the values $\pm \infty$ only on a set of measure zero. Then given $\epsilon$, we can find a step function $g$ and a continuous function $h$ such that
+
+$$|f-g| < \epsilon \text{ and } |f-h| < \epsilon $$
+
+except on a set of measure less than $\epsilon$; i.e., $m(\{x : |f(x) - g(x)| \geq \epsilon \}) < \epsilon$ and $m(\{x : |f(x) - g(x)| \geq \epsilon \}) < \epsilon$. If in addition, $m \leq f \leq M$, then we may choose the functions $g$ and $h$ such that $m \leq g,h \leq M$. \\
+
+{\bf Proposition 24} Let $E$ be a measurable set of finite measure, and $(f_n)$ a sequence of measurable functions that converge to a real-valued function $f$ almost everywhere on $E$ (the set $B$ of points such that $f_n$ does not converge to $f$ pointwise is such that $m(B) = 0$ and $f_n \rightarrow f$ pointwise on $E \backslash B$). Then given $\epsilon > 0$ and $\delta > 0$, there is a set $A \subset E$ with $m(A) < \delta$, and an $N$ such that for all $x\not\in A$ and for all $n\geq N$, 
+
+$$|f_n(x) - f(x)| < \epsilon \;.$$\\
+
+
+{\bf Problem 30} (Proving {\bf Egoroff's Theorem}) If $(f_n)$ is a sequence of measurable functions that converge to a real-valued function $f$ almost everywhere on a measurable set $E$ with $m(E) < \infty$, then given $\eta > 0$, there is a subset $A \subset E$ with $m(A) < \eta$ such that $f_n \rightarrow f$ uniformly on $E\backslash A$. \\
+
+Proof:  Let $\eta > 0$. For every $n \in \mathbb{N}$, there exists by Proposition 24 a measurable set $A_n \subset E$ such that $m(A_n) < \delta_n:= 2^{-n}\eta$ and an $N_n$ such that for all $k \geq N_n$ and all $x \in E\backslash A_n$, $|f_k(x) - f(x)| < \epsilon_n := 1/n$. Since each $A_n\subset E$ is measurable, $\cup_{n=1}^\infty A_n$ is measurable and $\cup_{n=1}^\infty A_n \subset E$. Let $A:= \cup_{n=1}^\infty A_n$. By Proposition 13 (subadditivity), 
+
+$$m(A) \leq \sum_{n=1}^\infty m(A_n) < \sum_{n=1}^\infty 2^{-n}\eta = \eta \;.$$
+
+So $A$ is a subset of $E$ such that $m(A) < \eta$. If we can show that $f_n$ converges uniformly to $f$ on $E \backslash A$ then we will have proven Egoroff's Theorem. Now let $\epsilon > 0$ be given. Then there is an $m$ such that $A_m \subset E$ and a corresponding $N_m$ such that for all $k\geq N_m$ and $x \in E\backslash A_m$, $|f_k(x) - f(x)| < 1/m < \epsilon$. But then for $x \in E\backslash A$, $x \in \left(\cup_{n=1}^\infty A_n\right)^c = \cap_{n=1}^\infty A_n^c$. In particular, $x \in E\backslash A_m$. Therefore, given $\epsilon > 0$, there is a positive integer $N_m$ such that for all $k\geq N_m$ and $x \in E\backslash A$, $|f_k(x) - f(x)| < 1/m < \epsilon$. Since $\epsilon$ was arbitrary, conclude that there is a measurable set $A\subset E$ with $m(A) < \eta$ such that $f_k \rightarrow f$ uniformly on $E\backslash A$.\\
+
+{\bf Problem 31} (Proving {\bf Lusin's Theorem}) Let $f$ be a measurable real-valued function on $[a,b]$. Given $\delta > 0$, there is a continuous function $\phi$ on $[a,b]$ such that $m(\{x : f(x) \neq \phi(x)\}) < \delta$. \\
+
+Proof: Since $f$ is real-valued, $m(\{x : f(x) = \pm \infty\}) = m(\emptyset) = 0$. For each $k \in \mathbb{N}$, there exists by Proposition 22 a continuous function $h_k$ such that $|f - h_k| < 1/k$ except on a set of measure less than $1/k$, i.e. $m(\{x \in [a,b] : |f(x) - h_k(x)| \geq 1/k \}) < 1/k$. Then the sequence $(h_k)$ of continuous (and therefore measurable) functions converges to $f$ almost everywhere on $[a,b]$. By Egoroff's Theorem, there is a set $A \subset [a,b]$ with $m(A) < \delta / 2$ such that $h_k \rightarrow f$ uniformly on $[a,b] \backslash A$. By Proposition 15 (iii) (more specifically (i) $\iff$ (iii) and the fact that $[a,b] \backslash A$ is a measurable set), there exists a closed set $F \subset ([a,b] \backslash A)$ such that $m^*(([a,b] \backslash A) \backslash F) < \delta / 2$. Since $F \subset [a,b] \backslash A$, $h_k \rightarrow f$ uniformly on $F$. Since the convergence of $(h_k)$ to $f$ is uniform on $F$ and each $h_k$ is continuous, $f$ must be continuous on $F$. By Problem 2.40, there exists a continuous function $\phi$ defined on $(-\infty, \infty)$ (and so $\phi$ is defined and continuous on $[a,b]$ - we may as well assume $\phi : [a,b] \rightarrow \mathbb{R}$) such that $\phi(x) = f(x)$ for all $x \in F$. Therefore, if $x\in [a,b]$ and $f(x) \neq \phi(x)$, it must be the case that $x \not \in F$. So $x \in ([a,b] \backslash A) \backslash F$ or $x \in A$. That is,
+
+$$m(\{x \in [a,b] : f(x) \neq \phi(x) \}) = m\left[\left(([a,b] \backslash A) \backslash F\right) \cup A\right] \leq m\left(([a,b] \backslash A) \backslash F\right) + m(A) < \delta/2 + \delta / 2 = \delta \;.$$
+
+If instead $f$ is measurable real-valued function on $(-\infty, \infty)$, consider that given $\delta > 0$, there is a continuous function $\phi_n$ on $[n, n+1]$ for each $n \in \mathbb{Z}$ such that $m(\{x: f(x) \neq \phi_n(x)\}) < \delta/2^{|n|}$ by the above. Let $\phi$ be the function defined piecewise on $\mathbb{R}$ as $\phi(x) = \phi_n(x)$ for $x \in [n,n+1]$. Then,
+
+$$m(\{x : f(x) \neq \phi(x)\}) = \sum_{n=0}^\infty \delta / 2^{n} + \sum_{n=-1}^{-\infty} \delta / 2^{-n}  = 3 \delta \;.$$
+
+
+
+\end{document}

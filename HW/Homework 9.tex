@@ -1,0 +1,238 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 9}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Proposition 8 (Chapter 2)} Every open set of real numbers is the union of a countable collection of disjoint open intervals. \\
+
+{\bf Proposition 5} Given any set $A$ and $\epsilon > 0$, there is an open set $\mathcal{O}$ such that $A\subset \mathcal{O}$ and $m^*(O) \leq m^*(A) + \epsilon$. There is a $G \in G_\delta$ such that $A \subset G$ and $m^*(A) = m^*(G)$. \\
+
+{\bf Theorem 10} The collection $\mathfrak{M}$ is a $\sigma$-algebra. Moreover, every set with outer measure zero is measurable.\\
+
+{\bf Theorem 12} Every Borel set is measurable. In particular each open set and each closed set is measurable. \\
+
+{\bf Proposition 14} Let $(E_i)$ be a sequence of decreasing measurable sets, that is, a sequence with $E_{n+1} \subset E_n$ for each $n \in \mathbb{N}$. Let $m(E_1)<\infty$. Then,
+
+$$m\left(\bigcap_{i=1}^\infty E_i \right) = \text{lim}_{n\rightarrow \infty} \; m(E_n) \;.$$
+
+{\bf Proposition 15} Let $E$ be a given set. The following five statements are equivalent.\\
+
+i. $E$ is measurable.\\
+ii. Given $\epsilon > 0$ there is an open set $O \supset E$ such that $m^*(O \backslash E) < \epsilon$. \\
+iii. Given $\epsilon > 0$ there is a closed set $F \subset E$ such that $m^*(E \backslash F) < \epsilon$.\\
+iv. There is a $G \in G_{\delta}$ with $E \subset O$ such that $m^*(G \backslash E) = 0$.\\
+v. There is an $F \in F_\sigma$ with $F \subset E$ such that $m^*(E \backslash F) = 0$. \\
+
+If $m^*(E) < \infty$, the above statements are equivalent to:\\
+
+vi. Given $\epsilon > 0$, there is a finite union $U$ of open intervals such that $m^*(U \bigtriangleup E) < \epsilon$.\\
+
+{\bf Problem 13} Prove Proposition 15.\\
+
+(a) Assume for part (a) that $m^*(E) < \infty$.\\
+
+(i) $\implies$ (ii)\\
+Suppose $E$ is measurable and let $\epsilon > 0$. By Proposition 5, since $E \subset \mathbb{R}$, there is an open set $O \supset E$ such that $m^*(O) \leq m^*(E) + \epsilon$. As we saw in the proof of this proposition, the inequality can be made strict if $m^*(E) < \infty$ (or just start with $m^*(O) \leq m^*(E) + \epsilon / 2$). Then since $E$ is measurable,
+
+\begin{align*}
+m^*(O) &= m^*(O\cap E)+ m^*(O\cap E^c)\\
+&= m^*(E) + m^*(O\backslash E) \\
+\implies m^*(O\backslash E) &= m^*(O) - m^*(E) \\
+&< m^*(E) + \epsilon - m^*(E) \\
+&= \epsilon \;.
+\end{align*}
+
+However, there appears to be no reason to use the assumption that $E$ is measurable. Since $E\subset O$, we can write $O$ as a disjoint union $O = (O\backslash E) \cupdot E$ so that $m^*(O) < m^*(E) + \epsilon \implies m^*(O\backslash E) = m^*(O) - m^*(E) < \epsilon$. Note that $m^*(O) < \infty$ as $m^*(O) < m^*(E) + \epsilon < \infty$. \\
+
+(ii) $\implies$ (vi)\\
+Assume (ii) holds and let $\epsilon > 0$. There exists an open set $O\supset E$ such that $m^*(O \backslash E) < \epsilon /2$. By Proposition 8 of Chapter 2, there is a disjoint collection of open intervals $\{I_n\}$ such that $O = \bigcupdot_{n=1}^\infty I_n$ (If the collection $\{I_n\}$ is actually finite, with say $\bigcupdot_{n=1}^p I_n = O$, set $I_n = \emptyset$ for $n > p$). Since $O\supset E$, $O = (O\backslash E) \bigcupdot E$ is a disjoint union and $m^*(O) = m^*(O \backslash E) + m^*(E)< \epsilon + m^*(E)$. This implies that $m^*(O) < \infty$.
+
+$$\infty > m^*\left(\bigcupdot I_n\right) = \sum_{n=1}^\infty m^*(I_n) \;.$$
+Since the series converges to a finite value, the nonnegative sequence of partial sums converges to 0. This implies that there is an $N$ such that $\sum_{n=N}^\infty m^*(I_n) < \epsilon /2$. Let $U = \bigcupdot_{n=1}^N I_n$. From $E \subset O$ and $U \subset O$ it follows that
+
+$$m^*(E\backslash U) \leq m^*(O \backslash U) = m^*(O)-m^*(U) = \sum_{n=1}^\infty m^*(I_n) - \sum_{n=1}^N m^*(I_n) = \sum_{n=N}^\infty m^*(I_n) < \epsilon/2 \;.$$
+
+Since $U \subset O$, $U\backslash E \subset O \backslash E$ and $m^*(U\backslash E) \leq m^*(O \backslash E) < \epsilon/2$. For the finite union of open intervals $U$, 
+
+$$m^*\left( U \bigtriangleup E\right) = m^*\left( (U \backslash E)\cup (E \backslash U)\right) \leq m^*(U \backslash E) + m^*(E \backslash U) < \epsilon/2 + \epsilon /2 = \epsilon \;.$$
+$$ $$
+
+(vi) $\implies$ (ii)\\
+Assume (vi) holds and let $\epsilon > 0$. By Proposition 5, since $E$ is a set of real numbers there is an open set $O$ such that $m^*(O) < m^*(E) + \epsilon < \infty$ (again the inequality can always be made strict so long as $m^*(E) < \infty$). Then $m^*(O\backslash E) = m^*(O) - m^*(E) < \epsilon$. There appears to be no need to use (vi). If we want to explicitly involve (vi), consider that we can show (iv) $\implies$ (i) and use (i) $\implies$ (ii) to conclude that (iv) $\implies$ (i). The strategy used in this case is then better described as (i)$\implies$(ii)$\implies$(vi)$\implies$(i).\\
+
+Assume (iv) holds and let $A \subset \mathbb{R}$ and $\epsilon > 0$. As we have seen, it is always the case that $m^*(A) \leq m^*(A \cap E) + m^*(A \cap E^c)$. There is a finite union of open intervals $U$ such that $m^*(U \bigtriangleup E)  = m^*\left[(E\cap U^c)\cup (U \cap E^c)\right] < \epsilon / 2$. As $U$ is the union of open sets, $U$ is open. By Theorem 12, $U$ is measurable.
+
+\begin{align*}
+m^*(A\cap E) + m^*(A \cap E^c) &\\
+= [m^*(A\cap E \cap U) + m^*(A \cap E \cap U^c)]
++ [m^*(A\cap E^c \cap U) + m^*(A \cap E^c \cap U^c)]& \\
+ \leq [m^*(A \cap U) + m^*(A \cap E \cap U^c)] + [m^*(A\cap E^c \cap U) + m^*(A \cap E^c \cap U^c)]&\\
+ \leq [m^*(A \cap U) + m^*(E \cap U^c)] + [m^*(A\cap E^c \cap U) + m^*(A \cap E^c \cap U^c)]&\\
+ \leq [m^*(A \cap U) + m^*(E \cap U^c)] + [m^*(E^c \cap U) + m^*(A \cap E^c \cap U^c)]&\\
+ \leq [m^*(A \cap U) + m^*(E \cap U^c)] + [m^*(E^c \cap U) + m^*(A \cap U^c)] &\\
+= [m^*(A \cap U) + m^*(A \cap U^c)] + [m^*(E^c \cap U) + m^*(E \cap U^c)]& \\
+ = m^*(A) + m^*(E^c \cap U) + m^*(E \cap U^c) &\\
+= m^*(A) + m^*(U\cap E^c) + m^*(E \cap U^c)&\\
+< m^*(A) + \epsilon & \\
+\implies m^*(A\cap E) + m^*(A \cap E^c) \leq m^*(A) \quad \text{as } \epsilon \text{ was arbitrary}. &
+\end{align*}
+
+The last inequality above follows from:
+
+$$m^*(E \cap U^c) \leq m^*\left[(E\cap U^c)\cup (U \cap E^c)\right] < \epsilon /2 $$ 
+$$m^*(U \cap E^c) \leq  m^*\left[(E\cap U^c)\cup (U \cap E^c)\right] < \epsilon /2 $$ 
+$$m^*(E \cap U^c) + m^*(U\cap E^c) < \epsilon \;. $$
+
+Therefore, (iv) implies that $E$ is measurable. This (i) and so (ii) follows. \\
+
+(b) Let $E$ be a given set.\\
+
+(i) $\implies$ (ii)\\
+Suppose $E$ is measurable. By part (a), if $m^*(E) < \infty$ then (i) $\implies$ (ii). If instead $m^*(E) = \infty$, then $E$ cannot be bounded. If $E \subset [-M,M]$ for some $M \in \mathbb{R}$ then the contradiction $\infty = m^*(E) \leq 2M$ follows. Define $E_k = \{e \in E : |e| \leq k\}$ for each $k \in \mathbb{N}$. Then $(E_k)$ is an increasing sequence of sets. Each $E_k$ is a bounded set of real numbers (or possibly empty) with $m^*(E_k) < \infty$. For each $E_k$ there is by Proposition 5 an open set $O_k \supset E_k$ with $m^*(O_k) < m^*(E_k) + \epsilon/2^k < \infty \implies m(O_k \backslash E_k) < \epsilon /2^k$. Set $O = \bigcup_{k=1}^\infty O_k$. Since $E\subset \mathbb{R}$, for any element $e \in E$ there is a $k$ such that $|e| \leq k$ and $e \in E_n\subset O_n \subset O$ for all $n \geq k$. So $E_k \uparrow E$ and $E \subset O$. 
+
+\begin{align*}
+m^*(O \backslash E) &= m^*\left((\bigcup_{k=1}^\infty O_k) \cap E)\right) \\
+&= m^*\left(\bigcup_{k=1}^\infty (O_k \cap E) \right)\\
+&\leq \sum_{k=1}^\infty m^*(O_k \cap E) \\
+&\leq \sum_{k=1}^\infty m^*(O_k \cap E_k) \quad (E_k \subset E \implies O_k \cap E \subset O_k \cap E_k)\\
+&< \sum_{k=1}^\infty \epsilon 2^{-k} \\
+& = \epsilon \; .
+\end{align*}
+
+Conclude that $O$ is an open set with $O \supset E$ and $m^*(O \cap E) < \epsilon$. \\
+
+(ii) $\implies$ (iv)\\
+For any $k \in \mathbb{N}$, there is an open set $O_k \supset E$ such that $m^*(O_k \backslash E) < 1/k$. Let $G = \cap_{k=1}^\infty O_k$. For any $N \in \mathbb{N}$,
+
+\begin{align*}
+m^*(G \backslash E) &= m^*\left(\left(\bigcap_{k=1}^\infty O_k \right)\cap E\right)\\
+&\leq m^*\left(\left(\bigcap_{k=1}^N O_k \right)\cap E\right) \quad (\cap_{k=1}^\infty O_k \subset \cap_{k=1}^N O_k)\\
+&\leq m^*(O_N \backslash E) \quad (\cap_{k=1}^N O_k \subset O_N)\\
+&< 1/N\\
+\implies m^*(G \backslash E) &= \text{lim}_{N \rightarrow \infty} m^*(G\backslash E) \leq \text{lim}_{N \rightarrow \infty} 1/N = 0 \;.
+\end{align*}
+
+Since $m^*(G\backslash E) \geq 0$ by definition of $m^*$, conclude that for the countable intersection of open sets $G \in G_\delta$, $m^*(G \backslash E) = 0$.\\
+
+(iv) $\implies$ (i)\\
+Let $A \subset \mathbb{R}$ and by (iv) let $G \in G_\delta$ such that $m^*(G \backslash E) = 0$. Since $\mathfrak{M}$ is a $\sigma$-algebra by Theorem 10, $G = \bigcap_{k=1}^\infty G_k = \left(\bigcup_{k=1}^\infty G_k^c \right)^c \in \mathfrak{M}$ using $\sigma$-algebra properties and the fact that each open set $G_k \in \mathfrak{M}$. As noted several times in this section, $m^*(A) \leq m^*(A \cap E) + m^*(A \cap E^c)$ whether or not $E$ is measurable. For the reverse inequality,
+
+\begin{align*}
+m^*(A \cap E) + m^*(A \cap E^c) &= m^*(A\cap E) + m^*(A\cap E^c) \cap G) + m^*((A\cap E^c) \cap G^c) \\
+&= m^*(A \cap E) + m^*(A \cap (E^c \cap G)) + m^*(A \cap (E^c \cap G^c))\\
+&= m^*(A \cap E) + m^*(A \cap (G\backslash E)) + m^*(A\cap G^c) \quad (E\subset G \implies G^c \subset E^c)\\
+&\leq m^*(A \cap E) + m^*(G\backslash E) + m^*(A\cap G^c) \quad (A\cap (G\backslash E) \subset G\backslash E) \\
+& = m^*(A \cap E) + 0 + m^*(A\cap G^c) \\
+& \leq m^*(A \cap G) + m^*(A\cap G^c) \quad (A\cap E \subset A \cap G)\\
+&=m^*(A) \quad (G \text{ is measurable}) \;.
+\end{align*}
+
+Therefore $m^*(A\cap E) + m^*(A \cap E^c) \leq m^*(A)$, from which we conclude that $E$ is measurable. \\
+
+(c) Let $E$ be a given set.\\
+
+(i) $\implies$ (iii)\\
+Assume that $E$ is measurable. Then $E^c$ is also measurable. By part (b), if (i) holds then (ii) holds as well so there is an open set $O \supset E^c$ such that $m^*(O \backslash E^c) < \epsilon$. But this means $\epsilon > m^*(O \cap (E^c)^c) = m^*(O\cap E)$. Since $E^c \subset O$, $O^c \subset E$. This gives a closed set, $O^c$, such that $O^c \subset E$ and $m^*(E \backslash O^c) = m^*(E \cap (O^c)^c) = m^*(E \cap O) < \epsilon$. \\
+
+(iii) $\implies$ (v)\\
+For each $n \in \mathbb{N}$, there is by (iii) a closed set $F_n\subset E$ such that $m^*(E \backslash F_n) < 1/n$. Let $F = \bigcup_{n=1}^\infty F_n$. Then $F \in F_\sigma$ is also a closed set and for any $N \in \mathbb{N}$,
+
+\begin{align*}
+m^*(E \backslash F) = m^*\left[E \cap \left(\bigcup_{n=1}^\infty F_n\right)^c\right]
+&= m^*\left[E \cap \left(\bigcap_{n=1}^\infty F_n^c\right)\right]\\
+&= m^*\left[\bigcap_{n=1}^\infty (E\cap F_n^c)\right]\\
+&\leq m^*\left[\bigcap_{n=1}^N (E\cap F_n^c)\right]\quad \left(\bigcap_{n=1}^\infty F_n^c\subset \bigcap_{n=1}^N F_n^c\right) \\
+&\leq m^*(E\cap F_n^c)\quad \left(\bigcap_{n=1}^N F_n^c\subset F_N^c\right)\\
+&= m^*(E \backslash F_N) < 1/N \implies m^*(E \backslash F) \leq 0 \;.
+\end{align*}
+
+Since $m^*(E\backslash F) \geq 0$ by definition of $m^*$, conclude that $F \in F_\sigma$ satisfies the conditions of (v). \\
+
+(v) $\implies$ (i)\\
+Let $F \in F_\sigma$ such that $F \subset E$ and $m^*(E\backslash F) = 0$. As the union of closed (and therefore measurable) sets, $F$ is measurable. Let $A \subset \mathbb{R}$. Then $m^*(A) \leq m^*(A\cap E) + m^*(A\cap E^c)$. To show the reverse inequality,
+
+\begin{align*}
+m^*(A\cap E) + m^*(A\cap E^c) &= m^*((A\cap E)\cap F) + m^*((A\cap E)\cap F^c) + m^*(A\cap E^c)\\
+&= m^*(A\cap(E\cap F)) + m^*(A\cap (E \backslash F)) + m^*(A \cap E^c) \\
+&= m^*(A\cap F) + m^*(A\cap (E \backslash F)) + m^*(A \cap E^c) \\
+&\leq m^*(A\cap F) + m^*(E \backslash F) + m^*(A \cap E^c) \\
+&= m^*(A\cap F) +0 + m^*(A \cap E^c) \\
+&\leq m^*(A \cap F) + m^*(A \cap F^c)\\
+&= m^*(A)
+\end{align*}
+
+Therefore, $m^*(A) = m^*(A \cap E) + m^*(A \cap E^c)$, which shows that $E$ is measurable. \\
+
+{\bf Definition} A {\bf ternary expansion} of $x \in [0,1]$ is a sequence $(a_n)$ with $0\leq a_n < 3$ such that 
+$$x = \sum_{n=1}^\infty \frac{a_n}{3^n} \;.$$
+
+{\bf Definition} The {\bf Cantor Ternary Set} $C$ consists of all those real numbers $[0,1]$ that have a ternary expansion $(a_n)$ for which $a_n$ is never 1 (if $x$ has two ternary expansions, we put $x$ in $C$ if one of the expansions has no term equal to 1). The set $C$ is closed and obtained by first removing $(1/3, 2/3)$ from $[0,1]$, then removing $(1/9,2/9)$ from $[0,1/3]$ and $(7/9,8/9)$ from $[2/3,1]$, and so on. Using the definition of ternary expansion,
+
+$$C =  \Bigg\{ \sum_{n=1}^\infty \frac{a_n}{3^n} : a_n \in \{0, 1, 2\} \Bigg\}$$
+
+{\bf Problem 14}\\
+
+(a) Prove that the Cantor Ternary Set has measure 0. \\
+
+Define,
+\begin{align*}
+E_1 &= [0/3,1/3] \cup [2/3, 3/3]\\
+E_2 &= [0/9,1/9]\cup[2/9,3/9]\cup [6/9,7/9]\cup[8/9,9/9]\\
+E_3 &= [0/27,1/27]\cup [2/27,3/27] \cup [6/27, 7/27]\cup[8/27,9/27] \cup [18/27, 19/27]\cup [20/27,21/27]\\
+&\quad \quad \cup [24/27,25/27]\cup [26/27, 27/27]\\
+\vdots
+\end{align*}
+
+Continue such that $E_{n+1}$ is obtained by removing the open interval making up the middle third of each closed interval in the union forming $E_n$. Then $E_{n+1} \subset E_n$ for all $n$ and each $E_n$ is measurable as a union of closed intervals (which are measurable by Theorem 12). For each $n$, $E_n$ is the union of $2^n$ closed intervals, each of length $(1/3)^n$. For each $n \geq 2$, $E_n$ is obtained by removing $2^{n-1}$ open intervals each of length $(1/3)^n$ from $E_{n-1}$.
+\begin{align*}
+m^*(E_n) = m(E_n) &= m([0,1]) -\sum_{k=1}^n \frac{2^{k-1}}{3^k}\\
+&= 1 -\sum_{k=1}^n \frac{2^{k-1}}{3^k}\\
+&= 1- \sum_{k=1}^n \frac{1}{2}\left(\frac{2}{3}\right)^k \\
+&= 1 - \left(1-\left(\frac{2}{3}\right)^n\right)\\
+&= \left(\frac{2}{3}\right)^n \;.
+\end{align*}
+
+The sequence of measurable sets $(E_n)$ is decreasing with $m(E_1) = 2/3 < \infty$. By Proposition 14:
+
+$$m(C) = m\left(\bigcap_{i=1}^\infty E_i\right) = \text{lim}_{n\rightarrow \infty} m(E_n) = \text{lim}_{n\rightarrow \infty} \left(\frac{2}{3}\right)^n = 0 \;.$$
+
+\end{document}

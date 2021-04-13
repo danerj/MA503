@@ -1,0 +1,378 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Lebesgue Measure and Integration}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+\section*{Chapter 6 : The Classical Banach Spaces}
+
+\subsection*{1 The $L^p$ Spaces}
+
+{\bf Definition} Let $p$ be a positive real number. A measurable function defined on $[0,1]$ is said to belong to the space $L^p([0,1])$ if $\int_0^1 |f|^p < \infty$. For a function $f \in L^p([0,1])$ (abbreviate $f \in L^p$), 
+
+$$||f|| = ||f||_p := \left(\int_0^1 |f|^p \right)^{1/p} \;.$$
+
+{\bf Remarks}\\
+
+1. $f \in L^p([0,1])$ if and only if $f$ is integrable on $[0,1]$.\\
+
+Proof: If $f \in L^1([0,1])$, $\int_0^1 |f| < \infty$. If either $\int_0^1 f^+ = \infty$ or $\int_0^1 f^- = \infty$, then the fact that $0\leq f^+,f^- \leq f^+ + f^-$ would give the contradiction $\infty = \int_0^1 (f^+ + f^-) = \int_0^1 |f| < \infty$. So both $f^+$ and $f^-$ are integrable on $[0,1]$ and thus $f$ is integrable on $[0,1]$. Conversely, if $f$ is integrable on $[0,1]$, $\int_0^1 f^+ , \int_0^1 f^- < \infty$. This means $\int_0^1 |f| < \infty$ and $f \in L^p([0,1])$.\\
+
+2. If $f \in L^p$ and $\alpha \in \mathbb{R}$, then $\int_0^1 |\alpha f|^p = |\alpha|^p \int_0^1 |f|^p < \infty \implies \alpha f \in L^p$. \\
+
+3. If one accepts the use of the inequality $|f + g|^p \leq 2^p(|f|^p + |g|^p)$, it follows that if $f,g \in L^p$, then $f+g \in L^p$. (Note: Other sources, like Wikipedia, use the stricter $2^{p-1}$ in this inequality. Using $2^p$ is either an error or intentional to handle certain cases I'm not aware of).\\
+
+Proof: $$\int_0^1 |f+g|^p  \leq 2^p \int_0^1 (|f|^p + |g|^p) = 2^p \left(\int_0^1 |f|^p + \int_0^1 |g|^p\right) < \infty \;.$$
+
+4. It follows from 2 and 3 that if $f,g \in L^p$ and $\alpha, \beta \in \mathbb{R}$, then $\alpha f + \beta g \in L^p$. Therefore, for each $p$, $L^p$ is a vector space (or linear space), where the vectors are real valued functions defined on $[0,1]$ and the scalar field is $\mathbb{R}$.\\
+
+5. $||f|| = 0$ if and only if $f = 0$ almost everywhere. \\
+
+Proof: $||f|| = 0 \implies 0 = \int_0^1 |f|^p$. Since $f$ is measurable, $|f|$ is measurable. The product of measurable $p$ measurable functions $|f| |f| ... |f| = |f|^p$ is also measurable. Therefore $|f|^p$ is a nonnegative measurable function for which $\int_0^1 |f|^p = 0$. By Problem 4.3, $|f|^p = 0$ a.e. and so $|f| = 0$ a.e., which implies that $f = 0$ a.e. Conversely, if $f = 0$ a.e then $|f|^p = 0$ a.e. and so again using Problem 4.3, $\int_0^1 |f|^p = 0$, which means $(\int_0^1 |f|^p)^{1/p} = 0$. So all of the steps were reversible. \\
+
+6. If $\alpha \in \mathbb{R}$, $||\alpha f||_p = \left(\int_0^1 |\alpha f|^p\right)^{1/p} = |\alpha|\left( \int_0^1 |f|^p \right)^{1/p} = |\alpha| ||f ||_p$. \\
+
+7. In the next section the Minkowski inequality will show that $||f + g||_p \leq ||f||_p + ||g||_p$ if $p\geq 1$, so starting now assume that $||\cdot || = || \cdot ||_p$. A linear space (or vector space) is said to be a normed linear space if we have assigned a nonnegative real number $||f||$ to each $f$ such that $||\alpha f|| = |\alpha| ||f||$, $||f + g|| \leq ||f|| + ||g||$ and $||f|| = 0 \iff f \equiv 0$. By 5, we see that the $L^p$ spaces fail this last condition. To ameliorate this, consider two measurable functions equivalent if they are equal almost everywhere. Then a function that is zero almost everywhere will be considered equivalent to the zero function. So if the elements of an $L^p$ space are considered as equivalence classes of functions then $L^p$ can be treated as a normed linear space. But in practice what will be done is to treat the elements of $L^p$ as functions as we originally introduced the concept and then just not distinguish between equivalent functions. \\
+
+{\bf Definition} Let $L^\infty$ denote the space of bounded measurable functions on $[0,1]$ (or rather all measurable functions bounded except possibly on a subset of measure zero considering remark 7). Again identify functions which are equivalent. Then $L^\infty$ is a linear space (quick mental proof).
+
+$$||f||_\infty := \text{ess } \sup |f(t)| \; ,$$
+
+where $\text{ess } \sup f(t)$ is the infimum of $\sup g(t)$ as $g$ ranges over all functions which are equal to $f$ almost everywhere. Said another way, the essential supremum of $f$ is the smallest number $M$ such that the set $\{x \in [0,1] : f(x) > M \}$ has measure zero, or :
+
+$$\text{ess } \sup f(t) = \inf \{M : m(\{t : f(t) > M\}) = 0 \} \;,$$
+$$\text{ess } \sup |f(t)| = \inf \{M : m(\{t : |f(t)| > M\}) = 0 \} \;.$$
+
+$L^\infty$ is a normed linear space under $||\cdot ||_\infty$. \\
+
+{\bf Lemma Eggcorn} If $A$ and $B$ are sets of real numbers bounded below, then $\inf(A+B)= \inf(A) + \inf(B)$. \\
+
+Proof: Let $a+b \in A+B$ with $a \in A$ and $b \in B$. Since $\inf(A) \leq a$ and $\inf(B) \leq b$, $\inf(A) + \inf(B) \leq a+b$. So $\inf(A) + \inf(B)$ is a lower bound of $A+B$ and $\inf(A) + \inf(B) \leq \inf(A+B)$. For each $\epsilon > 0$ there is exist $a \in A$ and $b \in B$ such that $a< \inf(A) + \epsilon / 2$ and $b < \inf(B) + \epsilon /2$ so that $\inf(A+B) \leq a+b < \inf(A) + \inf(B) + \epsilon$. Then since $\inf(A+B) < \inf(A) +\inf(B) + \epsilon$ for every $\epsilon > 0$, $\inf(A+B) \leq \inf(A) + \inf(B)$. \\
+
+{\bf Problem 1} Show that $||f+g||_\infty \leq ||f||_\infty + ||g||_\infty$.\\
+
+
+$$A := \{P : m(\{t: |f(t) + g(t)| > P\}) = 0\} = \{P : |f+g| \leq P \text{ a.e.} \}$$
+$$B := \{M : m(\{t: |f(t)| > M\}) = 0\} = \{M : |f| \leq M \text{ a.e.} \}$$
+$$C := \{N : m(\{t: |g(t)| > N\}) = 0\} = \{N : |g| \leq N \text{ a.e.} \}$$
+$$B+C := \{M+N : m(\{t: |f(t)| > M\}) = 0, m(\{t: |g(t)| > N\}) = 0\} = \{M+N : |f| \leq M \text{ a.e.}, |g| \leq N \text{ a.e.} \}\;.$$
+
+Let $M+N \in B+C$ such that $M \in B$ and $N \in C$. Then $|f| \leq M$ a.e. and $|g| \leq N$ a.e. which means that $|f| + |g| \leq M+N$ a.e. But then $|f+g| \leq |f| + |g| \leq M+N$ a.e. so that $M+N \in A$. Therefore $B+C \subset A$ and $\inf A \leq \inf (B+C)$. Since $B$ and $C$ are sets of real numbers bounded each bounded below by 0 (because $|f|, |g| \geq 0$), $\inf (B+C) = \inf B + \inf C$ by Lemma Eggcorn. That is,
+
+\begin{align*}
+||f + g||_\infty &= \inf \{P : m(\{t: |f(t) + g(t)| > P\}) = 0\} \\
+&= \inf A\\
+& \leq \inf B + \inf C\\
+& = \inf \{M : m(\{t: |f(t)| > M\}) = 0\} + \inf \{N : m(\{t: |g(t)| > N\}) = 0\}\\
+& = ||f||_\infty + ||g||_\infty \;.
+\end{align*}
+
+We can also stick with the provided definition of essential supremum and follow a similar but messier argument. If $M \in B$ and $N \in C$, then $m(\{t : |f(t)| > M\}) = 0$ and $m(\{t : |f(t)| > N \}) = 0$.
+\begin{align*}
+& m(\{t : |f(t) + g(t)| > M + N\}) \\ &\leq m(\{t : |f(t)| + |g(t)| > M + N \}) \quad \text{(from the triangle inequality)}\\
+&= m[(\{t : |f(t)| > M\} \cap \{t: |g(t)| > N\})\cup \\ &(\{t : |g(t)| \leq N \} \cap \{t : |f(t)| > M + N - |g(t)|\}) \cup (\{t : |f(t)| \leq M \} \cap \{t : |g(t)| > M + N - |f(t)|\})]\\
+&\leq m(\{t : |f(t)| > M\} \cap \{t: |g(t)| > N\})
++ m(\{t : |g(t)| \leq N \} \cap \{t : |f(t)| > M + N - |g(t)|\}) \\ &+ m(\{t : |f(t)| \leq M \} \cap \{t : |g(t)| > M + N - |f(t)|\}) \\
+& \leq m(\{t : |f(t)| > M\}) + m(\{t : |f(t)| > M\}) + m(\{t : |g(t)| > N\}) \\
+&= 0 \;.
+\end{align*}
+
+This shows that if $M+N \in B+C$ with $M \in B$ and $N \in C$, then $M+N \in A$. Therefore, $B+C \subset A$ and so $\inf(A) \leq \inf(B+C) = \inf(B) + \inf(C)$. That is, $||f+g||_\infty \leq ||f||_\infty + ||g||_\infty$. \\
+
+{\bf Problem 2} Let $f$ be a bounded measurable function on $[0,1]$. Prove that $\lim_{p\rightarrow \infty} ||f||_p = ||f||_\infty$. \\
+
+We have $|f| \leq ||f||_\infty$ a.e. and so
+
+\begin{align*}
+||f||_p &= \left(\int_0^1 |f|^p\right)^{1/p}\\
+&\leq \left(\int_0^1 ||f||_\infty^p \right)^{1/p}\\
+&= \left(||f||_\infty^p m([0,1])\right)^{1/p} \\
+&= ||f||_\infty\\
+\implies \lim_{p\rightarrow \infty} ||f||_p &\leq \||f||_\infty \;. 
+\end{align*}
+
+For each $p \in \mathbb{N}$, the set $B_p = \{x : |f(x)| > ||f||_\infty - 1/p\}$ has positive measure since if $m(B_p) = 0$, we have $||f||_\infty - 1/p \in \{M : m(\{x : |f(x)| > M \}) = 0 \}$ and $||f||_\infty - 1/p < ||f||_\infty = \inf \{M : m(\{x : |f(x)| > M \}) = 0 \}$, which is a contradiction. 
+
+\begin{align*}
+\left(\int_{B_p} |f|^p \right)^{1/p}& \geq \left(\int_{B_p} |\;||f||_\infty - 1/p \;|^p\right)^{1/p}\\
+&=| \; ||f||_\infty - 1/p \;| \left(m(B_p)\right)^{1/p}\\
+\end{align*}
+
+As $p \rightarrow \infty$, $||f||_\infty - 1/p \rightarrow ||f||_\infty$, so $B_p \rightarrow [0,1]$. Then,
+
+$$\lim_{p \rightarrow \infty} ||f||_p \geq \lim_{p \rightarrow \infty} | \; ||f||_\infty - 1/p \; | \left(m(B_p)\right)^{1/p} = ||f||_\infty m([0,1]) = ||f||_\infty \;.$$
+
+
+{\bf Problem 3} Prove that $||f + g||_1 \leq ||f||_1 + ||g||_1$. \\
+
+Suppose $f,g \in L^1([0,1])$. For each $x \in [0,1]$, $|f+g| \leq |f| + |g|$, so
+
+$$||f+g||_1 = \int_0^1 |f+g| \leq \int_0^1 (|f| + |g|)= \int_0^1 |f| + \int_0^1 |g|  = ||f||_1 + ||g||_1 \;.$$
+
+{\bf Problem 4} Show that if $f \in L^1$ and $g \in L^\infty$,
+
+$$\int |fg| \leq ||f||_1 \cdot ||g||_\infty \;.$$
+
+We have $|g| \leq ||g||_\infty$ almost everywhere so $|fg| = |f||g| \leq |f| ||g||_\infty$ almost everywhere. We have defined $L^p$ spaces in this section on the interval $[0,1]$, so
+
+$$\int |fg| = \int_0^1 |fg| = \int_0^1 |f||g| \leq \int_0^1 |f| ||g||_\infty = ||g||_\infty \int_0^1 |f| = ||g||_\infty \int |f| = ||g||_\infty ||f||_1 \;.$$
+
+
+
+\subsection*{2 The Minkowski and Hölder Inequalities}
+
+{\bf 1. The Minkowski Inequality} If $f,g \in L^p$ with $1\leq p \leq \infty$, then $f+g \in L^p$ and
+
+$$||f + g||_p \leq ||f||_p + ||g||_p \;.$$
+
+If $1<p<\infty$, then inequality can only hold if there are nonnegative constants $\alpha$ and $\beta$ such that $\beta f = \alpha g$.\\
+
+Proof: The case when $p = \infty$ is problem 1 of the previous section. If $||f|| = 0$, then $f = 0$ a.e. and so $f+g = g$ a.e. By the convention mentioned in remark 7 of the previous section, $||f+g|| = ||g|| = 0 + ||g|| = ||f|| + ||g||$. The case is similar if $||g|| = 0$. Otherwise, assume $1\leq p < \infty$ and $||f|| = \alpha \neq 0$, $||g|| = \beta \neq 0$. Let $f_0$ and $g_0$ be functions such that $|f| = \alpha f_0$ and $|g| = \beta g_0$ so that
+
+$$||f_0|| = \left( \int_0^1 |f|^p / |\alpha|^p \right)^{1/p}  =  \left( \int_0^1 |f|^p  \right)^{1/p} \frac{1}{|\alpha|} = \frac{||f||}{|\alpha|}= 1 \;.$$
+$$||g_0|| = \left( \int_0^1 |g|^p / |\beta|^p \right)^{1/p}  =  \left( \int_0^1 |g|^p  \right)^{1/p} \frac{1}{|\beta|} = \frac{||g||}{|\beta|}= 1 \;.$$
+
+
+$$\lambda := \frac{\alpha}{\alpha + \beta}, \quad  1 - \lambda = \frac{\alpha + \beta}{\alpha + \beta} - \frac{\alpha}{\alpha + \beta} = \frac{\beta}{\alpha + \beta} \;.$$
+
+For all $x \in [0,1]$, 
+
+\begin{align*}
+(|f+g|)^p & \leq (|f| + |g|)^p \\
+& = (\alpha f_0 + \beta g_0)^p \\
+&= (\alpha + \beta)^p\left(\frac{\alpha}{\alpha + \beta} f_0 + \frac{\beta}{\alpha + \beta} g_0\right)^p \\
+&= (\alpha + \beta)^p\left(\lambda f_0 + (1-\lambda) g_0\right)^p \\
+&\leq (\alpha + \beta)^p\left(\lambda (f_0)^p + (1-\lambda) (g_0)^p\right)
+\end{align*}
+
+The last inequality used the convexity of the function $\varphi (t) = t^p $ on $[0,\infty)$ for $1\leq p < \infty$ meaning $\varphi(\lambda f_0 + (1-\lambda) g_0) = \lambda \varphi(f_0) + (1-\lambda)\varphi(g_0)$. If $1< p < \infty$ the inequality is strict unless $f_0(x) = g_0(x)$ and sgn $f(x) = $ sgn $g(x)$ (I don't think I'll prove this). Integrating the inequality established above,
+
+\begin{align*}
+||f+g||^p &\leq (\alpha + \beta)^p \left( \lambda ||f_0||^p + (1-\lambda) ||g_0||^p\right)\\
+&=(\alpha + \beta)^p \left( \lambda  + (1-\lambda)\right)\\ &= (\alpha + \beta)^p \\
+&= (||f|| + ||g||)^p \;. \\
+\therefore ||f+g|| &\leq ||f|| + ||g|| \;.
+\end{align*}
+
+If $1<p< \infty$ the inequality is strict unless $f_0 = g_0$ a.e. and sgn $f = $ sgn $g$ a.e. If this occurs then $\alpha f_0 = f$ whenever $\beta g_0 = g$ (a.e.) and $-\alpha f_0 = f$ whenever $-\beta g_0 = g$ (a.e) so that $f = \alpha f_0 = \alpha g_0  = \alpha g / \beta \implies \beta f = \alpha g$. \\
+
+{\bf 2. Minkowski Inequality for $0<p <1$ } Let $f$ and $g$ be two nonnegative functions which belong to the space $L^p$ with $0 < p < 1$. Then,
+
+$$||f+g|| \geq ||f|| + ||g|| \;.$$
+
+{\bf Lemma 3} Let $1 \leq p < \infty$. Then for $a,b,t$ nonnegative we have 
+
+$$(a+bt)^p \geq a^p + ptba^{p-1} \;.$$
+
+Proof: For $\varphi(t) = (a+tb)^p - a^p -ptba^{p-1}$, $\varphi(0) = 0$ and
+
+$$\varphi'(t) = pb(a+tb)^{p-1} - pba^{p-1} = pb[(a+tb)^{p-1} - a^{p-1}] \geq 0 \;.$$
+
+So $\varphi(t)$ is nonnegative and increasing for $t >0$.\\
+
+{\bf Hölder Inequality} If $p$ and $q$ are nonnegative extended real numbers such that
+
+$$\frac{1}{p} + \frac{1}{q} = 1 \;,$$
+
+and $f\in L^p$ and $g \in L^q$, then $fg \in L^1$ and
+
+$$\int |fg| \leq ||f||_p ||g||_q \;.$$
+
+Equality holds if and only if for some constants $\alpha$ and $\beta$, not both zero, $\alpha |f|^p = \beta |g|^p$ a.e.\\
+
+Proof: If $p = 1$ and $q = \infty$, then with some abuse of mathematical rigor (division by $\infty$ was not defined in chapter 2) $1/p + 1/q = 1 + 0 = 1$. Suppose $f \in L^1$ and $g \in L^\infty$. Then $|g| \leq ||g||_\infty$ a.e. and $|fg| \leq |f| \cdot ||g||_\infty$ a.e. so that by Proposition 4.15 (iii),
+
+$$\int |fg| \leq \int \left(|f|\cdot ||g||_\infty\right) = \left(\int |f|\right)(||g||_\infty) = ||f||_1 ||g||_\infty \;.$$
+
+Otherwise assume $1< p < \infty$, which forces $1< q < \infty$ as well. \\
+
+Since $|fg| = |f||g|$, we can consider the case that $f,g\geq 0$, replacing $f$ and $g$ with $|f|$ and $|g|$ respectively if necessary. 
+
+$$\frac{1}{p}+ \frac{1}{q} = 1 \iff \frac{q}{p} + 1 = q \iff q+p = pq \iff q = pq - p \iff \frac{q}{p} = q - 1 \;$$
+
+ Set
+
+$$h(x) = g(x)^{q-1}  = g(x)^{q/p}  \implies g(x) = h(x)^{p-1} =h(x)^{p/q} \;.$$
+
+For nonnegative $t$, $h(x)^p + ptf(x)h(x)^{p-1} \leq (h(x) + tf(x))^p$ by Lemma 3, so
+
+$$ptf(x)g(x) = ptf(x)h(x)^{p-1} \leq (h(x) + tf(x))^p - h(x)^p \;.$$
+
+$$ pt\int fg \leq \int |h + tf|^p - \int |h|^p = ||h+tf||^p - ||h||^p \leq \left(||h|| + t||f||\right)^p - ||h||^p \;.$$
+
+$$\frac{d}{dt}\left[ pt\int fg \right] \leq \frac{d}{dt} \left[ \left(||h|| + t||f||\right)^p - ||h||^p \right] $$
+$$p\int fg \leq p\left(||h|| + t||f||\right)^{p-1}||f|| $$
+This holds for any nonnegative $t$. In particular, for $t = 0$,
+
+$$ p\int fg \leq p||h||^{p-1}||f|| = p ||g|| \cdot ||f|| = p ||f||_p \cdot ||g||_p \;.$$
+$$\therefore \int |fg| \leq ||f||_p \cdot ||g||_p \;.$$
+
+{\bf Problem 5}\\
+
+a. Prove the Minkowski inequality for $0 < p < 1$. \\
+
+b. Show that if $f \in L^p$, $g \in L^p$, then $f+g \in L^p$ even for $0<p<1$. Hint: $||f+g||^p \leq 2^p \left( ||f||^p + ||g||^p \right)$. \\
+
+\subsection*{3 Convergence and Completeness}
+
+{\bf Definition} A sequence $(f_n)$ in a normed linear spaced is said to converge to an element $f$ in the space if given $\epsilon > 0$, there is an $N$ such that for all $n\geq N$ we have $||f - f_n|| < \epsilon$. If $f_n$ converges to $f$, we write $f = \lim f_n$ of $f_n \rightarrow f$. \\
+
+Note that $f_n \rightarrow f$ if $||f- f_n|| \rightarrow 0$. Convergence in the space $L^p$, $1\leq p < \infty$, is referred to as {\bf convergence in the mean of order $p$}. A sequence of functions $(f_n)$ is said to converge to $f$ in the mean of order $p$ if each $f_n$ belongs to $L^p$ and $||f- f_n||_p \rightarrow 0$. Convergence in $L^\infty$ is nearly uniform convergence. \\
+
+{\bf Definition} A normed linear space is {\bf complete} if for every Cauchy sequence $(f_n)$ in the space there is an element $f$ in the space such that $f_n \rightarrow f$. A complete normed linear space is called a {\bf Banach space}. \\
+
+A series $(f_n)$ is {\bf summable} to $s$ if $s$ is in the space and $||s - \sum_{i=1}^n f_i || \rightarrow 0$. In this case, write $s = \sum_{i=1}^\infty f_i$. The series $(f_n)$ is {\bf absolutely summable} if $\sum_{n=1}^\infty ||f_n|| < \infty$. \\
+
+{\bf Proposition 5} A normed linear space $X$ is complete if and only if every absolutely summable series is summable. \\
+
+Proof: Let $X$ be complete and $(f_n)$ an absolutely summable series of elements of $X$. Since $\sum ||f_n|| = M < \infty$, for every $\epsilon>0$ there is an $N$ such that $\sum_{n=N}^\infty ||f_n||$. Let $s_n = \sum_{i=1}^n f_n$. Then for $n\geq m \geq N$, 
+
+$$||s_n - s_m|| = ||\sum_{i=m+1}^n f_i|| \leq \sum_{i=m+1}^n ||f_i|| \leq \sum_{i=m+1}^\infty ||f_i|| \leq \sum_{i=N}^\infty ||f_i|| < \epsilon \;.$$
+
+This shows that $(s_n)$ is a Cauchy sequence and since $X$ is complete $s_n$ converges to some element $s \in X$. \\
+
+Let $(f_n)$ be a Cauchy sequence in $X$. For each integer $k$ there is an integer $n_k$ such that $||f_n - f_m|| < 2^{-k}$ for all $n$ and $m$ greater than $n_k$. Choose the $n_k$'s so that $n_{k+1} > n_k\geq k$. Then $(f_{n_k})_{k=1}^\infty$ is a subsequence of $(f_n)$. Set $g_1 = f_{n_1}$ and $g_k = f_{n_k}- f_{n_{k-1}}$ for $k > 1$ to obtain the sequence $(g_k)$. Then,
+
+$$s_j = \sum_{k=1}^j g_k = f_{n_1} + (f_{n_2} - f_{n_1}) + ... + (f_{n_j} - f_{n_{j-1}}) = f_{n_j} \;,$$
+$$||g_k|| = ||f_{n_k} - f_{n_{k-1}}|| < 2^{-k} < 2^{-k+1}, \quad k > 1 \;,$$
+$$\sum ||g_k|| \leq ||g_1|| + \sum 2^{-k+1} = ||g_1|| + 1 < \infty \;. $$
+
+This shows that the series $(g_k)$ is absolutely summable and by the hypothesis therefore summable. That is, there is an element $f \in X$ such that $f = \lim_{j\rightarrow \infty} \sum_{k=1}^j g_k = \lim_{j\rightarrow \infty} f_{n_j}$. \\
+
+Since $(f_n)$ is Cauchy, given $\epsilon > 0$ there is an $N$ such that $||f_n - f_m|| < \epsilon /2$ for all $n$ and $m$ larger than $N$. Since $f_{n_k} \rightarrow f$, there is a $K$ such that for all $k \geq K$, $||f_{n_k} - f|| < \epsilon / 2$. Then there is a $k$ such that $k \geq K$ and $n_k \geq N$. For $n > N$,
+
+$$||f_n - f|| \leq ||f_n - f_{n_k}|| + ||f_{n_k} - f|| < \epsilon / 2 + \epsilon /2 = \epsilon \;.$$
+
+Therefore for $n > N$, $||f_n - f|| < \epsilon$, and so $f_n \rightarrow f$. \\
+
+{\bf Theorem 6 (Riesz-Fischer)} The $L^p$ spaces are complete. \\
+
+Proof: Suppose $p = \infty$ and let $(f_n)$ be a Cauchy sequence in $L^\infty$ and suppose $f_n \rightarrow f$. We want to show that $f \in L^\infty$. There is an $N$ such that for all $m,n \geq N$, $||f_n - f_m|| < 1$ and $||f - f_n|| < 1$. Then $||f|| = ||f - f_n + f_n|| \leq ||f - f_n|| + ||f_n|| \leq 1 + ||f_n|| < \infty$ a.e. since $(f_n)$ is bounded a.e. on $[0,1]$. \\
+
+Assume $1\leq p < \infty$. We will prove that every absolutely summable series in $L^p$ is summable in $L^p$ to some element in $L^p$ and then apply proposition 5. \\
+
+Let $(f_n)$ be a sequence in $L^p$ with $\sum_{n=1}^\infty ||f_n||_p = M < \infty$ and for each $n$ define $g_n$ by $g_n(x) = \sum_{k=1}^n |f_k(x)|$. From the Minkowski inequality, 
+
+$$||g_n|| = || \; \sum_{k=1}^n |f_k| \; || \leq \sum_{k=1}^n ||f_k||  \leq \sum_{k=1}^\infty ||f_k||  = M \implies \int |g_n|^p \leq \int |M|^p = M^p \;.$$
+
+For each $x$, $(g_n(x))$ is an increasing sequence of (extended) real numbers and so must converge to an extended real number $g(x)$. The function $g$ defined in this way is measurable and since $g_n \geq 0$, $\inf_{n\geq k} \int g_n^p \leq M^p$ for each $k$, and $\lim_{k\rightarrow \infty} M^p = M^p$, by Fatou's Lemma,
+
+$$ \int g^p \leq \liminf \int g_n^p \leq M^p \;. $$
+
+Hence $g^p$ is integrable which implies that $g(x)$ is finite for almost all $x$. For each $x$ such that $g(x)$ is finite the series $\sum_{k=1}^\infty f_k(x)$ is an absolutely summable series of real numbers and so must be summable to a real number $s(x)$.  Set $s(x) = 0$ for $x$ such that $g(x) = \infty$. This defines a function $s$ that is almost everywhere the limit of the partial sums $s_n = \sum_{k=1}^n f_k$. Hence $s$ is measurable. Since $|s_n(x)|$ for each $n$, $|s(x)| \leq g(x)$ and $\int |s|^p \leq \int g^p \leq M^p < \infty$ so $s \in L^p$. 
+
+$$ |s_n(x) - s(x)|^p = |s_n(x) + (-s(x))|^p \leq 2^p(|s_n(x) + |-s(x)|)^p \leq 2^p(g(x) + g(x))^p = 2^{p+1}[g(x)]^p \;.$$
+
+Since $2^{p+1}g^p$ is integrable and $|s_n(x) - s(x)|$ converges to $0$ almost everywhere, $\int |s_n - s|$ is integrable and
+
+$$||s_n - s||^p = \int |s_n - s|^p \rightarrow 0$$
+
+by the dominated convergence theorem. Then $||s - \sum_{k=1}^n f_k || = ||s - s_n||  \rightarrow 0$. Therefore $(f_n)$ is summable to $s \in L^p$. Conclude that $L^p$ is complete by proposition 5. \\
+
+{\bf Problem 10} Let $(f_n)$ be a sequence of functions in $L^\infty$. Prove that $(f_n)$ converges to $f$ in $L^\infty$ if and only if there is a set $E$ of measure zero such that $f_n$ converges to $f$ uniformly on $E^c$. \\
+
+Suppose that $(f_n)$ converges to $f$ in $L^\infty([0,1])$ and let $\epsilon > 0$. There is an $N \in \mathbb{N}$ such that $||f - f_n||_\infty < \epsilon$ for all $n \geq N$. But since $|f(x) - f_n(x)| \leq ||f - f_n||_\infty$ for almost all $x$, this means there is a set $E$ of measure zero such that $|f(x) - f_n(x)| \leq ||f- f_n||_\infty < \epsilon$ for all $x \in E^c$ and for all $n \geq N$. Therefore, $(f_n)$ converges to $f$ uniformly on $E^c$. \\
+
+Suppose there is a set $E$ of measure zero such that $(f_n)$ converges to $f$ uniformly on $E^c$. Let $\epsilon > 0$. There is an $N$ such that for all $n\geq N$ and all $x \in E^c$, $|f(x) - f_n(x)| < \epsilon$. That is, for $n \geq N$, $|f(x) - f_n(x)| < \epsilon$ almost everywhere so $\epsilon \in \{M : |f(x) - f_n(x)| < M \text{ a.e. } \}$. Then $||f- f_n||_\infty = \inf \{M : |f(x) - f_n(x)| \text{ a.e. } \} \leq \epsilon$. Since $\epsilon > 0$ was arbitrary, conclude that $||f - f_n|| \rightarrow 0 $ as $n \rightarrow \infty$. \\
+
+{\bf Problem 11} Prove that $L^\infty$ is complete.\\
+
+Suppose $(f_k)$ is a Cauchy sequence in $L^\infty([0,1])$. Then for each $n \in \mathbb{N}$, there is an $N$ such that $||f_k - f_j|| < 1/n$ for all $n \geq N$. Then since $|f_k(x) - f_j(x)| \leq ||f_k - f_j||$ for almost all $x$, there is a set $E_{k,j,n}$ of measure zero such that 
+
+$$|f_k(x) - f_j(x)| < 1/n \quad \forall x \in E_{k,j,n}^c \;.$$
+
+Let $E = \bigcup_{k,j,n} E_{k,j,n}$ so that $m(E) = 0$ and for each $x$ in $E$, the sequence $(f_k(x))$ is a real Cauchy sequence and so convergent in $\mathbb{R}$. Define the function $f$ (actually equivalence class of functions equal a.e.) pointwise by $f(x) = \lim_{k\rightarrow \infty} f_k(x)$ for each $x$ in $N^c$. Since $m(E) = 0$, $f(x)$ can be defined arbitrarily for $x \in E$. Then for each $n$ there is an $N$ such that for all $j \geq N$ and all $x \in E^c$,
+
+$$|f(x) - f_j(x)|  = \lim_{k\rightarrow \infty} |f_k(x) - f_j(x)| \leq \lim_{k\rightarrow \infty} 1/n = 1/n \;.$$
+
+This shows that $(f_j)$ is a sequence of functions in $L^\infty$ that converges uniformly to $f$ outside a set of measure zero. By problem 10, $(f_j)$ converges to $f$ in $L^\infty$.\\
+
+{\bf Problem 13} Let $C = C([0,1])$ be the space of continuous functions on $[0,1]$ and define $||f|| = \max |f(x)|$. Show that $C$ is a Banach space. \\
+
+Let $(f_n)$ be Cauchy in $C([0,1])$ under the given norm. Note that for each $x \in [0,1]$ the sequence $(f_n(x))$ is a Cauchy sequence in $\mathbb{R}$. So we define the function $f : [0,1] \rightarrow \mathbb{R}$ pointwise as $f(x) = \lim_{n\rightarrow \infty} f_n(x)$. To show that $(f_n)$ converges to $f$ under the given norm, let $\epsilon > 0$ and take $N$ such that for all $m,n \geq N$, $||f_n - f_m|| < \epsilon$. But then for any $x \in [0,1]$ and $m \geq N$,
+
+$$|f(x) - f_m(x)| = \lim_{n\rightarrow \infty} |f_n(x) - f_m(x)| \leq \lim_{n\rightarrow \infty} ||f_n - f_m|| \leq \epsilon \;.$$
+
+This shows that the sequence $(f_n)$ of continuous functions on $[0,1]$ converges uniformly to $f$ on $[0,1]$ and therefore $f \in C([0,1])$ and also that $||f - f_m|| = \lim_{n\rightarrow \infty } ||f_n - f_m|| \leq \epsilon$ so that $(f_n)$ converges to $f$ under the given norm. Alternatively, to show continuity, we know that since each function in the sequence $(f_n)$ is continuous and $[0,1]$ is a compact set, each function in the sequence is uniformly continuous on $[0,1]$. Let $\epsilon >0 $ and take $N$ such that for $n \geq N$, $||f-f_n|| < \epsilon/3$ and $\delta > 0$ so that $|f_n(x) - f_n(y)| < \epsilon /3$ whenever $|x - y| < \delta$. 
+
+$$|f(x) - f(y)| \leq |f(x) - f_n(x)| + |f_n(x) - f_n(y)| + |f_n(y) - f(y)| < \frac{\epsilon}{3} + \frac{\epsilon}{3} + \frac{\epsilon}{3} = \epsilon \;.$$
+
+\subsection*{4 Approximation in $L^p$}
+
+In this section we establish versions of Littlewood's second principle which says that for every function $f \in L^p$, $1\leq p < \infty$, $f$ is 'nearly' a step function and 'nearly' continuous. That is, given $f$ and $\epsilon > 0$, there is a step function $\varphi$ and a continuous function $\psi$ with $||f- \varphi||_p < \epsilon$ and $||f - \psi ||_p < \epsilon$. \\
+
+If $\Delta = \{\xi_0,...,\xi_n\}$ is a subdivision, $0 = \xi_0 < \xi_1 < ... < \xi_n = 1$, of $[0,1]$, define the step function $\varphi_{\Delta}$ to be constant on each interval $[\xi_k, \xi_{k+1})$ and equal to the average of $f$ over that interval. We will show that $||f - \varphi_{\Delta}|| \rightarrow 0$ as the length $\delta$ of the largest subinterval of $\Delta$ goes to zero.\\
+
+{\bf Lemma 7} Given $f \in L^p$, $1\leq p < \infty$, and $\epsilon > 0$, there is a bounded measurable function $f_M$ with $|f_M| \leq M$ and $||f - f_M|| < \epsilon$. \\
+
+Proof: 
+
+$$f_N = \begin{cases}
+N & N \leq f(x) \\
+f(x) & -N \leq f(x) \leq N \\
+-N & f(x) \leq -N
+\end{cases}$$
+
+Then $|f_N| \leq N$ and $(f_n)$ converges to $f$ almost everywhere (since $f \in L^p$, $|f|< \infty$ almost everywhere otherwise $||f||_p \not< \infty$) so $|f - f_N|^p \rightarrow 0$ almost everywhere. Since $|f - f_N|^p \leq |f|^p$, and $|f|^p$ is integrable, 
+
+$$||f - f_N||^p = \int |f-f_N|^p \rightarrow 0 \quad \text{ as } N \rightarrow \infty \;.$$
+
+This implies that $||f - f_N|| \rightarrow 0$ so that given $\epsilon >0$ there is an $M$ such that $||f - f_M|| < \epsilon$. \\
+
+{\bf Proposition 8} Given $f \in L^p$, $1\leq p < \infty$ and $\epsilon > 0$, there is a step function $\varphi$ and a continuous function $\psi$ such that $||f - \varphi||_p < \epsilon$ and $||f - \psi ||_p < \epsilon$. \\
+
+Proof: By Lemma 7 we can find a bounded function $f_M$ such that $||f - f_M || < \epsilon /2$. By Proposition 3.22, we can find a step function $\varphi$ such that $|f_M - \varphi| < \epsilon / 4$ except on a set $E$ of measure less than $\delta = \left(\epsilon / (4M) \right)^p$. 
+
+\begin{align*}
+||f_M - \varphi||^p &= \int_0^1 |f_M - \varphi|^p \\
+&= \int_{[0,1] \backslash E} |f_M - \varphi|^p + \int_E |f_M - \varphi|^p \\
+& < \frac{\epsilon^p}{4^p} + \frac{M^p\epsilon^p}{4^pM^p} \\
+&= \frac{\epsilon^p}{4^p} + \frac{\epsilon^p}{4^p} \\
+&= \frac{2\epsilon^p}{4^p} \\
+& \leq \frac{\epsilon^p}{2^p} \quad \left[\frac{2\epsilon^p}{4^p} \leq \frac{\epsilon^p}{2^p} \iff \left(\frac{2}{4}\right)^p \leq \frac{1}{2} \iff p \geq 1 \right]
+\end{align*}
+
+Consequently, $||f_M - \varphi || < \epsilon /2$. By the Minkowski inequality,
+
+$$||f - \varphi|| \leq ||f - f_M || + ||f_M - \varphi|| < \epsilon \;.$$
+
+It turns out that any step function can be approximated in $L^p$ by a continuous function, which will lead to the existence of $\psi$. 
+\end{document}

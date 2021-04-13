@@ -1,0 +1,40 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+\setcounter{section}{-1}
+\title{MA 503 : Homework 1}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+\section*{Chapter 2 : The Real Number System}
+
+{\bf C. Completeness Axiom} Every nonempty set $S$ of real numbers which has an upper bound has a least upper bound.\\
+
+{\bf 1. Proposition} Let $L$ and $U$ be nonempty subsets of $\mathbb{R}$ such that $\mathbb{R} = L \cup U$ and such that for each $l \in L$ and for each $u \in U$, $l<u$. Then either $L$ has a greatest element of $U$ has a least element.\\
+
+{\bf Problem 3}
+
+Prove Proposition 1 using Axiom C.\\
+
+Proof: The statement that either $L$ has a greatest element or $U$ has a least element is equivalent to the statement that if $U$ does not have a least element then $L$ must have a greatest element. Suppose $U$ does not have a least element and let $u \in U$ be arbitrary. Since $l<u$ for all $l \in L$, $u$ is an upper bound of $L$ so $L$ has a least upper bound, which we denote sup $L$. Since $u$ was arbitary and sup $L$ is the least upper bound of $L$, we have sup $L \leq u$ for all $u \in U$. Therefore, sup $L \leq $ inf $U$. Suppose that sup $L$ is not an element of $L$. Then since $\mathbb{R} = L \cup U$, it follows that sup $L$ is an element of $U$. Since inf $U \leq u$ for every element $u \in U$, this means inf $U \leq $ sup $L$. Thus inf $U = $ sup $L$. This means that sup $L$ is an element of $U$, less than or equal to any element of $U$. That is, sup $L$ is the least element of $U$. This contradicts the assumption that $U$ does not have a least element. So it must be the case that sup $L$ is an element of $L$. Since sup $L$ is greater than or equal to any element of $L$, sup $L$ is the greatest element of $L$. \\
+
+\end{document}

@@ -1,0 +1,122 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 8}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+
+{\bf Definition} A set $E$ is said to be {\bf (Lebesgue) measurable} if for each set $A\subset \mathbb{R}$ we have using (Lebesgue) outer measure, $m^*$, that $m^*(A) = m^*(A\cap E) + m^*(A \cap E^c)$. \\
+
+Let $D_1 = A\cap E$, $D_2 = A\cap E^c$, $D_n = \emptyset$ for $n \geq 3$. Then $A = (A\cap E)\cup (A\cap E^c) = \bigcup D_n$. By Proposition 2,
+
+$$m^*(A) = m^*\left((A\cap E)\cup (A\cap E^c)\right) = m^*\left(\bigcup D_n \right)  \leq \sum m^*(D_n) = m^*(A\cap E) + m^*(A\cap E^c) \;.$$
+
+Since we always have $m^*(A) \leq m^*(A\cap E) + m^*(A\cap E^c)$, we see that $E$ is measurable if and only if $m^*(A) \geq m^*(A\cap E) + m^*(A\cap E^c)$ for each set $A$. Since the definition is symmetric, $E$ is measurable if and only if $E^c$ is measurable. For any $A$, $m^*(A\cap \emptyset) + m^*(A\cap \mathbb{R}) = m^*(\emptyset) + m^*(A) = m^*(A)$, which shows that both $\emptyset$ and $\mathbb{R}$ are measurable. \\
+
+
+{\bf Lemma 9} Let $A$ be any set and $E_1,..., E_n$ a finite sequence of disjoint meaurable sets. Then 
+
+$$m^*\left(A\cap \left[\bigcup_{i=1}^n E_i\right]\right) =\sum_{i=1}^n m^*(A\cap E_i) \;. $$
+
+{\bf Theorem 10} The collection $\mathfrak{M}$ is a $\sigma$-algebra. Moreover, every set with outer measure zero is measurable.\\
+
+{\bf Definition} If $E$ is a measurable set, we define the Lebesgue measure of $E$, $m(E)$, as the outer measure of $E$. That is $m : \mathfrak{M} \rightarrow [0,\infty]$, $m(E) = m^*(E)$ is the set function obtained by restricting the set function $m^*$ to the family $\mathfrak{M}$ of measurable sets. \\
+
+{\bf Proposition 13} Let $(E_i)$ be a sequence of measurable sets. Then,
+
+$$m\left(\bigcup E_i\right) \leq \sum m(E_i) \;.$$
+
+If the $E_i$ are pairwise disjoint,
+
+$$m(\left(\bigcup E_i \right) = \sum m(E_i) \;.$$
+
+
+{\bf Problem 10}\\
+
+Show that if $E_1$ and $E_2$ are measurable, then 
+
+$$m(E_1\cup E_2) + m(E_1\cap E_2) = m(E_1) + m(E_2) \;.$$
+
+First if $m(E_1) = \infty$ or $m(E_2) = \infty$, then $E_1,E_2 \subset E_1\cup E_2$ implies that $m(E_1\cup E_2) = \infty$ as well. In this case the equality holds since both sides are $\infty$. Otherwise assume that both $m(E_1)$ and $m(E_2)$ are finite.\\
+
+Since $E_1$ and $E_2$ are measurable and $\mathfrak{M}$ is a $\sigma$-algebra, the sets $E_1\cup E_2$, $E_1 \cap E_2^c$, $E_2\cap E_1^c$, and  $E_1\cap E_2$ are all also measurable. Then for each set mentioned, $m^* = m$. Since $m(E_1),m(E_2) < \infty$, each of these sets mentioned also has finite measure so that addition and subtraction are meaningful in the equations below (no expressions like $\infty - \infty$ arise). All sets mentioned are contained in either $E_1$ or $E_2$ or both except $E_1 \cup E_2$. If $m(E_1 \cup E_2) = \infty$, then for every cover $\{I_n\}$ of $E_1\cup E_2$ by open intervals, $\sum l(I_n) = \infty$. However, since there exists a collection $\{I_j\}$ and a collection $\{I_k\}$ such that $E_1 \subset \bigcup I_j$, $E_2 \subset \bigcup I_k$ and $\sum l(I_j) < \infty$, $\sum l(I_k) < \infty$, we have that $\{I_n\} = \{I_k\} \cup \{I_j\}$ is a collection of open intervals such that $E_1\cup E_2 \subset \bigcup I_n$ and $\sum l(I_n) = \sum I_j + \sum I_k < \infty$. This is a contradiction, so $m(E_1 \cup E_2) < \infty$. Also by Lemma 9, setting $A = \mathbb{R}$, we have that if $C_1,...,C_n$ are disjoint measurable sets then $m(C_1\cup ... \cup C_n) = m^*(C_1 \cup ... \cup C_n) = \sum_{i=1}^n m^*(C_i) = \sum_{i=1}^n m(C_i)$ (or use Proposition 13 with $C_i = \emptyset$ for $i > n$). 
+
+$$(1) \quad m(E_1\cup E_2) = m(E_1 \cap E_2^c) + m(E_2 \cap E_1^c) + m(E_1 \cap E_2)$$
+$$(2) \quad m(E_1) = m(E_1\cap E_2^c) + m(E_1\cap E_2)$$
+$$(3) \quad m(E_2) = m(E_2 \cap E_1^c) +m(E_1 \cap E_2)$$
+$$\text{ Add equations (2) and (3) to get (4) }$$
+$$(4) \quad m(E_1) + m(E_2) = m(E_1\cap E_2^c) + m(E_2 \cap E_1^c) + 2m(E_1\cap E_2)$$
+$$(5) \quad m(E_1) + m(E_2) - m(E_1\cap E_2) = m(E_1\cap E_2^c) + m(E_2 \cap E_1^c) + m(E_1\cap E_2)$$
+$$\text{ Compare equation (5) to equation (1) }$$
+$$(6) \quad m(E_1 \cup E_2) = m(E_1) + m(E_2) - m(E_1\cap E_2)$$
+$$(7) \quad m(E_1 \cup E_2) + m(E_1\cap E_2)= m(E_1) + m(E_2) \;.$$\\
+
+{\bf Proposition 2} Let $A_n$ be a countable collection of sets of real numbers.
+$$m^*\left(\bigcup A_n\right) \leq \sum m^*(A_n) \;.$$
+ 
+{\bf Problem 12}\\
+
+Let $(E_i)$ be a sequence of disjoint measurable sets and $A \subset \mathbb{R}$.
+
+$$m^*\left(A \cap \bigcup_{i=1}^\infty E_i \right) = \sum_{i=1}^\infty m^*(A \cap E_i) \;.$$
+
+Proof:
+$$
+m^*\left(A \cap \bigcup_{i=1}^\infty E_i \right) = m^*\left(\bigcup_{i=1}^\infty (A \cap E_i) \right)
+\leq \sum_{i = 1}^\infty m^*(A \cap E_i) \quad \text{(by Proposition 2)}\; .
+$$
+
+Since $\bigcup_{i=1}^\infty E_i\supset \bigcup_{i=1}^n E_i$ for every $n$, $A\cap \bigcup_{i=1}^\infty \supset A \cap \bigcup_{i=1}^n E_i$ for every $n$.
+$$
+      m^*\left(A\cap \bigcup_{i=1}^\infty E_i\right)
+      \ge m^*\left(A\cap \bigcup_{i=1}^n E_i\right)
+      = \sum_{i=1}^n m^*(A\cap E_i),
+$$
+    where the equality comes from Lemma 9. Since the left hand side is 
+    independent of $n$, we have
+    $$
+      m^*\left(A\cap \bigcup_{i=1}^\infty E_i\right) = \text{lim}_{n\rightarrow \infty} m^*\left(A\cap \bigcup_{i=1}^\infty E_i\right)  \geq \text{lim}_{n\rightarrow \infty}
+      \sum_{i=1}^n m^*(A\cap E_i) = \sum_{i=1}^\infty m^*(A\cap E_i)
+    $$
+    
+    This means $m^*\left(A\cap \bigcup_{i=1}^\infty E_i\right) \geq \sum_{i=1}^\infty m^*(A\cap E_i)$ as well.\\
+
+\end{document}

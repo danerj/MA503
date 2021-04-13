@@ -1,0 +1,119 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 17}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Lemma Eggcorn} If $A$ and $B$ are sets of real numbers bounded below, then $\inf(A+B)= \inf(A) + \inf(B)$. \\
+
+Proof: Let $a+b \in A+B$ with $a \in A$ and $b \in B$. Since $\inf(A) \leq a$ and $\inf(B) \leq b$, $\inf(A) + \inf(B) \leq a+b$. So $\inf(A) + \inf(B)$ is a lower bound of $A+B$ and $\inf(A) + \inf(B) \leq \inf(A+B)$. For each $\epsilon > 0$ there is exist $a \in A$ and $b \in B$ such that $a< \inf(A) + \epsilon / 2$ and $b < \inf(B) + \epsilon /2$ so that $\inf(A+B) \leq a+b < \inf(A) + \inf(B) + \epsilon$. Then since $\inf(A+B) < \inf(A) +\inf(B) + \epsilon$ for every $\epsilon > 0$, $\inf(A+B) \leq \inf(A) + \inf(B)$. \\
+
+
+{\bf Problem 1} Show that $||f+g||_\infty \leq ||f||_\infty + ||g||_\infty$.\\
+
+
+$$A := \{P : m(\{t: |f(t) + g(t)| > P\}) = 0\} = \{P : |f+g| \leq P \text{ a.e.} \}$$
+$$B := \{M : m(\{t: |f(t)| > M\}) = 0\} = \{M : |f| \leq M \text{ a.e.} \}$$
+$$C := \{N : m(\{t: |g(t)| > N\}) = 0\} = \{N : |g| \leq N \text{ a.e.} \}$$
+$$B+C := \{M+N : m(\{t: |f(t)| > M\}) = 0, m(\{t: |g(t)| > N\}) = 0\} = \{M+N : |f| \leq M \text{ a.e.}, |g| \leq N \text{ a.e.} \}\;.$$
+
+Let $M+N \in B+C$ such that $M \in B$ and $N \in C$. Then $|f| \leq M$ a.e. and $|g| \leq N$ a.e. which means that $|f| + |g| \leq M+N$ a.e. But then $|f+g| \leq |f| + |g| \leq M+N$ a.e. so that $M+N \in A$. Therefore $B+C \subset A$ and $\inf A \leq \inf (B+C)$. Since $B$ and $C$ are sets of real numbers bounded each bounded below by 0 (because $|f|, |g| \geq 0$), $\inf (B+C) = \inf B + \inf C$ by Lemma Eggcorn. That is,
+
+\begin{align*}
+||f + g||_\infty &= \inf \{P : m(\{t: |f(t) + g(t)| > P\}) = 0\} \\
+&= \inf A\\
+& \leq \inf B + \inf C\\
+& = \inf \{M : m(\{t: |f(t)| > M\}) = 0\} + \inf \{N : m(\{t: |g(t)| > N\}) = 0\}\\
+& = ||f||_\infty + ||g||_\infty \;.
+\end{align*}
+
+We can also stick with the provided definition of essential supremum and follow a similar but messier argument. If $M \in B$ and $N \in C$, then $m(\{t : |f(t)| > M\}) = 0$ and $m(\{t : |f(t)| > N \}) = 0$.
+\begin{align*}
+& m(\{t : |f(t) + g(t)| > M + N\}) \\ &\leq m(\{t : |f(t)| + |g(t)| > M + N \}) \quad \text{(from the triangle inequality)}\\
+&= m[(\{t : |f(t)| > M\} \cap \{t: |g(t)| > N\})\cup \\ &(\{t : |g(t)| \leq N \} \cap \{t : |f(t)| > M + N - |g(t)|\}) \cup (\{t : |f(t)| \leq M \} \cap \{t : |g(t)| > M + N - |f(t)|\})]\\
+&\leq m(\{t : |f(t)| > M\} \cap \{t: |g(t)| > N\})
++ m(\{t : |g(t)| \leq N \} \cap \{t : |f(t)| > M + N - |g(t)|\}) \\ &+ m(\{t : |f(t)| \leq M \} \cap \{t : |g(t)| > M + N - |f(t)|\}) \\
+& \leq m(\{t : |f(t)| > M\}) + m(\{t : |f(t)| > M\}) + m(\{t : |g(t)| > N\}) \\
+&= 0 \;.
+\end{align*}
+
+This shows that if $M+N \in B+C$ with $M \in B$ and $N \in C$, then $M+N \in A$. Therefore, $B+C \subset A$ and so $\inf(A) \leq \inf(B+C) = \inf(B) + \inf(C)$. That is, $||f+g||_\infty \leq ||f||_\infty + ||g||_\infty$. \\
+
+{\bf Problem 2} Let $f$ be a bounded measurable function on $[0,1]$. Prove that $\lim_{p\rightarrow \infty} ||f||_p = ||f||_\infty$. \\
+
+We have $|f| \leq ||f||_\infty$ a.e. and so
+
+\begin{align*}
+||f||_p &= \left(\int_0^1 |f|^p\right)^{1/p}\\
+&\leq \left(\int_0^1 ||f||_\infty^p \right)^{1/p}\\
+&= \left(||f||_\infty^p m([0,1])\right)^{1/p} \\
+&= ||f||_\infty\\
+\implies \lim_{p\rightarrow \infty} ||f||_p &\leq \||f||_\infty \;. 
+\end{align*}
+
+For each $p \in \mathbb{N}$, the set $B_p = \{x : |f(x)| > ||f||_\infty - 1/p\}$ has positive measure since if $m(B_p) = 0$, we have $||f||_\infty - 1/p \in \{M : m(\{x : |f(x)| > M \}) = 0 \}$ and $||f||_\infty - 1/p < ||f||_\infty = \inf \{M : m(\{x : |f(x)| > M \}) = 0 \}$, which is a contradiction. 
+
+\begin{align*}
+\left(\int_{B_p} |f|^p \right)^{1/p}& \geq \left(\int_{B_p} |\;||f||_\infty - 1/p \;|^p\right)^{1/p}\\
+&=| \; ||f||_\infty - 1/p \;| \left(m(B_p)\right)^{1/p}\\
+\end{align*}
+
+As $p \rightarrow \infty$, $||f||_\infty - 1/p \rightarrow ||f||_\infty$, so $B_p \rightarrow [0,1]$. Then,
+
+$$\lim_{p \rightarrow \infty} ||f||_p \geq \lim_{p \rightarrow \infty} | \; ||f||_\infty - 1/p \; | \left(m(B_p)\right)^{1/p} = ||f||_\infty m([0,1]) = ||f||_\infty \;.$$
+
+
+{\bf Problem 3} Prove that $||f + g||_1 \leq ||f||_1 + ||g||_1$. \\
+
+Suppose $f,g \in L^1([0,1])$. For each $x \in [0,1]$, $|f+g| \leq |f| + |g|$, so
+
+$$||f+g||_1 = \int_0^1 |f+g| \leq \int_0^1 (|f| + |g|)= \int_0^1 |f| + \int_0^1 |g|  = ||f||_1 + ||g||_1 \;.$$
+
+{\bf Problem 4} Show that if $f \in L^1$ and $g \in L^\infty$,
+
+$$\int |fg| \leq ||f||_1 \cdot ||g||_\infty \;.$$
+
+We have $|g| \leq ||g||_\infty$ almost everywhere so $|fg| = |f||g| \leq |f| ||g||_\infty$ almost everywhere. We have defined $L^p$ spaces in this section on the interval $[0,1]$, so
+
+$$\int |fg| = \int_0^1 |fg| = \int_0^1 |f||g| \leq \int_0^1 |f| ||g||_\infty = ||g||_\infty \int_0^1 |f| = ||g||_\infty \int |f| = ||g||_\infty ||f||_1 \;.$$
+
+
+\end{document}

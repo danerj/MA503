@@ -1,0 +1,30 @@
+MA 503
+
+	HW
+	HW 1:  Ch 2 # 3
+	HW 2:  Ch 2 #  7,8,9,17,18
+	HW 3:  Ch 2 # 24,25,27,34,36
+	HW 4:  f:E --> R, A subset E, (i) f is continous on A, (ii) f|A is continous. Show (i)-->(ii), (ii)-/->(i)
+               Ch 2 # 40, 42, 45
+	HW 5:  For F = {S subset R : S is finite} find the smallest sigma algebra containing F as a subcollection. 
+               Ch 3 # 1,2,3,4
+	HW 6:  Ch 3 # 5,6,7,8
+	HW 7:  Ch 3 # 9
+	HW 4+:
+	       1. Let S subset R, S not closed. Show there exists f: S-->R, f cont. but no cont. extension to R.
+	       2. Show there exists a closed set F, an f:F-->R continuous, a g:R-->R extension of f (g|F = f) s.t
+		 F^c is the union of disjoint open intervals, g|(closure of I_n) is continuous for all N, but g
+		 is not continuous.
+		 Consider F = {1/n : n in N} U {-1/n : n in N} U {0}, f=0, make g not continuous at 0
+	HW 8:  Ch 3 # 10, 12
+	HW 9:  Ch 3 # 13, 14a
+	HW 10: Ch 3 # 17, 18, 19
+	HW 11: Ch 3 # 21, 22
+	HW 12: Ch 3 # 20, 23
+	HW 13: Ch 3 # 30, 31
+	HW 14: Ch 4 # 3
+	HW 15: Ch 4 # 4
+	HW 16: Nonbook problems. Lecture 20.
+	HW 17: Ch 6 # 1,2,3,4
+	HW 18: Ch 6 # 10,11,13
+	HW 19: Ch 4 # 24, 25

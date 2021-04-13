@@ -1,0 +1,762 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Lebesgue Measure and Integration}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+\section*{Chapter 4 : The Lebesgue Integral}
+
+\subsection*{1 The Riemann Integral}
+
+{\bf Definition / Development of Riemann Integral}\\
+
+Let $f : [a,b] \rightarrow \mathbb{R}$ be bounded and $P = \{\xi_0, ..., \xi_n\}$ a subdivision of $[a,b]$ with
+
+$$ a = \xi_0 < \xi_1 < ... < \xi_n = b  \;.$$
+
+For such a partition $P$, we define the {\bf upper sum} and {\bf lower sum} respectively as:
+
+$$S = \sum_{i=1}^n (\xi_i - \xi_{i-1})M_i \;, \quad M_i = \text{sup}\{f(x) : x \in (\xi_{i-1}, \xi_{i}] \}$$
+$$s = \sum_{i=1}^n (\xi_i - \xi_{i-1})m_i \;, \quad m_i = \text{inf}\{f(x) : x \in (\xi_{i-1}, \xi_{i}] \} \;.$$
+
+Note that for any fixed choice of partition $P$, the corresponding upper sum will always be larger than or equal to the lower sum since the intervals are the same but for each $i$, $m_i \leq M_i$.\\
+
+Let $A:= \{S : S \text{ is an upper sum for some partition } P \}$, $B:= \{s : s \text{ is a lower sum for some partition } P \}$. We define the {\bf Upper Riemann Integral} and {\bf Lower Riemann Integral} respectively as:
+
+$$R\overline{\int_a^b} f(x) \, dx := \text{inf} \, A$$
+$$R\underline{\int_a^b} f(x) \, dx := \text{sup} \, B \;.$$
+
+That is, the supremum and infimum of the sets of upper and lower Riemann sums formed by changing the choice of partition $P$. If we take any upper sum $S \in A$ (corresponding to some partition $P_1$) and any sum $s \in B$ (corresponding to some partition $P_2$), then $s \leq S$. To see this, let $P = P_1 \cup P_2$ be the {\bf common refinement} of $P_1$ and $P_2$. Then for the upper and lower sums $S_P$ and $s_P$ corresponding to this partition, $S_P \leq S$ and $s_P \geq s$. This follows from the fact for any new subdivision of any interval used in the sums to define each sum, the supremums over a 'split interval' are less than or equal to the supremum over the 'unified interval' and similarly with infimums over intervals in the lower sums. Therefore, $s \leq s_P \leq S_P \leq S$. This means that for \underline{any} $S \in A$, \underline{every} $s \in B$ is such that $s \leq S$. That is, every $s \in B$ is a lower bound of $A$ meaning $s \leq \text{inf} \, A$ for every $s \in B$. But then  $\text{inf} \, A$ is an upper bound of $B$. So we also have $\text{sup} \, B \leq \text{inf} \, A$. By our definitions,
+
+$$R\underline{\int_a^b} f(x) \, dx \leq R\overline{\int_a^b} f(x) \, dx \;,$$
+
+for any bounded real valued function $f$ defined on $[a,b]$. If it is the case that 
+
+$$R\underline{\int_a^b} f(x) \, dx \geq R\overline{\int_a^b} f(x) \, dx \;, $$
+
+the we say that $f$ is {\bf Riemann integrable} and call this common value the {\bf Riemann integral of } $f$. We denote this as:
+
+$$ R\int_a^b f(x) \, dx = R\underline{\int_a^b} f(x) \, dx =  R\overline{\int_a^b} f(x) \, dx \;.$$
+
+{\bf Definition} By a {\bf step function} we mean a function $\psi$ which has the form 
+
+$$\psi(x) = c_i, \quad \xi_{i-1} < x < \xi_i \;, $$
+
+for a subdivision $P = \{\xi_0, ... , \xi_n\}$ of $[a,b]$. Note that this means $\psi$ is left undefined at each point in $P$. This initially appears to present an issue if we want to determine if the Riemann integral of a step function exists and what its value could be since we take $M_i$ and $m_i$ over half closed intervals. So if a partition point used in a Riemann sum matches up with a partition point $M_i$ and $m_i$ don't quite make sense. I think this can more or less swept under the rug by just redefining $M_i := \text{sup}\{f(x) : x \in (\xi_{i-1}, \xi_{i}) \}$ and $m_i := \text{inf}\{f(x) : x \in (\xi_{i-1}, \xi_{i}) \}$. Then it is somewhat straightforward to show that (or at least intuitive enough so that we can move forward without working out the details),
+
+$$R\int_a^b \psi(x) \, dx = \sum_{i=1}^n c_i (\xi_i - \xi_{i-1} ) \;.$$
+
+This shows that a Riemann sum takes the form of a Riemann integral of a step function. We defined the upper Riemann integral as the infimum of the set $A$, which is a set of elements all of the form $S = \sum_{i=1}^n M_i(\xi_i - \xi_{i-1})$. That is, we could write $S = R\int_a^b \psi(x) \, dx$ where $\psi$ is a step function with $c_i = M_i$ for each $i$ and such that the intervals defining the steps of $\psi$ match up with the partition $P$ used to define $S$. Since $c_i = M_i \geq f(x)$ for each $x \in (\xi_{i-1}, \xi_{i})$, $\psi(x) \geq f(x)$ for each $x \in [a,b]$ (at least for each $x$ where $\psi(x)$ is defined). The case is similar with lower sums.
+
+$$R\overline{\int_a^b} f(x) \, dx := \text{inf}_{S \in A} \, S = \inf \{R \int_a^b \psi(x) \, dx : \psi \geq f\}$$
+$$R\underline{\int_a^b} f(x) \, dx := \text{sup}_{s \in B} \, s = \sup \{R \int_a^b \psi(x) \, dx : \psi \leq f\} \;.$$
+
+{\bf Problem 1}
+
+$$f(x) = \begin{cases}
+0 & x \in \mathbb{R}\backslash \mathbb{Q} \\
+1 & x \in \mathbb{Q}
+\end{cases} \;. $$
+
+(a) Show that $R\overline{\int_a^b} f(x) \, dx = b-a$ and $R\underline{\int_a^b} f(x) \, dx = 0$.\\
+
+For any partition $P$, we have $$S = \sum_{i=1}^n M_i(\xi_{i} - \xi_{i-1}) =  \sum_{i=1}^n 1(\xi_{i} - \xi_{i-1}) = (\xi_1 - \xi_0) + (\xi_2 - \xi_1) +... + (\xi_n - \xi_{n-1}) = \xi_n - \xi_0 = b-a$$
+$$s = \sum_{i=1}^n  m_i(\xi_{i} - \xi_{i-1}) =  \sum_{i=1}^n 0(\xi_{i} - \xi_{i-1}) = 0 +... + 0 = 0 \;,$$
+
+since each interval $(\xi_{i-1}, \xi_i]$ contains both rationals and irrationals. But then every sum in the set $A$ (as defined above) is $b-a$ and every sum in the set $B$ (as defined above) is 0. Therefore, 
+
+$$R\overline{\int_a^b} f(x) \, dx := \text{inf} \, A = \text{inf} \, \{b-a \} = b-a \;,$$
+$$R\underline{\int_a^b} f(x) \, dx := \text{sup} \, B = \text{sup} \, \{0\} = 0 \;.$$
+
+
+\subsection*{2 The Lebesgue Integral of a Bounded Function over a Set of Finite Measure}
+
+{\bf Definition} The function 
+
+$$ \chi_E(x) = \begin{cases}
+1 & x \in E\\ 0 & x \not\in E \end{cases} \;, $$
+
+is called the {\bf characteristic function} of the set $E$. A linear combination,
+
+$$\varphi(x) = \sum_{i=1}^n a_i \chi_{E_i}(x) $$
+
+is called a {\bf simple function} if each of the sets $E_i$ are measurable. This representation is not unique. A function $\varphi$ is simple if and only if it is measurable and assumes only a finite number of values. Let's prove this - but assume that we already have proven that $\chi_{E_i}$ is measurable if and only if $E_i$ is measurable (use any of the variations in Proposition 18, the definition of a measurable function and for a given $\alpha$ consider cases). If $\varphi$ is simple, then $\varphi$ can be written in the form of a sum as above. Since each of the $E_i$ are measurable (by assumption that $\varphi$ is measurable this must be the case), $chi_{E_i}$ is measurable. Then $a_i\chi_{E_i}$ is measurable for each $i$. Repeatedly use the fact that the sum of two measurable functions is measurable to conclude $\varphi$ is measurable. That $\varphi$ can only take on finitely many values is immediate from the fact that it can be written in the form above: $\varphi$ can only take on the values $a_1,...,a_n$. If $\varphi$ is a measurable function that takes on finitely many values, then the domain of $\varphi$ must be a measurable set. Suppose $\varphi$ takes on only values in the set $\{a_1,...,a_n\}$. Since $\varphi$ is measurable, the set $A_i = \{x : \varphi(x) = a_i\} = \{x : \varphi(x) \geq a_i \} \backslash \{x : \varphi(x) > a_i\}$ is measurable for each $i$. Then $\varphi$ can be written in the form 
+$$\varphi(x) = \sum_{i=1}^n a_i \chi_{A_i}(x) \;.$$
+
+This is because for any $x$ at which $\varphi$ is defined, $\varphi(x) = a_i$ form one the elements of $\{a_1,...,a_n\}$. But then $x \in A_i$ and $\varphi(x) = \sum_{n=1}^n a_i\chi_{A_i}(x) = 0 + ... + a_i(1) + ... +0 = a_i$. Since $x$ was arbitrary, this shows that this summation form of writing $\varphi$ agrees with the assumed description of $\varphi$ for any admissible $x$. But this shows that $\varphi$ can be written in the form required to call $\varphi$ a simple function. This specific form in notable:\\
+
+{\bf Definition} If $\varphi$ is a simple function and $\{a_1, ..., a_n\}$ the set of nonzero values of $\varphi$, then $\varphi = \sum_{i=1}^n a_i\chi_{A_i}$, where $A_i =\{x : \varphi(x) = a_i\}$ is called the {\bf canonical representation} of $\varphi$. It is characterized by the fact that the $A_i$ are disjoint and the $a_i$ are distinct and nonzero. \\
+
+{\bf Definition} If $\varphi$ vanishes outside a set of finite measure, we define the {\bf integral} of $\varphi$ by 
+
+$$\int \varphi(x) \, dx = \sum_{i=1}^n a_i m(A_i)$$
+
+when $\varphi$ has the canonical representation $\varphi = \sum_{i=1}^n a_i \chi_{A_i}$. We sometimes abbreviate this as $\int \varphi$. If $E$ is any measurable set, we define
+
+$$\int_E \varphi := \int \varphi \cdot \chi_E \;.$$
+
+Here this would mean $\varphi \cdot \chi_E = \left(\sum_{i=1}^n a_i \chi_{A_i} \right)\chi_E = \sum_{i=1}^n a_i \chi_{A_i}\chi_E = \sum_{i=1}^n a_i \chi_{A_i\cap E}$. Since $A_i$ and $E$ are measurable, each intersection $A_i\cap E$ is measurable. Then $\varphi \cdot \chi_E$ is a simple function and this representation is also the canonical representation as $B_i := A_i \cap E = \{x : (\varphi \cdot \chi_E)(x) = a_i\}$. So the expression $\int \varphi \cdot \chi_E$ is indeed sensible using the definition just stated. \\
+
+Consider the following lemma that gives the integral of a simple function when the simple function is not written in canonical form (but where at least the sets $E_i$ are disjoint).\\
+
+{\bf Lemma 1} Let $\varphi = \sum_{i=1}^n a_i \chi_{E_i}$, with $E_i \cap E_j = \emptyset$ for $i\neq j$. Suppose each set $E_i$ is measurable and of finite measure. Then ($\varphi$ is a simple function and):
+
+$$\int \varphi = \sum_{i=1}^n a_i m(E_i) \; .$$
+
+Proof: Note that while the $E_i$ are disjoint, we may have $a_i = a_j = a$ for $i\neq j$. That is, $\varphi$ takes on the same value on different $E_i, E_j$. Let $A_a = \{x : \varphi(x) = a\} = \bigcup_{i \text{ s.t. } a_i = a} E_i$ (from now on abbreviate the subscript as just $a_i = a$). Since the $E_i$ are disjoint, $m\left(\bigcup_{a_i = a} E_i\right) = \sum_{a_i = a} E_i$ and so $\sum_{a_i = a} a_i m(E_i) = a\sum_{i=1}^n m(E_i) = am(A)$. But then using sets $A_a$ for the possible values $a$ that $\varphi$ can assume gives a canonical representation of $\varphi$. Therefore summing over the possible values of $a$ (the notation here not great but hard to make proper without getting too convoluted)
+
+$$\int \varphi(x) \, dx = \sum_{a} am(A_a) = \sum_{i=1}^n a_i m(E_i) \;. $$
+
+{\bf Proposition 2} Let $\varphi$ and $\psi$ be simple functions which vanish outside a set of finite measure. 
+
+$$\int \left(a\varphi + b \psi \right) = a\int \varphi + b \int \psi $$ 
+
+and if $\varphi \geq \psi$ a.e., then 
+
+$$\int \varphi \geq \int \psi \;. $$
+
+Proof: Let $\{A_1, ..., A_n\}$ and $\{B_1, ..., B_m\}$ be the sets occurring in the canonical representations of $\varphi$ and $\psi$ respectively. Let $A_0$ and $B_0$ be the sets where $\varphi$ and $\psi$ are zero respectively. Then the sets $E_k$ obtained by taking the intersections $A_i \cap B_j$ (all possible pairings with $1\leq i \leq n$ and $1 \leq j \leq m$) form a finite (a combinatorics problem but however many pairings this is, it's certainly finite) disjoint collection of measurable sets. Suppose $(A_{i_1}\cap B_{j_1})\cap (A_{i_2}\cap B_{j_2}) = E_k \cap E_l  \neq \emptyset$. Since the $A_i$ are disjoint, this implies $A_{i_1} = A_{i_2}$. Similarly since the $B_j$ are disjoint, $B_{j_1} = B_{j_2}$. So $E_k = E_j$ and $k = j$. Note that for each $i$, $A_i = \cup_{j=0}^m (A_i\cap B_j)$ and similarly for each $j$, $B_j = \cup_{i=0}^n (B_j \cap A_i)$ so that using the $N$ sets $E_k$, we can represent both $\varphi$ and $\psi$ accurately for all values in their domains. 
+
+$$\varphi = \sum_{k=1}^N a_k \chi_{E_k}, \quad \psi = \sum_{k=1}^N b_k \chi_{E_k}, $$
+$$a\varphi + b \psi = \sum_{k=1}^N (aa_k + bb_k)\chi_{E_k} \;.$$
+
+\begin{align*}
+\int \left(a\varphi + b \psi\right) &= \sum_{k=1}^N (aa_k + bb_k)m(E_k)\\
+&= a\sum_{k=1}^N a_km(E_k) + b\sum_{k=1}^N b_km(E_k) \\
+&= a \int \varphi \quad + \quad b \int \psi \quad \text{ by Lemma 1}.
+\end{align*}
+
+To prove the second part, note that $\int \varphi - \int \psi = 1\int \varphi + (-1)\int \psi = \int (\varphi - \psi) \geq 0$. The inequality follows from the fact that $\varphi \geq \psi$ almost everywhere. We have $\int (\varphi - \psi) = \sum_{k=1}^N (a_k - b_k)m(E_k)$. If $a_k - b_k < 0$ for some $k$, we then know that $m(E_k) = 0$. Therefore all terms that contribute to this sum must be nonnegative and thus the sum must be nonnegative. Conclude that $\int \varphi \geq \int \psi$ ($\int \psi$ is finite since $b_km(E_k)$ is finite for each $k$ and we sum over finitely many terms). \\
+
+{\bf Corollary Picklecopter} If $\varphi = \sum_{i=1}^n a_i \chi_{E_i}$, then $\int \varphi = \sum_{i=1}^n a_i m(E_i)$, where we no longer require that the $E_i$ are disjoint as in Lemma 1. \\
+
+Proof: Suppose $\varphi = a_1\chi_{E_1} + ... + a_n\chi_{E_n}$ is a simple function. Then $\varphi_1 = a_1\chi_{E_1}$, ... , $\varphi_n = a_n \chi_{E_n}$ are each simple functions as $E_1, ... ,E_n$ are each measurable and $\varphi_1, ..., \varphi_n$ take on finitely many values. So $\int \varphi_i = a_im(E_i)$ for each $i$.  
+
+\begin{align*}
+\sum_{i=1}^n a_i m(E_i) &= a_1m(E_1) + ... + a_n m(E_n) \\
+&= \int \varphi_1  + ... + \int \varphi_n \quad \text{(Definition)}\\
+&= \int \left(\varphi_1 + ... + \varphi_n\right) \quad \text{ (Proposition 1 used repeatedly)} \\
+&= \int \left(a_1 \chi_{E_1} + ... + a_n \chi_{E_n} \right) \\
+&= \int \varphi 
+\end{align*}
+
+
+{\bf Proposition 3} Let $f$ be defined and bounded on a measurable set $E$ with $m(E) < \infty$. In order that,
+
+$$ \text{inf}_{f \leq \psi} \int_{E} \psi(x) \, dx = \text{sup}_{f\geq \varphi} \int_{E} \varphi(x) \, dx $$
+
+for all simple functions $\psi$ and $\psi$, it is necessary and sufficient that $f$ be measurable. \\
+
+Proof: Suppose $f$ is measurable and bounded with $|f| \leq M$. The sets
+
+$$E_k = \left\{ x : \frac{kM}{n} \geq f(x) > \frac{(k-1)M}{n}\right\}\, \quad -n \leq k \leq n \;, $$
+
+are measurable (should be clear), disjoint (should also be clear), and have union $E$ (might need some justification). That $\cup E_k \subset E$ is immediate since each $E_k$ contains elements $x \in E$ that give $f(x)$ in some particular interval. Let $x \in E$. Then $-M \leq f(x) \leq M$. The union of the intervals $((-n-1)M/n, -nM/n]$, $(-nM/n, (-n+1)M/n]$, ..., $(-M/n, 0]$, $(0, M/n]$, $(M/n, 2M/n]$, ..., $((n-1)/M, nM/n]$ is the interval $((-n-1)M/n, M] \supset [-M,M]$. Since $|f(x)| \leq M$, we must have $x \in E_k$ for some $k$. So $E \subset \cup E_k$ as well. Therefore,
+
+$$ m(E) = m\left(\cup E_k \right) = \sum_{k=-n}^n E_k \;.$$
+
+The simple functions defined on $E$ for each $n\in \mathbb{N}$ by
+
+$$\psi_n(x) = \frac{M}{n}\sum_{k=-n}^n k \chi_{E_k}(x) \quad \varphi_n(x) = \frac{M}{n}\sum_{k=-n}^n (k-1)\chi_{E_k}(x) $$
+
+satisfy
+
+$$ \varphi_n \leq f \leq \psi_n \;.$$
+
+$$\text{inf}_{f\leq \psi} \int_E \psi(x) \, dx \leq \int_E \psi_n(x) \, dx = \frac{M}{n}\sum_{k=-n}^n k m(E_k) \quad \text{ for each } n \in \mathbb{N} \;.$$
+
+$$\text{sup}_{f\geq \varphi} \int_E \varphi(x) \, dx \geq \int_E \varphi_n(x) \, dx = \frac{M}{n}\sum_{k=-n}^n (k-1) m(E_k) \quad \text{ for each } n \in \mathbb{N} \;.$$
+
+It is important to note that we actually $\varphi_m \leq f \leq \psi_n$ for any choices of $n,m \in \mathbb{N}$. That is, we never have $\psi_n < \varphi_m$ as no matter how finely we divide the range of $f$, $\varphi_m(x) \leq f(x)$ for each $x$ and $f(x) \leq \psi_n(x)$ for each $x$. For any $m$, we have $\varphi_m \leq \psi_n$ for all $n$. So $\int_E \varphi_m \leq \text{inf} \int_E \psi$. Since $m$ was arbitrary, this holds for every $\varphi_m$ and so $\text{sup} \int_E \varphi \leq \text{inf} \int_E \psi$. This remark is to secure the lower bound in the inequality below. For the upper bound, it is still helpful to use the same $n$ for $\varphi_n$ and $\psi_n$. 
+
+$$0 \leq \text{inf}_{f\leq \psi} \int_E \psi - \text{sup}_{f\geq \varphi} \int_E \varphi \leq \frac{M}{n}\sum_{k=-n}^n (k - (k-1))m(E_k) = \frac{M}{n}\sum_{k=-n}^n m(E_k) = \frac{M}{n}m(E) \;.$$
+
+Since this holds for any $n$,
+
+$$\text{inf}_{f\leq \psi} \int_E \psi = \text{sup}_{f\geq \varphi} \int_E \varphi$$
+
+Conversely, if the equality above holds, given $n$ there are simple functions $\varphi_n$ and $\psi_n$ such that 
+
+$$\varphi_n(x) \leq f(x) \leq \psi_n(x) $$
+
+(because this holds for any $n$) and 
+
+$$\int_E \psi_n < \text{inf}_{f\leq \psi} \int_E \psi  + \frac{1}{2n} $$
+$$\int_E \varphi_n > \text{sup}_{f\geq \varphi} \int_E \varphi - \frac{1}{2n} \implies -\int_E \varphi_n < -\text{sup}_{f\geq \varphi} \int_E \varphi + \frac{1}{2n}$$
+
+$$\therefore \int_E \psi_n - \int_E \varphi_n < \text{inf}_{f\leq \psi} \int_E \psi - \text{sup}_{f\geq \varphi} \int_E \varphi  + \frac{2}{2n} = 0 + \frac{1}{n} = \frac{1}{n} \;.$$
+
+By Theorem 3.20, the functions
+
+$$\psi^* = \text{inf}\; \psi_n \text{ and } \varphi^* = \text{sup} \;\varphi_n \;.$$
+
+Since $\varphi_m(x) \leq f(x) \leq \psi_n(x)$ for each $x$ and $m,n \in \mathbb{N}$, 
+$$\varphi^* \leq f \leq \psi^* \;.$$
+
+$$ \Delta = \{x : \varphi^*(x) < \psi^*(x) \} =  \bigcup_{v>0} \{x: \varphi^*(x) < \psi^*(x) - 1/v\} = \bigcup_{v>0} \Delta_v  \;.$$
+
+Let $x \in \Delta$.  Then $\varphi^*(x) < \psi^*(x)$ and so $\varphi^*(x) < \psi^*(x) - 1/v$ for any $v > 1/(\psi^*(x) - \varphi^*(x))$. Thus, $x \in \cup_v \Delta_v$. Let $x \in \cup_v \Delta_v$. In particular suppose $x \in \Delta_v$ for some $v$. Then $\varphi^*(x) < \psi^*(x) - 1/v< \psi^*(x)$. For each $n$, $\psi^* \leq \psi_n \text{ and } -\varphi^* \leq -\varphi_n$ so $\psi^* - \varphi^* \leq \psi_n - \varphi_n$.  
+
+$$\varphi^*(x) < \psi^*(x) - 1/v \implies 1/v < \psi^*(x) - \varphi^*(x) \leq \psi_n(x) - \varphi_n(x) \implies \varphi_n(x) < \psi_n(x) - 1/v \;.$$
+
+Therefore for any $v$, $\Delta_v \subset \{x : \varphi_n(x) < \psi_n(x) - 1/v\}$ and $m(\{x : \varphi_n(x) < \psi_n(x) - 1/v\}) < v/n$ because ....
+
+Since $n$ was arbitrary, $m(\Delta_v) = 0$ for each $v$ and so $m(\Delta) \leq \sum m(\Delta_v) = 0$. This shows that $\psi^*(x) \leq \varphi^*(x)$ except on a set of measure zero. But since $\psi^*(x) \geq \varphi^*(x)$ always, conclude that $\psi^*(x) = \varphi^*(x)$ except on a set of measure zero. This means $\varphi^* = f$ (and $\psi^* = f$) except on a set of measure zero. Since $\varphi^*$ is measurable, $f$ is measurable by Theorem 3.21. \\
+
+{\bf Definition} If $f$ is a bounded measurable function defined on a measurable set $E$ with $m(E) < \infty$, we define the {\bf (Lebesgue) integral} of $f$ over $E$ by
+
+$$\int_E f(x) \, dx = \text{inf} \int_E \psi(x) \, dx $$
+
+over the set of all simple functions $\psi \geq f$. With Proposition 3 in mind, this is equivalent to defining the integral as $\int_E f(x) \, dx = \text{sup} \int_E \varphi(x) \, dx$ over the set of all simple functions $\varphi \leq f$. \\
+
+We sometimes abbreviate this as $\int_E f$. If $E = [a,b]$, we adopt the convention of writing $\int_{[a,b]} f$ as $\int_a^b f$ instead. \\
+
+{\bf Proposition 4} Let $f$ be a bounded function defined on $[a,b]$. If $f$ is Riemann integrable, then $f$ is measurable (and therefore the Lebesgue integral of $f$ exists) and 
+
+$$R\int_a^b f(x) \, dx = \int_a^b f(x) \, dx \;.$$ 
+
+Proof: Recall that
+
+$$R\overline{\int_a^b} f(x) \, dx = \inf \left\{R \int_a^b \psi(x) \, dx : \psi \text{ a step function and } \psi \geq f\right\}$$
+$$R\underline{\int_a^b} f(x) \, dx  = \sup \left\{R \int_a^b \psi(x) \, dx :  \psi \text{ a step function and } \psi \leq f\right\} \;.$$
+
+But since every simple function is a step function this means:
+
+\begin{align*}
+R\overline{\int_a^b} f(x) \, dx &= \inf \left\{R \int_a^b \psi(x) \, dx : \psi \text{ a step function and } \psi \geq f\right\}\\
+& \geq \inf \left\{R \int_a^b \psi(x) \, dx : \psi \text{ a simple function and } \psi \geq f\right\}\\
+R\underline{\int_a^b} f(x) \, dx  &= \sup \left\{R \int_a^b \psi(x) \, dx : \psi  \psi \text{ a step function and } \leq f\right\}\\
+& \leq \sup \left\{R \int_a^b \varphi(x) \, dx :   \varphi \text{ a simple function and } \varphi \leq f\right\} \;.
+\end{align*} 
+
+Using more compact notation for these sets, recall from the proof of Proposition 3 that, 
+
+$$\text{sup}_{f\geq \varphi} \int_E \varphi \leq\text{inf}_{f\leq \psi} \int_E \psi $$
+
+and equality holds if and only if $f$ is measurable, so we want to establish equality. We have:
+
+$$ R\underline{\int_a^b} f(x) \, dx \leq \text{sup}_{f\geq \varphi} \int_E \varphi \leq \text{inf}_{f\leq \psi} \int_E \psi \leq R\overline{\int_a^b} f(x) \, dx \;.$$
+
+Since $f$ is Riemann integrable, the lower and upper Riemann integrals are equal which and so it must therefore be the case that:
+
+$$ R\underline{\int_a^b} f(x) \, dx = \text{sup}_{f\geq \varphi} \int_E \varphi = \text{inf}_{f\leq \psi} \int_E \psi = R\overline{\int_a^b} f(x) \, dx \;.$$
+
+By Proposition 3, $\text{sup}_{f\geq \varphi} \int_E \varphi = \text{inf}_{f\leq \psi} \int_E \psi$ implies that $f$ is measurable and since the upper and lower Riemann integrals agree, conclude using the definitions of the Lebesgue and the Riemann integral that
+
+$$R\int_a^b f(x) \, dx = R\overline{\int_a^b} f(x) \, dx = \text{inf}_{f\leq \psi} \int_E \psi = \int_a^b f(x) \, dx \;.$$
+$$R\int_a^b f(x) \, dx = \int_a^b f(x) \, dx \;.$$
+
+{\bf Proposition 5} If $f$ and $g$ are bounded measurable functions defined on a set $E$ with $m(E) < \infty$, then:\\
+
+(i) $\int_E (af + bg) = a\int_E f + b\int_E g$.\\
+
+(ii) If $f = g$ a.e., $\int_E f = \int_E g$.\\
+
+(iii) If $f \leq g$ a.e., $\int_E f \leq \int_E g$. Hence $|\int_E f | \leq \int_E |f| $. \\
+
+(iv) If $c \leq f(x) \leq d$, then $cm(E) \leq \int_E f \leq dm(E)$.\\
+
+(v) If $A$ and $B$ are disjoint measurable subsets of $E$ of finite measure, $\int_{A\cup B} f = \int_A f + \int_B f$.  \\
+
+Proof: \\
+
+(i) For $a \neq 0$, $\psi$ is a simple function iff $a\psi$ is a simple function.
+
+$$\text{ For } a > 0, \quad \int_E af = \inf_{a\psi \geq af}  \int_E a\psi  = \inf_{\psi \geq f} \int_E a\psi = a\inf_{\psi \geq f} \int_E \psi = a\int_E f \;.  $$
+$$\text{ For } a < 0, \quad \int_E af = \inf_{a\psi \geq af}  \int_E a\psi  = \inf_{\psi \leq f} \int_E a\psi = a\sup_{\psi \leq f}\int_E \psi = a\int_E f \;.  $$
+
+Note the use of Proposition 3 in the second line. We can use similar reasoning for $b$ and $g$. If $a = 0$ or $b = 0$ or both $a= b = 0$, establishing (i) follows from this so we focus on the less trivial case where $a\neq 0$, $b\neq 0$. If $\psi_1$ and $\psi_2$ are simple functions with $f \leq \psi_1$ and $g \leq \psi_2$, then $f+g \leq \psi_1 + \psi_2 =: \psi^\dagger$ where $\psi^\dagger$ is also a simple function. The sum $f+g$ is a bounded measurable function defined on $E$ and thus Lebesgue integrable. Using the definition of Lebesgue integral and Proposition 2 for the final equality below:
+
+$$\int_E f+g = \inf_{\psi \geq f+g} \int_E \psi \leq \int_E \psi^\dagger = \int_E \psi_1 + \psi_2 = \int_E \psi_1 + \int_E \psi_2 \;.$$
+
+So $\int_E f+g$ is a lower bound of $\int_E \psi_1 + \int_E \psi_2$ over the set of simple functions from which we draw $\psi_1 \geq f$ and $\psi_2 \geq g$. This means, with somewhat sketchy notation:
+$$\int_E f+g \leq \inf_{\psi_1,\psi_2} \left(\int_E \psi_1 + \int_E \psi_2\right) = \inf_{\psi_1} \int_E \psi_1 + \inf_{\psi_2} \int_E \psi_2 = \int_E f + \int_E g \;.$$ 
+
+Similarly, for simple functions $\varphi_1 \leq f$ and $\varphi_2 \leq g$, $\varphi_1 + \varphi_2 \leq f+g$ with $\varphi^\dagger := \varphi_1 + \varphi_2$ also a simple function. 
+
+$$\int_E f+g = \sup_{\varphi \geq f+g} \int_E \varphi \geq \int_E \varphi^\dagger = \int_E \varphi_1 + \varphi_2 = \int_E \varphi_1 + \int_E \varphi_2 \;.$$
+
+
+Then $\int_E f+g$ is an upper bound of $\int_E \varphi_1 + \int_E \varphi_2$ over the set of all simple functions with $\varphi_1 \leq f$ and $\varphi_2 \leq g$. 
+
+$$\int_E f+g \geq \sup_{\varphi_1, \varphi_2} \left(\int_E \varphi_1 + \int_E \varphi_2\right) = \sup_{\varphi_1} \int_E \varphi_1 + \sup_{\varphi_2} \int_E \varphi_2 = \int_E f+ \int_E g \;.$$
+
+This establishes that $\int_E f + g = \int_E f + \int_E g$. Using the discussion from the beginning of the proof and applying this result to $af$ and $bg$,
+
+$$\int_E (af+bg) = \int_E af + \int_E bg = a\int_E f + b\int_E g \;.$$
+
+(ii) By part (i), if we can prove that $\int_E (f-g) = 0$, then $\int_E - \int_E g = 0 \implies \int_E f = \int_E g$ ($f$ and $g$ are bounded functions on a set of finite measure). Suppose $f = g$ a.e., which means $f - g = 0$ a.e. so that if $\psi \geq f - g$, then $\psi \geq 0$ a.e. and as was noted in the proof proposition 2 it follows that $\int_E \psi \geq  0$. This holds for any $\psi \geq f-g$ a.e. and so $0$ is a lower bound of $\int_E \psi$ for any such $\psi$. Therefore,
+
+$$\int_E f-g = \inf_{\psi \geq f-g} \int_E \psi \geq 0 \implies \int_E f-g \geq 0\;.$$
+
+Similarly, for any simple function $\varphi \leq f-g = 0$ a.e. we have $\int_E \varphi \leq 0$, which shows that $0$ is an upper bound of $\int_E \varphi$ for any such $\varphi$. Therefore,
+
+$$\int_E f-g = \sup_{\varphi \leq f-g} \int_E \varphi \leq 0 \implies \int_E f-g \leq 0\;.$$
+
+Conclude that since $\int_E f - \int_E g = \int_E f-g = 0$ a.e., that $\int_E f = \int_E g$ a.e.\\
+
+(iii) If $f \leq g$ a.e., then $g-f \geq 0$ a.e. so that for a simple function $\psi \geq g-f \geq 0$ a.e. we have $\int_E \psi \geq 0$. As in the proof of (ii), this implies $\int_E g - \int_E f = \int_E g-f \geq 0$ so that $\int_E g \geq \int_E f$. \\
+
+(iv) First we show that $\int_E 1 = m(E)$. Note that $f(x) = 1$ is itself a simple function and if we want to write $f$ in the summation form of a simple function $f = \sum_{i=1}^n a_i \chi_{A_i}$ the most natural way to do so is with just one term as $f = 1\chi_{E}$. Then $\int_E 1 = \int_E f = 1 \cdot m(E) = m(E)$. Then by (i) this means $\int_E c = \int_E c\cdot 1 c\int_E 1 = cm(E)$ and similarly $\int_E d = dm(E)$. Suppose that $c \leq f(x) \leq d$ for $x \in E$. Then using (iii) (assigning $f$ and $g$ as appropriate) it follows that $cm(E) \leq \int_E f \leq dm(E)$. \\
+
+(v) Suppose $A,B \subset E$ are disjoint measurable sets. Then $\chi_{A\cup B} = \chi_A + \chi_B -  \chi_{A\cap B} = \chi_A + \chi_B - \chi_\emptyset = \chi_A + \chi_B$. Also, $f\chi_{A\cup B}$, $f\chi_A$, and $f\chi_B$ are measurable.
+
+$$\int_{A\cup B} f = \int_{E} f\chi_{A\cup B} = \int_E f\chi_A + f\chi_B = \int_E f\chi_A + \int_E f\chi_B = \int_A f + \int_B f \;.$$\\
+
+The next proposition is a special case of the upcoming Theorem 16 and will be later used to prove this theorem.\\
+
+{\bf Proposition 6 (Bounded Convergence Theorem)} Let $(f_n)$ be a sequence of measurable functions defined on a measurable set $E$ of finite measure and suppose there is an $M \in \mathbb{R}$ such that $|f_n(x)| \leq M$ for all $x \in E$ and for all $n\in \mathbb{N}$. If $f(x) = \lim_{n\rightarrow \infty} f_n(x)$ for each $x \in E$, then 
+
+$$\int_E f = \lim \int_E f_n \;.$$
+
+Proof: Littlewood's third principle states that if $f_n \rightarrow f$ pointwise, then $f_n$ is "nearly" uniformly convergent to $f$. Using Proposition 3.23, which is a more precise statement of this principle, then given $\epsilon > 0$ (or we could use $\epsilon / (2m(E)) > 0$ since $\epsilon > 0$ was arbitrary) and $\delta > 0$ (we'll use $\delta = \epsilon / (4M)$) there is an $N \in \mathbb{N}$ and a measurable set $A \subset E$ with $m(A) < \epsilon / (4M)$ such that for $n \geq N$ and $x \in E\backslash A$ we have $|f_n(x) - f(x)| < \epsilon / (2m(E))$. Using several parts of Proposition 5,
+
+\begin{align*}
+|\int_E f_n - \int_E f| &=  |\int_E (f_n - f)|\\
+&\leq \int_E |f_n - f| \\
+&= \int_{E\backslash A} |f_n - f| + \int_{A} |f_n - f| \\
+&< \int_{E \backslash A} \frac{\epsilon}{2m(E)} + \int_{A} |f_n - f| \\
+&\leq \int_{E \backslash A} \frac{\epsilon}{2m(E)} + \int_{A} |f_n| + |f| \\
+&\leq \int_{E \backslash A} \frac{\epsilon}{2m(E)} + \int_{A} 2M \\ 
+&= \frac{m(E)\epsilon}{2m(E)} +  m(A)2M \\
+&< \frac{\epsilon}{2} + \frac{2M \epsilon}{4M} = \epsilon \;.
+\end{align*} 
+
+Since $\epsilon > 0$ was arbitrary, this shows that $\int_E f_n \rightarrow \int_E f$. \\
+
+{\bf Proposition 7} A bounded function $f$ on $[a,b]$ is Riemann integrable if and only if the set of points at which $f$ is discontinuous has measure zero.\\
+
+{\bf Definition} Let $f$ be a real valued function defined on $[a,b]$. We define the {\bf upper envelope} $h$ of $f$ by
+
+$$ h(y) = \inf_{\delta > 0} \sup_{|x-y| < \delta} f(x) \;.$$
+
+{\bf Problem 2}\\
+
+(a) Let $f$ be a bounded function on $[a,b]$ and let $h$ be the upper envelope of $f$. Then $R \overline{\int}_a^b f = \int_a^b h$. If $\varphi \geq f$ is a step function, then $\varphi \geq h$ except at a finite number of points, and so $\int_a^b h \leq R \overline{\int}_a^b f$. But there is a sequence $\varphi_n$ of step functions such that $\varphi \downarrow h$. By Proposition 6 we have $\int_a^b h = \lim \int_a^b \varphi_n \geq R\overline{\int}_a^b f$.) \\
+
+(b) Use part (a) to prove Proposition 7. 
+
+\subsection*{3 The Integral of a Nonnegative Function}
+
+{\bf Definition} If $f$ is a nonnegative measurable function defined on a measurable set $E$, we define
+
+$$\int_E f = \sup_{h \leq f} \int_E h \;,$$
+
+where $h$ is a bounded measurable function such that $m(\{x : h(x) \neq 0\})$ is finite. Note that here we do not require $f$ to be bounded or that $m(E) < \infty$. The integral on the right would then be defined by circular reasoning except that we can make sense of this by the fact that $h = 0 $ outside of a set of finite measure. So $\int_{E} h = \int_{E \cap \{x : h(x) \neq 0\}} h$ and $E \cap \{x : h(x) \neq 0\}$ is measurable with finite measure. \\
+
+{\bf Proposition 8} If $f$ and $g$ are nonnegative measurable functions, then:\\
+
+(i)  $\int_E cf = c\int_E f$, $\quad c>0$. \\
+
+(ii) $\int_E (f+g) = \int_E f + \int_E g$.\\
+
+(iii) If $f \leq g$ a.e., then $\int_E f \leq \int_E g$. \\
+
+Proof: \\
+
+(i) If $h$ is a bounded measurable function such that $h$ vanishes outside of a set of finite measure, the same is true of $ch$ for $c >0$. Since the definition takes the supremum over all such functions, it makes as much sense to write $ch$ as $h$:
+
+$$ \int_E cf = \sup_{ch\leq cf} \int_E ch = c\sup_{ch \leq cf} \int_E h  = c \sup_{h \leq f} \int_E h = c\int_E f \;.$$
+
+(ii) If $h(x) \leq f(x)$ and $k(x) \leq g(x)$, where $h$ and $k$ are functions of the type from the definition above, then,
+
+$$\int_{E} h + \int_E k = \int_E h + k \leq \sup_{j \leq f+g} \int_E j = \int_E f+g \;.$$
+
+Taking suprema (the right hand side will not change but the left side will by the definition):
+
+$$\int_E f + \int_E g \leq \int_E f+g \;.$$
+
+Let $l$ be a bounded measurable function which vanishes outside a set of measure zero and $l \leq f+g$. 
+
+$$h(x) = \min (f(x) , l(x)), \quad k(x) = l(x) - h(x) \;.$$
+
+Then $h(x) \leq f(x)$ and $k(x) \leq g(x)$. To see that $k(x) \leq g(x)$ consider two possible cases. If $f(x) \leq l(x)$, then $k(x) = l(x) - h(x) = l(x) - f(x) \leq f(x) + g(x) - f(x) = g(x)$. If $f(x) > l(x)$, then $k(x) = l(x) - h(x) = l(x) - l(x) = 0 \leq g(x)$ since $g$ is nonnegative. Further, suppose that the bound for $l$ is $M$ in the sense that $|l(x)| \leq M$. Then $h(x)$ is bounded below by 0 if $l \geq 0$ since $f\geq 0 $ or by $-M$ if $l(x) < 0$ for any $x$ . Since $l$ is bounded above by $M$, $h(x) \leq M$. So $|h(x)| \leq M$ as well. If $h(x) = l(x)$, then $k(x) = 0$ while if $h(x) = f(x)$, then $k(x) = l(x) - f(x)$. Since $f(x) \geq 0$, the largest $k$ could be would occur if/when $f(x) = 0$, and $k(x) = l(x) \leq M$. So $k(x)$ is bounded above by $M$. On the other hand, since $k(x) \geq 0$, certainly $k(x) \geq -M$ so $|k(x)| \leq M$ as well. If $l(x) = 0$, then $h(x) = 0$ as well, which implies $k(x) = 0$. The reverse direction is not necessarily true (for example $f(x) = 0$ while $l(x) > 0$ gives $h(x) = 0$ while $l(x) \neq 0$) but we use the fact that $l(x) = 0 \implies h(x) = k(x) = 0$ to make sure that we can use Lebesgue integration with these functions. Hence $$\int_E l = \int_E (h+k) = \int_E h + \int k \leq \sup_{h^* \leq f} \int_E h^* + \sup_{k^* \leq g} \int_E k^* = \int_E f + \int_E g \;.$$ 
+
+Then for supremum over all such $l$, $\sup_{l \leq f+g} \int_E l = \int_E (f+g) \leq \sup_{l\leq f+g} \left(\int_E f + \int_E g \right) = \int_E f + \int_E g$. \\
+
+Therefore, $\int_E f + \int_E g = \int_E (f+g)$. \\
+
+(iii) Suppose $f\leq g$ almost everywhere. Let $h \leq f$ be a bounded measurable function that vanishes outside a set of measure zero. Then $h\leq g$ almost everywhere. Then there is a $k \leq g$ (everywhere) such that $k$ is bounded, vanishes outside a set of measure zero and $k = h$ almost everywhere. For instance, one could choose $k$ such that $k(x) = g(x)$ whenever $h(x) > g(x)$ and $h(x) = k(x)$ otherwise. Then $\int_E h(x) = \int_E k(x)$. These are arbitrary $h$ and $k$. Taking suprema over such $h$ and $k$:
+
+$$\int_E f = \sup_{h \leq f} \int_E h = \sup_{k \leq g} \int_E k = \int_E g \;.$$
+
+{\bf Theorem 9 (Fatou's Lemma)} If $(f_n)$ is a sequence of nonnegative measurable functions and $f_n(x) \rightarrow f(x)$ almost everywhere on a set $E$, then
+
+$$\int_E f \leq \lim \inf \int_E f_n \;.$$
+
+Proof: Suppose that $A$ is the set of points for which $f_n(x) \not\rightarrow f(x)$. By hypothesis, $m(A) = 0$. Then $\int_E f = \int_{E\backslash A} f + \int_{A} f = \int_{E\backslash A} f + 0 = \int_{E\backslash A} f$. Similarly with $f_n$. So without loss of generality assume everywhere convergence. Let $h \leq f$ be a bounded measurable function with $|h| \leq M$ that vanishes outside a set $E'$ with $m(E') = 0$. For each $n$, define $h_n(x) = \min \{h(x), f_n(x)\}$. Then $h_n(x) \leq h(x) \leq M$. Also, $h_n(x) = f(x) \geq 0$ if $f(x) \leq h(x)$ and $h_n(x) = h(x) \geq -M$ if $f(x) > h(x)$. So $h_n(x) \geq -M$ and so $|h_n| \leq M$ as well. If $h(x) = 0$, then $h_n(x) = 0$ since either $f_n(x) > 0$ and $h_n(x) = h(x)$ or $f_n(x) = 0$ and $h_n(x) = h(x) = f(x) = 0$. So we know that $h_n(x)$ is bounded and vanishes outside of $E'$ (possibly vanishes at some points within $E'$ as well). For $x \in E'$, if $h(x) = f(x)$, then since $f_n(x) \rightarrow f(x)$, $f_n \rightarrow h(x)$. Then $h_n(x) = \min \{h(x), f_n(x)\}$ must also converge to $h(x)$. The other possibility is that $h(x) < f(x)$. Since $f_n(x) \rightarrow f(x)$, there is an $N$ such that $f_n(x) \geq h(x)$ for all $n\geq N$. Then $h_n(x) = h(x)$ for all $n\geq N$ and in this case $h_n(x)$ also converges to $h(x)$. So $h_n(x) \rightarrow h(x)$ for all $x \in E'$. Also, each $h_n$ is measurable since $h$ and each $f_n$ are measurable and the minimum function between two measurable functions is also measurable. Then $h_n$ meets the conditions of Proposition 6 (except that $E$ may not have finite measure but again this is sort of circumvented by the fact that $E'$ has finite measure and $h_n = 0$ outside of $E'$). Since $h_n \leq f_n$ for each $n$, $\int_{E'} h_n = \int_E h_n \leq \int_E f_n$ for each $n$. This implies that $\inf \int_{E'} h_n \leq \inf \int_E f_n$. Passing to limit we have $\lim \in \int_{E'} h_n \leq \lim \inf \int_{E} f_n$. But since $(\int_{E'} h_n)$ is a convergent sequence, $\lim \inf \int_{E'} h_n = \lim \int_{E'} h_n$. Therefore by Proposition 6,
+
+$$\int_E h = \int_{E'} h = \lim \int_{E'} h_n = \lim \inf \int_{E'} h_n \leq \lim \inf \int_E f_n \;.$$ 
+
+Taking the supremum over all such $h \leq f$:
+
+$$\int_{E} f = \sup_{h\leq f} \int_{E} h \leq \lim \inf \int_{E} f_n \;.$$
+
+{\bf Theorem 10 (Monotone Convergence Theorem)} Let $(f_n)$ be an increasing sequence of nonnegative measurable functions such that $f = \lim f_n$ almost everywhere. Then,
+
+$$\int f = \lim \int f_n \;.$$ 
+
+Proof: It must be implied that we are working on some measurable set $E$ since all results so far in this section require this and only here is it omitted. Then by Theorem 9, $\int f = \lim \inf \int f_n$. For each $n$ we have $f_n \leq f$ because if $f_N > f$ for some $n$, then since $f_n$ is increasing this would mean $f_n > f$ for all $n \geq N$ which would prevent (almost everywhere) convergence of $f_n$ to $f$. So $\int f_n \leq \int f$ for all $n$, which implies $\sup \int f_n \leq \int f$ and therefore,
+
+$$\lim \sup \int f_n \leq \lim \int f = \int f \;.$$
+
+Since $\lim \sup \int f_n = \lim \inf \int f_n = \int f$, the sequence $(\int f_n)$ is convergent with
+
+$$\lim \int f_n = \int f \;.$$
+
+{\bf Corollary 11} Let $(u_n)$ be a sequence of nonnegative measurable functions and $f = \sum_{n=1}^\infty u_n$. Then,
+
+$$\int f = \sum_{n=1}^\infty \int u_n \;.$$
+
+Proof: The assumption that $f = \sum_{n=1}^\infty u_n$ means that $s_k = \sum_{n=1}^k$, $k \in \mathbb{N}$ is a convergent sequence with $s_n \rightarrow f$. Also since the $f_n$ are nonnegative and measurable, $(s_n)$ is an increasing sequence of nonnegative measurable functions. Assuming all limits are $ k\rightarrow \infty$, by Theorem 10, $\int f = \lim \int s_k$. That is, $\int \lim s_k = \lim \int s_k$.
+
+\begin{align*}
+\lim \int s_k &= \lim \int (u_1 + ... + u_k) \\
+& = \lim (\int u_1 + ... + \int u_k) \quad \text{ (Proposition 8)} \\
+&= \lim \sum_{n=1}^k \int u_n \\
+&= \sum_{n=1}^\infty \int u_n \quad \text{(if this limit converges - it does considering the equality below)} \\
+\therefore \sum_{n=1}^\infty \int u_n &= \lim \int s_k = \int \lim s_k = \int f \;.
+\end{align*}
+
+{\bf Proposition 12} Let $f$ be a nonnegative function and $(E_i)$ a disjoint sequence of measurable sets. Let $E = \cup_{i=1}^\infty E_i$. Then 
+
+$$\int_E f = \sum_{i=1}^\infty \int_{E_i} f \;.$$
+
+Proof: Let $u_i = f\chi_{E_i}$. Then $(u_i)$ is a sequence of nonnegative measurable functions and $f = \sum_{i=1}^\infty u_i$. To see this, let $x \in E$. Then because the $E_i$ are disjoint with union $E$, $x \in E_i$ for precisely one set $E_i$ Then $f(x) = f(x) \chi_{E_i}(x) = u_i(x) = 0 + 0 + ...+ u_i(x) \chi_{E_i}(x) + 0 + ... = \sum_{i=1}^\infty u_i(x)$. By Corollary 11,
+
+$$\int_E f = \sum_{i=1}^\infty \int_E u_i = \sum_{i=1}^\infty \int_E f\chi_{E_i} = \sum_{i=1}^\infty \int_{E_i} f \;.$$
+
+{\bf Definition} A nonnegative measurable function $f$ is called {\bf integrable} over the measurable set $E$ if $$\int_E f < \infty \;.$$
+
+{\bf Proposition 13} Let $f$ and $g$ be two nonnegative measurable functions. If $f$ is integrable over $E$ and $g(x) < f(x)$ on $E$, then $g$ is also integral on $E$ and
+
+$$\int_E f-g = \int_E f - \int_E g \;.$$
+
+Proof: Note that $f = (f-g) + g$. By Proposition 8,
+
+$$\infty > \int_E f = \int_E [(f-g) + g] = \int_E (f-g) + \int_E g \;.$$
+
+If either of $\int_E (f-g)$ or $\int_E g$ were infinite, this would contradict $\int_E f < \infty$. Therefore, $\int_E g < \infty$ which means that $g$ is integrable on $E$ and that we can subtract to get
+
+$$\int_E f - \int_E f = \int_E (f-g) \;.$$
+
+{\bf Proposition 14} Let $f$ be a nonnegative function which is integrable over a set $E$. Then given $\epsilon$, there is a $\delta$ such that for every set $A \subset E$ with $m(A) < \delta$ we have 
+
+$$\int_A f < \epsilon \;.$$
+
+Proof: If $f$ is bounded with $|f| \leq M$, then to get $\int_A f < \epsilon$, require that $m(A) < \delta = \epsilon / M$ so that $\int_A f \leq \int_A M = Mm(A) < M\epsilon / M = \epsilon$. So consider the case that $f$ is not bounded but still $f$ is integrable over $E$, meaning that $0 \leq \int_E f < \infty$ is bounded. Define
+
+$$f_n(x) = \begin{cases}
+f(x) & f(x) \leq n \\ n & f(x) > n \end{cases} \;. $$
+
+Each $f_n$ is bounded and nonnegative as $0\leq f_n(x) \leq n$. If $f(x) <\infty$, then there is an $N$ such that $f(x) \leq N$. Then $f_n(x) = f(x)$ for all $n \geq N$ and so $f_n(x) \rightarrow f(x)$. If $f(x) = \infty$ (measurable functions by definition may be extended real valued functions so it is necessary to consider this - it's unclear whether $\int_E f < \infty$ guarantees that $f(x)$ is finite for all $x \in E$, only that $f(x) = \infty$ on a set of measure zero), then $f_n(x) = n$ for all $n$. But then $f_n(x) = n \rightarrow \infty = f(x)$ as well. So $f_n \rightarrow f$ pointwise on $E$. Since $f(x)$ is measurable and $g(x) = n$ is measurable for each $n$, each $f_n$ is measurable. For each $x$, $f_n(x)$ is increasing since either $f_n(x) = n$ for all $n$ or $f_n(x) = n$ for finitely many $n$ and then constantly $f_n(x) = f(x)$ for all $n\geq N$ for some $N$. We have established that $(f_n)$ is an increasing sequence of nonnegative measurable functions that $f = \lim f_n$ pointwise (and thereby satisfies the weaker condition of a.e. convergence). That each $f_n$ is integrable follows from Proposition 8 (iii). By Theorem 10 (Monotone Convergence Theorem), 
+
+$$\int_E f = \lim \int f_n \;.$$
+
+Then given $\epsilon > 0$, there is an $N$ such that $\int_E f_n > \int_E f - \epsilon /2$ and so $\int_E (f - f_n) < \epsilon /2 $ for all $n\geq N$. In particular this holds for $N$ specifically. Then for any $A \subset E$ with $m(A) < \delta = \epsilon / 2N$.
+
+\begin{align*}
+\int_A f &= \int_A [(f - f_N) + f_N] = \int_A (f-f_N) + \int_A f_N\\
+&\leq \int_E (f-f_N) + \int_A N \\
+&< \frac{\epsilon}{2} + \int_A N \\
+&= \frac{\epsilon}{2} + Nm(A)\\
+&< \frac{\epsilon}{2}+ \frac{N\epsilon}{2N}\\
+&= \epsilon \;.
+\end{align*}
+
+{\bf Problem 3} Let $f$ be a nonnegative measurable function. Show that $\int f = 0$ implies $f = 0$ a.e. \\
+
+For $n \in \mathbb{N}$, let $E_n = \{x : f(x) > 1/n\}$. If $x \in E_n$, then $f(x) > 1/n = 1/n \chi_{E_n}(x)$. If $x \not \in E_n$, then $1/n\chi_{E_n}(x)= 0  \leq f(x) \leq 1/n$. So $f(x) \geq \chi_{E_n}$ for all $x$. By proposition 8 (iii),
+
+$$ 0 = \int f \geq \int \frac{1}{n}\chi_{E_n} = \frac{1}{n}m(E_n) \implies 0 = m(E_n) \;.$$
+
+Since $f \geq 0$, $\{x : f(x) \neq 0 \} = \{x : f(x) > 0\}$. If $f(x) > 0$, then there is an $n\in \mathbb{N}$ such that $f(x) > 1/n$ by the axiom of Archimedes. Conversely if $f(x) > 1/n$ for some $n \in \mathbb{N}$ then $f(x) > 0 $. Then $\{x : f(x) > 0 \} = \bigcup_{n=1}^\infty \{x : f(x) > 1/n\} = \bigcup_{n=1}^\infty E_n$ from which it follows
+
+$$m\left(\{x : f(x) \neq 0\}\right) = m\left(\{x : f(x) \neq 0\}\right) = m\left(\bigcup_{n=1}^\infty E_n \right) \leq \sum_{n=1}^\infty m(E_n)  = \sum_{n=1}^\infty 0 = 0 \;.$$
+
+Conclude that $f = 0$ a.e.\\
+
+By the way, the converse is also true. If $f = 0$ a.e. then the set $E = \{x : f(x) > 0 \} = \{x : f(x) \neq 0\}$ has measure zero. Let $f_n = n \chi_{E}$. If $x \in E$, then for each $k \in \mathbb{N}$, $\inf_{n\geq k} n \chi_E = k$ so that $\lim_{k\rightarrow \infty} \inf_{n\geq k} f_n(x) = \infty \geq f(x)$. If $x \not \in E$, then $f(x) = 0$ and $\inf_{n\geq k} n\chi_E = 0$. So for all $x$, $f(x) \leq \lim \inf f_n(x)$. Since $f \geq 0$, $\int f \geq \int 0 = 0$ by proposition 8 (iii). Also using proposition 8 (iii) along with Fatou's Lemma,
+
+$$0 \leq \int f \leq \int \lim \inf f_n \leq \lim \inf \int f_n = \lim \inf \left(\frac{1}{n} m(E)\right) = \lim \inf 0 = 0 \implies \int f = 0 \;.$$
+
+{\bf Problem 4} Let $f$ be a nonnegative measurable function. \\
+
+a. Show that there is an increasing sequence $(\varphi_n)$ of nonnegative simple functions each of which vanishes outside a set of finite measure such that $f = \lim \varphi_n$. \\
+
+The domain of $f$ is not given, but is probably assumed to be $\mathbb{R}$ and the reasoning would be the same if the domain is some other measurable subset of $\mathbb{R}$. For each $x \in \mathbb{R}$, define $\varphi_n(x) = \min\{f(x), n\} \chi_{[-n,n]} (x)$. \\
+
+(i) Each $\varphi_n$ is simple. In the general form of a simple function $\sum_{i=1}^k \alpha_i \chi_{E_i}$, we take $k = 1$, $\alpha_i = \alpha_k = \min \{f(x), n\} \in \mathbb{R}$, and $E_i = [-n,n] \in \mathfrak{M}$.\\
+
+(ii) Each $\varphi_n$ is nonnegative. Depending on the values of $x$ and $f(x)$, $\varphi_n(x)$ takes on one of the values: $0, n, f(x)$, and so $\varphi_n(x) \geq 0$ in any case. \\
+
+(iii) For each $x$, $\varphi_{n+1}(x) \geq \varphi_n(x)$ for all $n \in \mathbb{N}$. If $\varphi_n(x) = 0$ then by (ii) $\varphi_{n+1}(x) \geq 0 \geq \varphi_n(x)$. If $\varphi_{n}(x) = n$, this means that $x \in [-n,n]\subset [-n-1, n+1]$ and that $f(x) \geq n$. Then either $\varphi_{n+1}(x) = n+1 \geq \varphi_n(x)$ or $\varphi_{n+1}(x) = f(x) \geq n = \varphi_n(x)$. If $\varphi_n(x) = f(x)$, then $x \in [-n,n] \subset [-n-1, n+1]$ and $f(x) \leq n \leq n+1$, so $\varphi_{n+1}(x) = f(x) \geq \varphi_n(x)$. In any case, $\varphi_n(x) \leq \varphi_{n+1}(x)$. \\
+
+(iv) Each $\varphi_n$ vanishes for $x$ outside of $[-n,n]$, which has finite measure $m([-n,n]) = 2n$. \\
+
+(v) For each $x$, $\lim_{n\rightarrow \infty} \varphi_n (x) = f(x)$. If $f(x) = \infty$, then $\varphi_n(x) =\min \{f(x), n\}\chi_{[-n,n]} = n\chi_{[-n,n]}$ for all $n$ and $n\chi_{[-n,n]} \rightarrow \infty = f(x)$ as $n\rightarrow \infty$. If $f(x)$ is bounded such that $0 \leq f(x) \leq N_1$ for some $N_1 \in \mathbb{N}$, then $\min{f(x), n} = f(x)$ for all $n \geq N_1$. Since $x \in \mathbb{R}$, there is an $N_2 \in \mathbb{N}$ such that $x \in [-n,n]$ for all $n \geq N_2$. Therefore, for all $n \geq \max \{N_1,N_2\}$, $\varphi_n(x) = f(x)$ so that we conclude $\lim_{n\rightarrow \infty} \varphi_{n}(x) =f(x)$. \\
+
+This shows there is an increasing sequence of nonnegative simple functions $(\varphi_n)$ such that $\lim \varphi_n = f$. \\
+
+
+b. Show that $\int f = \sup \int \varphi$ over all simple functions $\varphi \leq f$. \\
+
+It is unclear whether the $\varphi$ are nonnegative or arbitrary. If the $\varphi$ are arbitrary, recall that we define $\int \varphi$ for $\varphi$ that vanish outside a set of finite measure. For integration over a set of arbitrary measure, we have only just in this section defined integration in this case for nonnegative functions. Since we have not specified the measure of the set we are integrating over in this problem and based on what was done in part (a) it would seem we should assume the measure may be infinite and that the $0 \leq \varphi \leq f$ and then afterward explain how to change this proof if this assumption is unwarranted.\\
+
+By hypothesis, $\varphi \leq f$ for each admissible simple function, so $\int \varphi \leq \int f$ for all $\varphi$ so that $\sup \int \varphi \leq \int f$. \\
+
+By part (a) there is an increasing sequence $(\varphi_n)$ of nonnegative measurable function (simple $\implies$ measurable) such that $\lim \varphi_n = f$. Since the sequence $(\varphi_n)$ is increasing, the sequence $(\int \varphi_n)$ is increasing so that $\lim_{n\rightarrow \infty} \int \varphi_n = \sup_{n} \int \varphi_n$. 
+
+\begin{align*}
+\int f & = \lim_{n\rightarrow \infty} \int \varphi_n \quad \text{(Theorem 10 Monotonce Converge Theorem)} \\
+&= \sup_{n} \int \varphi_n \\
+&\leq \sup_{0\leq \varphi \leq f} \int \varphi \;.
+\end{align*}
+
+The last inequality holds since the set $\{\int \varphi_n : n \in \mathbb{N}\}$ is a subset of the set $\{ \int \varphi : \varphi \text{ simple }, 0\leq \varphi \leq f \}$ (since each $\varphi_n$ is a nonnegative simple function bounded above by $f$ by our construction from part a). \\
+
+Note: If I am incorrect in assuming that $0\leq \varphi \leq f$, then the problem needs to state that $\varphi \leq f$ where $\varphi$ must be assumed to vanish outside a set of finite measure. There would only be minor changes to the above: We still have $\sup \int \varphi \leq \int f$ so need only prove that $\int f \leq \sup \int \varphi$ as well. The sequence $(\varphi_n)$ still satisfies the conditions of the MCT but the last inequality becomes 
+
+$$\sup_n \int \varphi_n \leq \sup_{\varphi \leq f} \int \varphi \;,$$
+
+which follows from the fact that the set $\{\int \varphi_n : n \in \mathbb{N}\}$ is also a subset of the set $\{\int \varphi : \varphi \text{ simple } $ $\text{and vanishes outside a set of finite measure and } \varphi \leq f\}$. That is, the sequence we constructed in part a will allow the necessary conclusion under either of the two possible assumptions we could make about what our choices of $\varphi$ may be. 
+
+
+\subsection*{4 The General Lebesgue Integral}
+
+{\bf Definition} 
+
+$$f^+(x) = \max \{f(x), 0\}, \quad f^-(x) = \max \{-f(x), 0\} \;.$$
+
+If $f$ is measurable, so are $f^+$ and $f^-$. Also, both $f^+$ and $f^-$ are nonnegative, $f = f^+ - f^-$, and $|f| = f^+ + f^-$. \\
+
+{\bf Definition} A measurable function $f$ is said to be {\bf integrable} over $E$ if both $f^+$ and $f^-$ are integrable over $E$ (using the definition given in the previous section specified for nonnegative measurable functions). In this case define:
+
+$$\int_E f = \int_E f^+ - \int_E f^- \;.$$
+
+{\bf Proposition 15} If $f$ and $g$ are integrable over $E$ then,\\
+
+(i) The function $cf$ is integrable over $E$ and $\int_E cf = c \int_E f$. \\
+
+(ii) The function $f+g$ is integrable over $E$ and 
+
+$$\int_E f+g = \int_E f + \int_E g \;.$$
+
+(iii) If $f\leq g$ a.e., then $\int_E f \leq \int_E g$. \\
+
+(iv) If $A, B \subset E$ are disjoint measurable sets,
+
+$$\int_{A\cup B} f = \int_A f + \int_B f \;.$$
+
+Proof:
+
+(i) For any $c \in \mathbb{R}$, $cf$ is measurable and $(cf)^+$ and $(cf)^-$ are nonnegative measurable functions. Since $f$ is integrable, $\int_E f^+ < \infty$ and so $\int_E (cf)^+ < \infty$. Similarly, $\int_E (cf)^- < \infty$. So both $(cf)^+$ and $(cf)^-$ and therefore so is $cf$. We have
+
+$$\int_E cf = \int_E (cf)^+ - \int_E (cf)^- \;.$$
+
+There is some more work to reach the conclustion. By Proposition 8, we have $\int_E cf = c\int f$ for nonnegative $f$ and $c>0$. Here we do not know that $c>0$. If it is the case that $c> 0$, then by checking cases we have $(cf)^+ = cf^+$ and $(cf)^- = cf^-$. Then,
+
+$$\int_E cf = \int_E (cf)^+ - \int_E (cf)^- = \int_E cf^+ - \int_E cf^- = c\left(\int_E f^+ - \int_E f^-\right) = c\int_E f \;.$$
+
+If $c<0$, then $(cf)^+ = -cf^-$ and $(cf)^- = -cf^+$. Then, we can use proposition 8 for $-c>0$ when factoring near the end of the following calculation:
+
+$$\int_E cf = \int_E -cf^- - \int_E -cf^+ = (-c)\left(\int_E f^- - \int_E f^+ \right) = (-c)\left(-\int_E f\right) = c\int_E f \;.$$
+
+(ii) First, note that if $f_1$ and $f_2$ are nonnegative integrable functions with $f^+ - f^- =f = f_1 - f_2$, then $f_1 + f^- = f^+ + f_2$. Both sides of this last equality are nonnegative, so by applying Proposition 8,
+
+$$\int_E f_1 + \int_E f^- = \int_E (f_1 + f^-) = \int_E (f^+ + f_2) = \int_E f^+ + \int_E f_2 \;.$$
+
+Since each of these integrals is finite, we can subtract as needed to arrive at:
+
+$$\int_E f = \int_E f^+ - \int_E f^- = \int_E f_1 - \int_E f_2 \;.$$
+
+Since $f$ and $g$ are integrable, then we must have $f^+,g^+, f^-,$ and $g^-$ integrable which implies that $f^+ + g^+$ and $f^- + g^-$ are integrable. Since $f+g = f^+ - f^- + g^+ - g^- = (f^+ + g^+) - (f^- + g^-)$, letting $f_1 := f^+ + g^+$ and $f_2 := f^- + g^-$ we have by the above (with $f+g$ taking the place of $f$ in that argument):
+
+$$\int_E f+g = \int_E (f^+ + g^+) - \int_E (f^- + g^-)  = \int_E f^+ - \int_E f^- + \int_E g^+  - \int_E g^- = \int_E f + \int_E g \;.$$
+
+Note in part (ii) that there may be points at which $f+g$ is undefined - if $f = \infty, g= -\infty$ or if $f = -\infty, g = \infty$. However the set of points at which $f$ and $g$ are infinite must have measure zero if $f$ and $g$ are to be integrable on their own. So the set of points at which $f+g$ is undefined must also have measure zero as a consequence. So we could redefine $f+g$ on this set in any way without affecting the value of $\int_E (f+g)$. \\
+
+(iii) If $f\leq g$ a.e. then $0 \leq g-f$ a.e. and by Proposition 8 $0 = \int_E 0 \leq \int_E g-f$. Using parts (i) and (ii) of the current proposition, $0 \leq \int_E g - \int_E f$, from which the conclusion follows directly. \\
+
+(iv) If $A$ and $B$ are disjoint measurable subsets of $E$, Then $\chi_{A\cup B} = \chi_A + \chi_B$ on $E$.
+
+$$\int_{A\cup B} f = \int_E f \chi_{A\cup B} = \int_E (f\chi_A + f\chi_B) = \int_E f\chi_A + \int_E f\chi_B = \int_A f + \int_B f \;.$$
+
+{\bf Theorem 16 (Lebesgue Convergence Theorem)} Let $g$ be integrable over $E$ and let $(f_n)$ be a sequence of measurable functions such that $|f_n| \leq g$ on $E$ and $f_n(x) \rightarrow f(x)$ almost everywhere on $E$. Then
+
+$$\int_E f  = \lim \int_E f_n \;. $$
+
+Proof: Since $f_n \leq |f_n| \leq g$, $(g-f_n)$ is a sequence of nonnegative measurable functions and $g-f_n \rightarrow g-f$ almost everywhere on $E$. By Theorem 9 (Fatou's Lemma):
+
+$$\int (g-f) \leq \lim \inf \int_E (g- f_n) \;.$$
+
+Since $|f_n| \leq g$ for all $n$, $\leq |f| = \lim |f_n| \leq g$ and so $|f|$ is integrable. Since $|f|$ is a nonnegative function, this means $\int_E |f| < \infty$. Consider that $|f| = f^+ + f^-$. If either $\int_E f^+ = \infty$ or $\int_E f^- = \infty$. Then $\int_E |f| = \infty$, which would contradict the fact that $|f|$ is integrable. Both of these integrals must be finite and by the definition from the beginning of this section $f$ is integrable. Similarly, $f_n$ is integrable for each $n$. By Proposition 15, $\int_E (g-f) = \int_E g - \int_E f$. 
+
+$$\int_E g - \int_E f \leq \lim \inf \int_E (g-f_n) =\lim \inf \left(\int_E g - \int_E f_n \right) = \int_E g - \lim \sup \int_E f_n \;.$$
+$$\lim \sup\int_E f_n \leq \int_E f \;.$$
+
+Considering that $-f_n \leq |f_n| \leq g$, $(g+f_n)$ is a sequence of nonnegative measurable functions and $g+f_n \rightarrow g + f$ almost everywhere on $E$. Using reasoning similar to before, 
+
+$$\int_E f \leq \lim \inf \int_E f_n \;.$$
+
+Since $\lim \sup \int_E f_n \leq \int_E f \leq \lim \inf \int_E f_n$, conclude $\lim \int_E f_n = \int_E f$. \\
+
+Theorem 16 requires that $|f_n|$ be dominated by a fixed integrable function but the proof does not require so much. Replacing $g$ with $g_n$ and a few other changes to the proof of Theorem 16 we arrive at the following generalization. We omit the mention of the set $E$ this time. \\
+
+{\bf Theorem 17} Let $(g_n)$ be a sequence of integrable functions which converges to an integrable function $g$ almost everywhere. Let $(f_n)$ be a sequence of measurable functions such that $|f_n| \leq g_n$ and $f_n \rightarrow f$ almost everywhere. If 
+
+$$\int g = \lim \int g_n \;, $$
+
+then
+
+$$\int f = \lim \int f_n \;.$$
+
+Proof: Since $f_n \leq |f_n| \leq g_n$, $(g_n-f_n)$ is a sequence of nonnegative measurable functions and $g_n-f_n \rightarrow g-f$ almost everywhere. By Theorem 9 (Fatou's Lemma):
+
+$$\int (g-f) \leq \lim \inf \int (g_n- f_n) \;.$$
+
+Since $|f_n| \leq g$ for all $n$, $\leq |f| = \lim |f_n| \leq g$ and so $|f|$ is integrable. This means $f$ is integrable as well. Similarly, $f_n$ is integrable for each $n$. By Proposition 15, $\int (g-f) = \int g - \int f$ and $\int (g_n - f_n) = \int g_n - \int f_n$. 
+
+\begin{align*}
+\int g - \int f &\leq \lim \inf \int (g_n-f_n)\\
+& =\lim \inf \left(\int g_n - \int f_n \right)\\
+&= \lim \inf \int g_n + \lim \inf \left(-\int f_n\right) \\
+&= \int g+ \lim \inf \left(-\int f_n\right) \text{ (since }\int g = \lim \int g_n = \lim \inf \int g_n\text{)}\\
+&= \int g - \lim \sup \int f_n\\
+\implies \lim \sup \int f_n &\leq \int f \;.
+\end{align*}
+
+Considering that $-f_n \leq |f_n| \leq g_n$, $(g_n+f_n)$ is a sequence of nonnegative measurable functions and $g_n+f_n \rightarrow g + f$ almost everywhere. Using reasoning similar to before, 
+
+$$\int f \leq \lim \inf \int f_n \;.$$
+
+Since $\lim \sup \int f_n \leq \int f \leq \lim \inf \int f_n$, conclude $\lim \int f_n = \int f$. \\
+
+{\bf Commentary} If $(f_n)$ is a sequence of measurable functions that converges almost everywhere to $f$, then Fatou's Lemma, the Monotone Convergence Theorem, and the Lebesgue Convergence Theorem all assert something about what we can say about $\int f$ in terms of $\int f_n$ under certain hypothesis. Let's put all of these results next to each other (while also keeping in mind that Theorem 16 is a special case of Theorem 17).\\
+
+{\bf Theorem 9 (Fatou's Lemma)} If $(f_n)$ is a sequence of nonnegative measurable functions and $f_n(x) \rightarrow f(x)$ almost everywhere on a set $E$, then
+
+$$\int_E f \leq \lim \inf \int_E f_n \;.$$
+
+{\bf Theorem 10 (Monotone Convergence Theorem)} Let $(f_n)$ be an increasing sequence of nonnegative measurable functions such that $f = \lim f_n$ almost everywhere. Then,
+
+$$\int f = \lim \int f_n \;.$$ 
+
+{\bf Theorem 16 (Lebesgue Convergence Theorem)} Let $g$ be integrable over $E$ and let $(f_n)$ be a sequence of measurable functions such that $|f_n| \leq g$ on $E$ and $f_n(x) \rightarrow f(x)$ almost everywhere on $E$. Then
+
+$$\int_E f  = \lim \int_E f_n \;. $$
+
+Fatou's Lemma has the weakest requirements in the hypothesis: we only need the $f_n$ to be bounded below by zero and then the conclusion is weaker since we can only make a conclusion about $\int f$ in terms of a limit inferior. The Lebesgue Convergence Theorem requires that the $f_n$ be bounded above and below by fixed integrable functions ($-g$ and $g$) but then we get equality of $\int f$ and $\lim \int f_n$. That is, we can pull the limit outside of the integral: $\int \lim f_n = \int f = \lim \int f_n$. The Monotone Convergence Theorem requires that the $f_n$ be bounded below by zero and above by the limit of the sequence $f$ (because the sequence is increasing). Actually $f$ only needs to bound the $f_n$ almost everywhere since we could have $f_n(x) > f(x)$ for all $n$ or all $n\geq N$ for some $x$ so long as $f_n$ is still increasing at such $x$ and the measure of the set of such $x$ is zero. If $f$ is integrable, then since $|f_n| = f_n \leq f$ (almost everywhere), this becomes the Lebesgue Convergence Theorem. 
+
+\subsection*{5 Convergence in Measure}
+
+{\bf Definition} A sequence $(f_n)$ of measurable functions is said to converge to $f$ in measure if, given $\epsilon > 0$, there is an $N$ such that for all $n\geq N$ we have
+
+$$ m\left(\{x : |f(x) - f_n(x)| \geq \epsilon \}\right) < \epsilon \;.$$
+
+{\bf Remark} If $f_n$ is a sequence of measurable functions defined on $E$, and $f_n \rightarrow f$ almost everywhere, then $f_n$ converges to $f$ in measure. \\
+
+Proof: For reference,\\
+
+{\bf Proposition 3.23} Let $E$ be a measurable set of finite measure, and $(f_n)$ a sequence of measurable functions defined on $E$. Let $f$ be a real-valued function such that $f_n \rightarrow f$ pointwise on $E$. Then given $\epsilon > 0$ and $\delta >0$, there is a measurable set $A \subset E$ with $m(A) < \delta$ and an integer $N$ such that for all $x \not\in A$ and for all $n \geq N$, 
+
+$$|f_n(x) - f(x)| < \epsilon \;.$$
+
+Let $\epsilon > 0$. If $f_n \rightarrow f$ a.e. on $E$ there is a set $B \subset E$ with $m(B) = 0$ such that $f_n \rightarrow f$ for $x \in E \backslash B$. By Proposition 3.23, there is a set $A \subset E\backslash B$ such that with $m(A) < \epsilon$ (so we're using $\delta = \epsilon$) and an integer $N$ such that for all $x \in (E \backslash B) \backslash A = E \backslash (A\cup B)$ and all $n \geq N$, $|f_n - f(x)| < \epsilon$. Equivalently, for $n \geq N$, the set of points for which it is possible that $|f_n(x) - f(x)| \geq \epsilon$ is $A\cup B$ so:
+
+$$ m\left(\{x : |f(x) - f_n(x)| \geq \epsilon \}\right) \leq m\left(A \cup B \right) \leq m(A) + m(B) < 0 + \epsilon = \epsilon \;.$$\\
+
+{\bf Proposition 18} Let $(f_n)$ be a sequence of measurable functions that converges in measure to $f$. Then there is a subsequence $(f_{n_k})$ that converges to $f$ almost everywhere. \\
+
+Proof: Given $v$, there is an $n_v$ such that for all $n\geq n_v$,
+
+$$m(\{x : |f_n(x) - f(x)| \geq 1/2^v \}) < 1/2^v \;.$$
+
+Let $E_v = \{x : |f_{n_v}(x) - f(x)| \geq 1/2^v\}$. If $x \not \in \bigcup_{v = k}^\infty E_v$, then $|f_{n_v}(x) - f(x)| < 1/2^v$ for all $v\geq k$. So $f_{n_v} \rightarrow f(x)$. Hence $f_{n_v}(x) \rightarrow f(x)$ for $x \not \in A = \bigcap_{k=1}^\infty \bigcup_{v=k}^\infty E_v$ since if $x \not \in A$, $x \in \bigcup_{k=1}^\infty\left[\bigcap_{v=k}^\infty E_v^c \right]$ and so $x \in \bigcap_{v=k}^\infty E_v^c$ for some $k$. Then $|f_{n_v}(x) - f(x)| < 2^{-v}$ for some $v \geq k$. Since $v$ was arbitrary, $f_{n_v}(x) \rightarrow f(x)$. But $m(A) \leq m\left(\bigcup_{v=k}^\infty E_v\right) \leq \sum_{v=k}^\infty m(E_k) = 2^{-k+1} \rightarrow 0$ as $k\rightarrow \infty$. Hence $m(A) = 0$. \\
+
+
+{\bf Problem 20} Show that if $(f_k)$ is a sequence that converges to $f$ in measure, each subsequence $(f_{n(k)})$ of $(f_k)$ converges to $f$ in measure. \\
+
+Suppose $(f_k)$ converges to $f$ in measure. Then given $\epsilon >0$ there is an $K$ such that for all $k\geq K$, $m(\{x : |f(x) - f_k(x)| \geq \epsilon \}) < \epsilon$. Suppose that $(f_{n(k)})$ is a subsequence of $(f_k)$. Then $n(k) \geq k$ for each $k$ and so for $k\geq K$, $n(k) \geq k \geq K$ and $m(\{x : |f(x) - f_{n(k)}(x)| \geq \epsilon \})<\epsilon$. So $(f_{n(k)})$ converges to $f$ in measure.\\
+
+{\bf Problem 2.12} Show that $x = \lim x_n$ if and only if every subsequence $(x_{n_k})$ of $(x_n)$ has in turn a subsequence that converges to $x$. \\
+
+Proof: If $x = \lim x_n$, then for every subsequence $(x_{n_k})$ of $(x_n)$, $x= \lim x_{n_k}$ (a sequence converges if and only if every subsequence converges and the limit is the same). But then by the same reasoning every subsequence of $x_{n_k}$ converges to $x$ as well. Conversely if every subsequence of $(x_n)$ has a convergent subsequence, suppose that $x \neq \lim x_n$. Then there is an epsilon such that for all $n$, $|x - x_n| \geq \epsilon$. But then no subsequence of $(x_n)$ can converge to $x$ (and a subsequence of a subsequence of $(x_n)$ is also a subsequence of $(x_n)$). \\
+
+{\bf Problem 21} Deduce Proposition 20 from Proposition 18 using problems 20 and 2.12. \\
+
+{\bf Proposition 20} Fatou's Lemma and the Monotone Convergence Theorem remain valid if 'converges a.e.' is replaced with 'converges in measure'. That is,\\
+
+{\bf Fatou's Lemma with Convergence in Measure} If $(f_n)$ is a sequence of nonnegative measurable functions and $(f_n)$ converges to $f$ in measure on a set $E$, then
+
+$$\int_E f \leq \lim \inf \int_E f_n \;.$$
+
+{\bf Monotone Convergence Theorem with Convergence in Measure} Let $(f_n)$ be an increasing sequence of nonnegative measurable functions such that $(f_n)$ converges to $f$ in measure. 
+
+$$\int f = \lim \int f_n \;.$$ 
+
+Proof: \\
+
+(Fatou) Suppose $(f_n)$ is a sequence of nonnegative measurable functions that converges to $f$ in measure on $E$. Then by Problem 20, each subsequence $(f_{n(k)})$ of $(f_k)$ converges to $f$ in measure. Applying Proposition 18 to each subsequence $(f_{n(k)})$, each $(f_{n(k)})$ in turn has a subsequence $(f_{l(n(k))})$ such that $(f_{l(n(k))})$ converges to $f$ almost everywhere on $E$. By Problem 2.12, $f = \lim f_n$ almost everywhere if and only if every subsequence $(f_{n(k)})$ of $(f_n)$ has in turn a subsequence that converges to $f$ almost everywhere on $E$ (the result for Problem 2.12 holds with 'a.e' added since in the proof of this problem, we take the statements to hold everywhere on some implied set $E\backslash A$ with $m(A) = 0$). Therefore, $f = \lim f_n$ almost everywhere on $E$ with $(f_n)$ a nonnegative sequence of measurable functions. But then this means we have met the conditions in the hypothesis of the original statement of Fatou's Lemma. Conclude:
+
+$$\int_E f \leq \lim \inf \int_E f_n \;.$$
+
+(MCT) Similarly, if $(f_n)$ is an increasing sequence of nonnegative measurable functions such that $(f_n)$ converges to $f$ in measure, then by applying the same reasoning as we did for the relaxation of Fatou's Lemma, $f = \lim f_n$ almost everywhere (and this does not in any way change the original assumption that $(f_n)$ is a nonnegative increasing sequence of measurable functions) and so the conditions in the hypothesis of the original statement of the MCT are satisfied. Conclude:
+
+$$\int f = \lim \int f_n \;.$$ 
+
+{\bf Problem  22} Prove that a sequence $(f_k)$ of measurable functions on a set $E$ of finite measure converges to $f$ in measure if and only if every subsequence of $(f_k)$ has in turn a subsequence that converges to $f$ in measure. \\
+
+Suppose that $(f_k)$ converges on $E$ to $f$ in measure. Then each subsequence $(f_{n(k)})$ of $(f_k)$ converges on $E$ to $f$ in measure. But then since each $(f_{n(k)})$ is a subsequence of itself, this means that each subsequence of $(f_k)$ has in turn a subsequence that converges on $E$ to $f$ in measure. \\
+
+Suppose that $(f_k)$ is a sequence of measurable functions on a set $E$ of finite measure such that for each subsequence $(f_{n(k)})$ of $(f_k)$, $(f_{n(k)})$ has in turn a subsequence that converges to $f$ on $E$ in measure. Suppose for contradiction that $(f_k)$ does not converge to $f$ in measure. Then there is an $\epsilon > 0$ such that $m(\{x \in E : |f(x) - f_k(x)| \geq \epsilon \}) \geq \epsilon$ for each $n \in \mathbb{N}$. But then for any subsequence $(f_{l(n(k))})$ of a subsequence $(f_{n(k)})$ of $(f_n)$, each $l(n(k)) \in \mathbb{N}$ and so $m(\{x \in E : |f(x) - f_{l(n(k))}| \geq \epsilon \}) \geq \epsilon$ for each $l(n(k)) \in \mathbb{N}$. By definition this means that $(f_{l(n(k))})$ does not converge to $f$ in measure. This is a contradiction that arose from supposing that $(f_n)$ does not converge to $f$ in measure, so conclude that $(f_n)$ does converge to $f$ in measure. \\
+
+{\bf Problem 23} Prove Corollary 19.\\
+
+{\bf Corollary 19} Let $(f_n)$ be a sequence of measurable functions defined on a set $E$ with $m(E) < \infty$. Then $(f_n)$ converges to $f$ in measure if and only if every subsequence of $(f_n)$ has in turn a subsequence that converges almost everywhere to $f$. \\
+
+Proof: Suppose $(f_k)$ converges to $f$ in measure. Then given $\epsilon >0$ there is an $K$ such that for all $k\geq K$, $m(\{x : |f(x) - f_k(x)| \geq \epsilon \}) < \epsilon$. Suppose that $(f_{n_k})$ is a subsequence of $(f_k)$. Then $n_k \geq k$ for each $k$ and so for $k\geq K$, $n_k \geq k \geq K$ and $m(\{x : |f(x) - f_{n_k}(x)| \geq \epsilon \})<\epsilon$. So $(f_{n_k})$ converges to $f$ in measure. By Proposition 18, there is a subsequence of $(f_{n_k})$ that converges to $f$ almost everywhere.\\
+
+Suppose that for every subsequence $(f_{n_k})$ of $(f_n)$, there is a subsequence $(f_{n_{k_v}})$ of $(f_{n_k})$ such that  $(f_{n_{k_v}})$ converges to $f$ almost everywhere. Suppose that $(f_n)$ does not converge to $f$ in measure. Then there is an $\epsilon > 0$ such that for all $n$, $m(\{x : |f(x) -f_n(x)| \geq \epsilon \}) \geq \epsilon$. But then $m(\{x : |f(x) -f_{n_{k_v}}(x)| \geq \epsilon \}) \geq \epsilon$ for all $n_{k_v}$. That is, the set of points at which $f_{n_{k_v}} \not\rightarrow f(x)$ has measure greater than zero, which is a contradiction. So it must be the case that $(f_n)$ converges to $f$ in measure. \\
+
+
+
+\end{document}

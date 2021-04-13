@@ -1,0 +1,76 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 10}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+
+{\bf Problem 17}\\
+
+a. Let $P$ be the nonmeasurable set from section 4. Suppose that $m^*(A\cap P) + m^*(A \cap P^c) \leq m^*(A)$ for each $A \subset \mathbb{R}$. This would give the contradiction that $P$ is measurable. So there must exist an $A \subset \mathbb{R}$ such that $m^*(A \cap P) + m^*(A \cap P^c) > m^*(A)$. Set $E_1 = A\cap P$, $E_2 = A \cap P^c$ and $E_i = \emptyset$ for $i \geq 3$.
+
+$$m^*\left(\bigcup E_i\right) = m^*(A) < m^*(A \cap P) + m^*(A \cap P^c) = \sum m^*(E_i) \;.$$
+
+
+b. Suppose that the nonmeasurable set $P$ from section 4 has outer measure zero. Then by Theorem 10, $P$ would be measurable. So it must be the case that $m^*(P) > 0$. Let $(r_n)$ be an enumeration of the rationals in $[0,1)$ and $E_i = \bigcup_{n=i}^\infty (P + r_n)$. Then $E_{i} \supset E_{i+1}$ for each $i$  as $P \subset [0,1)$, $m^*(E_i) < \infty$ for each $i$.
+
+$$m^*\left(\bigcap_{i=1}^\infty E_i\right) = m^*(\emptyset) = 0 < m^*(P) \leq \text{lim} \; m^*(E_i) \;.$$
+
+{\bf Problem 18} Show that (v) does not imply (iv) in Proposition 18 by constructing a function $f$ such that $\{x : f(x) > 0 \} = E$, a given nonmeasurable set, and such that $f$ assumes each value at most once. \\
+
+Let $E$ be a given nonmeasurable set. The existence of a nonmeasurable set comes from section 4. Define the function $f: \mathbb{R} \rightarrow \overline{\mathbb{R}}$ by
+
+$$f(x) = \begin{cases} 2^x & x \in E \\ -2^x & x \not\in E \end{cases} \;. $$
+
+Then $f$ is an extended real-valued function whose domain is measurable. We will show that part (v) of Proposition 18 holds yet part (iv) fails. \\
+
+If $f(x) = f(y)$, then since $2^z > 0$ for all $z$ and $-2^z < 0$ for all $z$, this means that either $2^x = 2^y$ or $-2^x = -2^y$. In either case, $x = y$. By this construction, $f(x) > 0$ if $x \in E$ and $f(x) < 0$ if $x \not\in E$ so that $\{x : f(x) > 0 \} = E$ is nonmeasurable. By the injectivity of $f$, for each $\alpha \in \overline{\mathbb{R}}$, $\{x : f(x) = \alpha\}$ is either a singleton or empty. In either situation, $m^*(\{x : f(x) = \alpha \}) = 0$. This means for each $\alpha \in \overline{\mathbb{R}}$, $\{x : f(x) = \alpha \}$ is measurable (Lemma 6 or Theorem 10). However, for $\alpha = 0$, if the set $\{x : f(x) \leq 0\}$ were a measurable set, then $\{x : f(x) \leq 0\}^c = \{x : f(x) > 0\} =E$ must also be measurable as $\mathfrak{M}$ is a $\sigma$-algebra (Theorem 10). This is a contradiction so conclude that although (v) holds, there exists an $\alpha \in \mathbb{R}$ such that $\{x : f(x) \leq \alpha\}$ is not measurable so that (iv) does not necessarily follow from (v). \\
+
+{\bf Problem 19} Let $D$ be dense in $\mathbb{R}$ and let $f: \mathbb{R} \rightarrow \overline{\mathbb{R}}$  such that $\{x : f(x) > \alpha\}$ is measurable for each $\alpha \in D$. Prove that $f$ is measurable. \\
+
+If $D = \mathbb{R}$ then $f$ is measurable by immediate application of Proposition 18 (i) and the definition of a Lebesgue measurable function. If $D \neq \mathbb{R}$,  consider $\alpha \in \mathbb{R} \backslash D$. As $D$ is dense in $\mathbb{R}$, for each $n \in \mathbb{N}$, $D \cap (\alpha, \alpha + 1/n) \neq \emptyset$. For each $n$ pick an element $d_n \in D\cap (\alpha, \alpha + 1/n)$ to construct the sequence $(d_n)$. Since $\mathfrak{M}$ is a $\sigma$-algebra, each set $\{x : f(x) \leq d_n\} = \{x : f(x) > d_n\}^c$ is measurable and  the countable intersection of measurable sets $\cap_{n=1}^\infty \{x : f(x) \leq d_n \}$ is measurable. Let us prove that
+
+$$\{x : f(x) \leq \alpha\} = \bigcap_{n=1}^\infty \{x : f(x) \leq d_n \} \;.$$
+
+If $y \in \{x : f(x) \leq \alpha\}$, then $f(y) \leq \alpha< d_n$ for each $n \in \mathbb{N}$. Since $f(y) < d_n$, $f(y) \leq d_n$ so $y \in \{x : f(x) \leq  d_n\}\subset \cap_{n=1}^\infty \{x : f(x) \leq d_n\}$. If $y \in \cap_{n=1}^\infty \{x : f(x) \leq d_n\}$, then $f(y) \leq d_n$ for each $n$. Suppose that $f(y) > \alpha$. Since $\alpha < d_n < \alpha + 1/n$ for each $n$, $(d_n)$ converges to $\alpha$ (note that $D$ cannot be closed if $D \neq \mathbb{R}$ so we are not in danger of the contradiction $\alpha \in D$ here). This means there is an $N$ such that  $f(y) > d_n > \alpha$ for each $n \geq N$, which contradicts $f(y) \leq d_n$ for each $n$. So $f(y) \leq \alpha$ and $y \in \{x: f(x) \leq \alpha\}$. Conclude that $\{x : f(x) \leq \alpha\}$ is measurable for each $\alpha \in \mathbb{R}\backslash D = D^c$.  Since $\{x : f(x) > \alpha\}$ is measurable for each $\alpha \in D$, each complement $\{x : f(x) \leq \alpha\}$ is measurable for each $\alpha \in D$. Therefore, $\{x : f(x) \leq \alpha\}$ is measurable for each $\alpha \in \mathbb{R}$. By Proposition 18 (iv) and the definition of a Lebesgue measurable function. 
+
+
+\end{document}

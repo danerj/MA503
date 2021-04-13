@@ -1,0 +1,70 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 16}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+1. Suppose $(f_n)$ is a sequence of nonnegative functions integrable on $E$ such that $m(E) < \infty$ and $ f_n \rightarrow  f$ a.e. on $E$. Show that if for all $\epsilon > 0$ there is a $\delta > 0$ such that $\int_A f_n < \epsilon$ for all $n \in \mathbb{N}$ whenever $m(A) < \delta$, then 
+
+$$\int_E f_n \rightarrow \int_E f \;.$$
+
+Since each $f_n$ is integrable, each $f_n$ must be measurable. The sequence $(f_n)$ meets the conditions of Fatou's Lemma and since the $f_n$ are nonnegative, $f$ is nonnegative almost everywhere. Since the $f_n$ are integrable, $\int_E f_n < \infty$ for each $n$. This means:
+
+$$\int_E |f| = \int_E f \leq \liminf \int_E f_n < \infty \;.$$
+
+Next show that $\limsup \int_E f_n \leq \int_E f$. Let $\epsilon > 0$. There is a $\delta > 0$ such that $\int_A f_n < \epsilon$ for all $n$ whenever $m(A) < \delta$. In particular, the set $A = \{x \in E : f_n(x) \not\rightarrow f(x) \}$ has measure zero, so...\\
+
+2. Suppose $(f_n)$ is a sequence of nonnegative measurable functions with $f_n \rightarrow f$ a.e. on $\mathbb{R}$ and $\int_E f_n \rightarrow \int_E f$ for all bounded measurable sets $E$. Suppose for all $\epsilon > 0$ there is an $M > 0$ such that $\int_{[-M,M]^c} f_n < \epsilon$ for all $n \in \mathbb{N}$. Then $\int_{\mathbb{R}} f_n \rightarrow \int_{\mathbb{R}} f$. Note/Hint? $f_n = \chi_{[n,n+1]}, f_n \rightarrow 0$.\\
+
+Again by Fatou's Lemma,
+$$\int_E f \leq \liminf \int_E f_n \;.$$
+
+Next show that $\limsup \int_E f_n \leq \int_E f$. Let $\epsilon > 0$. There is an $M > 0$ such that:
+
+\begin{align*}
+\int_{\mathbb{R}} f_n &= \int_{[-M,M]} f_n + \int_{[-M,M]^c} f_n < \int_{[-M,M]} f_n + \epsilon \;. \\
+\limsup \int_{\mathbb{R}} f &\leq \limsup \int_{[-M,M]} f_n + \epsilon\\
+\limsup \int_{\mathbb{R}} f &\leq \int_{[-M,M]} f + \epsilon \leq \int_{\mathbb{R}} f ?\\
+\end{align*}
+
+
+
+\end{document}

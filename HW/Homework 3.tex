@@ -1,0 +1,94 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+\setcounter{section}{-1}
+\title{MA 503 : Homework 3}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+
+{\bf Definition} A set $\mathcal{O} \subset \mathbb{R}$ is {\bf open} if for each $x \in \mathcal{O}$ there is a $\delta >0$ such that each $y$ with $|x-y|<\delta$ belongs to $\mathcal{O}$. \\
+
+{\bf Proposition 8} Every open set of real numbers is the union of a countable collection of disjoint open sets. \\
+
+Proof:\\
+
+
+
+{\bf Proposition 14} The complement of an open set is closed and the complement of a closed set is open. \\
+
+{\bf Corollary 4} Between any two real numbers is a rational; that is, if $x<y$ there is a rational $r$ with $x<r<y$. \\
+
+{\bf Problem 24}\\
+Is the set of rational numbers open or closed?\\
+
+Let $r \in \mathbb{Q}$ be arbitrary. For every $\delta >0$, there exists an irrational number in the interval $(r-\delta, r+\delta)$ so $(r-\delta, r+\delta) \not\subset \mathbb{Q}$. Since this holds for every $\delta$, there does not exist a $\delta >0$ such that if $|x-y|<\delta$ then $y$ must belong to $\mathcal{O}$. \underline{Therefore $\mathbb{Q}$ is not open}.\\
+
+If it is necessary to demonstrate a specific irrational number in this interval, consider that by the Axiom of Archimedes there is an $n \in \mathbb{N}$ such that $0<1/\delta < n/2 \implies 0<1/n<\delta/2$. Then $r<r + \sqrt{2}/n<\sqrt{2}\delta/ < r+\delta \implies r+\sqrt{2}/n \in (r-\delta, r+\delta)$ but $r+\sqrt{2}/n \not\in \mathbb{Q}$.\\
+
+Suppose $\mathbb{Q}$ is closed. By Proposition 14, $\mathbb{R}\backslash \mathbb{Q}$ must be open. Let $x \in \mathbb{R}\backslash \mathbb{Q}$ be arbitrary. Given any $\delta >0$, there exists by Corollary 4 a rational number $r$ such that $x-\delta < r < x+\delta \iff |x-r| < \delta$. Since this holds for every $\delta >0$, there does not exist a $\delta>0$ such that $y$ belongs to $\mathbb{R}\backslash \mathbb{Q}$ whenever $|x-y| < \delta$. But this is a contradiction since $\mathbb{R}\backslash \mathbb{Q}$ is open. That $\mathbb{R}\backslash \mathbb{Q}$ is open followed from the assumption that $\mathbb{Q}$ is closed and so the contradiction arose from the assumption that $\mathbb{Q}$ is closed. \underline{Therefore $\mathbb{Q}$ is not closed}.\\
+
+{\bf Definition} A real number $x$ is a {\bf point of closure} of a set $E$ if for every $\delta > 0$, there is a $y$ in $E$ such that $|x-y|<\delta$. We denote the set of points of closure of $E$ by $\overline{E}$.\\
+
+{\bf Definition} A set $F$ is closed if $F = \overline{F}$.\\
+
+{\bf Problem 25}\\
+What are the sets of real numbers that are both open and closed?\\
+
+Suppose $\emptyset \subsetneq A \subsetneq \mathbb{R}$ is open. Let $a \in A$. Since $A\neq \mathbb{R}$, $A^c \neq \emptyset$. Let $z \in A^c$. Without loss of generality assume $a<z$ (because we can switch the labeling of $A$ and $A^c$). Since $A$ is open, there is a $y>x$ such that $(a,y) \subset A$. This shows that that the set $\{y : (x,y) \subset A\}$ is nonempty. To see that $\{y : (x,y) \subset A\}$ is bounded above, consider that if this set were not bounded above there must exist a $y> z > x$ such that $(x,y) \subset A$. But this implies that $z \in A$, contradicting the assumption that $z \in A^c$. Let $b = \text{sup}\{y : (x,y) \subset A\}$. Then for any $\delta >0$, since $b-\delta$ is not an upper bound of $\{y : (x,y) \subset A\}$ and so there exists a $y$ with $b>y>b-\delta$ such that $(x,y) \subset A$. But this means that for any $\delta$, there is a $y$ such that $\delta > b-y = |b-y|$. Since there is a $y'$ such that $y<y'<b$ with $(x,y') \subset A$ as well (using the definition of supremum again), we can also conclude that $y \in A$. So $b$ is a point of closure of $A$. For any $\delta > 0$, $(b,b+\delta) \not\subset A$, so there is a $w \in A^c$ with $b<w<b+\delta \implies 0<w-b<\delta$. This means that for any $\delta >0$, there is a $w \in A^c$ such that $|w-b| < \delta$ so that $b$ is a point of closure of $A^c$. By Proposition 14, the assumption that $A$ is open implies that $A^c$ is closed and therefore $b \in A^c$. But we have also shown that $b$ is a point of closure of $A$. If $A$ were closed then we would have $b \in A$ as well. Thus, if $A$ is open then $A$ cannot be closed. Equivalently, if $\emptyset \subsetneq A \subsetneq \mathbb{R}$ then $A$ cannot be both open and closed. \\
+
+The set $\mathbb{R}$ is open. Let $x \in \mathbb{R}$. Then $(x-1, x+1) \subset \mathbb{R}$ so each $y$ with $|x-y| < 1$ belongs to $\mathbb{R}$. The statement that $\emptyset$ is open is vacuously true since there does not exist $x \in \emptyset$ and so the statement for each $x \in \emptyset$ there is a $\delta>0$ such that each $y$ with $|x-y| < \delta$ belongs to $\emptyset$ always holds. By Proposition 14, $\mathbb{R}^c = \emptyset$ is closed and $\emptyset^c = \mathbb{R}$ is closed. \underline{So we conclude that $\emptyset$ and $ \mathbb{R}$ are both open and} \underline{closed} and that if $A$ is any set of real numbers such that \underline{$A\neq \emptyset$ and $A \neq \mathbb{R}$, then $A$ cannot be both} \underline{open and closed}.\\
+
+{\bf Problem 27}\\
+Show that $x$ is a point of closure of $E$ if and only if there is a sequence $(y_n)$ with $y_n \in E$ and $x = \text{lim } y_n$. \\
+
+Let $x$ be a point of closure of $E$. Then since $1>0$, there is an element of $E$, which we denote $y_1$ such that $|x-y_1| < 1$. Similarly, since $1/2 > 0$ there is a $y_2 \in E$ such that $|x-y_2|<1/2$ and a $y_3 \in E$ such that $|x-y_3| < 1/3$. Continue in this way to construct a sequence $(y_n)$ with $y_n \in E$ for all $n$ using the fact that for each $n \in \mathbb{N}$, there is a $y_n \in E$ ($y_n$ is not necessarily distinct from $y_1,...,y_{n-1}$) with $|x-y_n| < 1/n$. Let $\epsilon>0$. By the Axiom of Archimedes there is an $N \in \mathbb{N}$ such that $0<1/\epsilon < N \iff 0<1/N < \epsilon$. Then for all $n\geq N$, $|x-y_n| < 1/n \leq 1/N < \epsilon$. This shows that for the sequence $(y_n)$ we have constructed with $y_n \in E$ that lim $y_n = x$.\\ 
+
+
+{\bf Definition} A point $x$ is called an interior point of the set $A$ if there is a $\delta >0$ such that the interval $(x-\delta, x+\delta)$ is contained in $A$. The set of interior points of $A$ is denoted by $A^o$.\\
+
+{\bf Proposition 10} If $A\subset B$, then $\overline{A}\subset \overline{B}$. Also, $\overline{(A\cup B)} = \overline{A}\cup \overline{B}$. \\
+
+{\bf Proposition 12} The union $F_1\cup F_2$ of two closed sets $F_1$ and $F_2$ is closed. \\
+
+{\bf Problem 34}\\
+
+a. Show that $A$ is open if and only if $A = A^o$.\\
+
+Assume $A$ is open. We have $x \in A$ if and only if there is a $\delta$ such that $y$ with $|x-y|<\delta$ belongs to $A$ which is true if and only if $y$ with $x-\delta < y < x+\delta$ belongs to $A$. This is equivalent to the statement $(x-\delta, x+\delta) \subset A$. Thus if $A$ is open it follows that $x \in A$ if and only $x \in A^o$. That is, if $A$ is open then $A = A^o$. \\
+
+Assume $A = A^o$. Let $x \in A$. Then by the assumption $A = A^o$, it is also the case that $x \in A^o$. By definition of $x \in A^o$, there is a $\delta > 0$ such that $(x-\delta, x+\delta)$ is contained in $A$. But this means that for $y$ with $|x-y|<\delta$, $y \in (x-\delta,x+\delta)$ and thus $y \in A$. Since $x$ was arbitrary, this shows that for any $x \in A$, there is a $\delta > 0$ such that $y$ with $|x-y|<\delta$ belongs to $A$. Therefore, $A$ is open. 
+
+b. Show that $A^o = \left(\overline{A^C}\right)^C$.\\
+
+Let $a \in A^o$. There is a $\delta > 0 $ such that $(x-\delta,x+\delta) \subset A$. This implies that $A^c \subset (x-\delta,x+\delta)^c = (-\infty,x-\delta]\cup[x+\delta,\infty)$. By Proposition 10, $\overline{A^c} \subset \overline{(-\infty,x-\delta]\cup[x+\delta,\infty)}$. Since $(-\infty,x-\delta]^c = (x-\delta, \infty)$ and $[x+\delta,\infty)^c = (-\infty,x+\delta)$ are open$^*$, $(-\infty,x-\delta]$ and $[x+\delta,\infty)$ are closed by Proposition 14. By Proposition 12 $(-\infty,x-\delta]\cup[x+\delta,\infty)$ is closed and so by definition of a closed set $\overline{(-\infty,x-\delta]\cup[x+\delta,\infty)} = (-\infty,x-\delta]\cup[x+\delta,\infty)$. Thus $\overline{A^c} \subset (-\infty,x-\delta]\cup[x+\delta,\infty)$ which implies $(x-\delta,x+\delta)=(-\infty,x-\delta]\cup[x+\delta,\infty)^c \subset \left(\overline{A^c}\right)^c$. Since $x \in (x-\delta,x+\delta)$, $x \in \left(\overline{A^c}\right)^c$. Because $x$ was arbitrary this proves $A^o \subset \left(\overline{A^c}\right)^c$. \\
+
+$^*$(Let $y \in (-\infty, x+ \delta)$. Then $-\infty < y<x+\delta$ and so there exists a real number $z$ such that $-\infty <y<z<x+\delta$. Then for any $w$ with $|y-w|<z-y$, $w$ belongs to $(-\infty,x+\delta)$. To show that $(x-\delta, \infty)$ is open is similar). \\
+
+Let $a \in \left(\overline{A^c}\right)^c$ so that $a \not\in \overline{A^c}$. The definition of $x \in \overline{A^c}$ requires that for any $\delta>0$, there is a $y \in A^c$ such that $|x-y|<\delta$. Negating this statement in the case of $a \not\in \overline{A^c}$ means that there is $\delta > 0$ such that for all $y \in A^c$ we have $|a-y| \geq \delta$. But this means there is a $\delta$ such that if $|a-z|<\delta$, then $z$ cannot be in $A^c$ (because if $z \in A^c$ then $|a-z|\geq \delta$). So far we have established that if $a \in  \left(\overline{A^c}\right)^c$, there is a $\delta>0$ such that $z$ with $|a-z| < \delta$ does not belong to $A^c$. Equivalently, if $a \in  \left(\overline{A^c}\right)^c$, there is a $\delta>0$ such that if $|a-z| < \delta$ then $z \in A$. This is then finally equivalent to the statement that if $a \in  \left(\overline{A^c}\right)^c$, there is a $\delta>0$ such that $(a-\delta,a+\delta) \subset A$. By definition this shows that $a \in A^o$ and therefore $\left(\overline{A^c}\right)^c\subset A^o$. \\
+
+{\bf Problem 36}\\
+Let $(F_n)$ be a sequence of nonempty closed sets of real numbers with $F_{n+1} \subset F_n$. Show that if one of the sets $F_n$ is bounded, then $\cap_{n \in \mathbb{N}} F_n \neq \emptyset$. \\
+
+Suppose $F_N$ is bounded for some natural number $N$. Then since $F_k \subset F_N$ for all $k\geq N$ (because $F_k \subset F_{k-1} \subset ... \subset F_N$), $F_k$ is bounded for each $k \geq N$. Then for all $k\geq N$, $F_k$ is a nonempty set of real numbers bounded below and thus has an infimum. For each $F_k$ with $k \geq N$, using the definition of infimum we have for every $n \in \mathbb{N}$ a $y_n \in F_k$ such that $\text{inf } F_k \leq y_n < \text{inf } F_k + 1/n$. Then the sequence $(y_n) \subset F_k$ has lim $y_n = \text{inf } F_k$. By problem 27, this shows that $\text{inf } F_k$ is a point of closure of $F_k$ and therefore $\text{inf } F_k = \text{min } F_k \in F_k$. For each $k\geq N$, set $x_k = \text{min } F_k$ to construct the sequence $(x_k)$. Since $F_{k+1} \subset F_{k}$ for all $k$, $x_{k+1} \geq x_k$ for all $k$ and since $F_{k+1} \subset F_{k} \subset ... \subset F_N$, $x_{k+1} \in F_N$. That is, all terms of  the sequence $(x_k)$ are contained in the closed and bounded set $F_N$. Then $(x_k)$ is a bounded monotone set of real numbers and so by the Monotone Convergence Theorem lim $x_k$ = sup$_{k \in \mathbb{N}} x_k$. Also since $F_N \subset F_{N-1} \subset ... \subset F_1$, we also have $x_k \in F_j$ for $j = 1,...,N-1$ as well (we just needed to use the bounded set $F_N$ in order to use results relying on set being closed and bounded). Since for any choice of $k$ we have $x_l \in F_k$ for all $l \geq k$, we have $x\in F_k$. Since this choice of $k$ is arbitary, $x \in F_k$ for all $k\in \mathbb{N}$ (also $F_n$ for $n = 1,...,k-1$) and so $x \in \cap_{k=1}^\infty F_k$. So the intersection is nonempty.
+
+\end{document}

@@ -1,0 +1,228 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+\setcounter{section}{-1}
+\title{MA 503 : Homework 2}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+Note to the reader: I've extracted this homework from my personal notes for the course. I've left in definitions and important theorems from class / the textbook for (I hope) clarity. Also, it was necessary in working the problems to rely on many remarks given by the author which were (to me) not at all obvious and which the author did not prove. Since I used these remarks extensively it seemed necessary to also state the remarks given in the textbook and supply my own proofs in order to use them as lemmas in the assigned problems. Especially wrt to lim sup and lim inf. I can omit this in the future if it's not necessary to prove these types of statements. 
+
+\section*{Chapter 2 : The Real Number System}
+
+{\bf Axiom of Archimedes} For any real number $x$, there is an integer $n$ such that $x<n$.\\
+
+{\bf Definition} For a sequence $(x_n)$, we say that lim $x_n = \infty$ if given $\Delta$, there is an $N$ such that for all $n\geq N$, $x_n > \Delta$. Equivalently, if given $\Delta$, there is an $N$ such that for all $n\geq N$, $x_n \geq \Delta$. The case for lim $x_n = -\infty$ is defined similarly. The definition of lim $x_n = l \in \mathbb{R}$ is standard and omitted from these notes. \\
+
+{\bf Problem 7}\\
+Show that a sequence can have at most one limit.\\
+
+Suppose that $l$ and $l'$ are both limits of the sequence $(x_n)$. Let $\epsilon > 0$ be arbitrary. There exist natural numbers $N_1$ and $N_2$ such that $|x_n -l| < \epsilon / 2$ for all $n > N_1$ and $|x_n - l'| < \epsilon / 2$ for all $n > N_2$. Take $N = $ max$\{N_1,N_2\}$. Then for all $n > N$, $|x_n - l| + |x_n - l'| < \epsilon$. But since $|l - l'| = |l - x_n + x_n - l'| \leq |x_n - l| + |x_n - l'|$, this shows that $|l-l'| < \epsilon$. Since this holds for any $\epsilon >0$, we have $|l - l'| \leq 0$. Because  $0\leq |l-l'|$ as well, conclude that $l =l'$. \\
+
+{\bf Definition} We say that $l$ is a {\bf cluster point} of $(x_n)$ if, given $\epsilon > 0$ and given $N \in \mathbb{N}$, there exists an $n \geq N$ such that $|x_n - l| < \epsilon$. To extend this to the case that $l = \infty$, we say that $l = \infty$ is a cluster point of $(x_n)$ if, given $\Delta$ and given $N$, there exists an $n \geq N$ such that $x_n \geq \Delta$. The case for $l= -\infty$ is defined similarly. \\
+
+{\bf Problem 8}\\
+Show that $l$ is a cluster point of the sequence $(x_n)$ if and only if $(x_n)$ has a subsequence $(x_{n_j})$ that converges to $l$.\\
+
+The textbook allows $l = \infty$ or $l = -\infty$. First consider the case that $l$ is finite. \\
+
+Let $l$ be a cluster point of $(x_n)$. There exists an $n_1 \geq 1$ such that $|x_{n_1} - l| < 1$. Next, since $n_1 \in \mathbb{N}$ and 1/2 > 0, there exists an $n_2 \geq n_1$ such that $|x_{n_2} - l| < 1/2$. Continue in this way to construct a subsequence $(x_{n_j})$ of $(x_n)$ such that for each $j \geq 2$, we can find a natural number $n_j$ such that $n_j \geq n_{j-1}$ and for which $|x_{n_j} - l| < 1/j$. Since $1/j \rightarrow 0$ as $j \rightarrow \infty$, the subsequence $(x_{n_j})$ converges to $l$. \\
+
+Suppose that $(x_{n_j})$ is a subsequence of $(x_n)$ such that $(x_{n_j})$ converges to $l$. Let $\epsilon >0$ and $N \in \mathbb{N}$. Since $(x_{n_j})$ converges to $l$, there exists a $J \in \mathbb{N}$ such that for all $j \geq J$, $|x_{n_j} -l| \leq \epsilon$. If $N \leq n_J$, then $n_J$ is a natural number greater than or equal to $N$ such that $|x_{n_J} - l| < \epsilon$ and we are finished (note that any term in the subsequence, such as $x_{n_J}$, is also a term in the sequence original sequence $(x_n)$). Otherwise if $N > n_j$, then $N \geq N$ and $|x_{N} - l|< \epsilon$. This shows that for any $\epsilon > 0 $ and for any $N \in \mathbb{N}$, there exists an $n\in \mathbb{N}$ such that $n \geq N$ and $|x_n - l| < \epsilon$. \\
+
+Let $l = \infty$ be a cluster point of $(x_n)$. There exists an $n_1 \geq 1$ such that $x_{n_1} \geq 1$. Next there exists an $n_2 \geq n_1$ such that $x_{n_2} \geq 2$. Continue in this way to construct a subsequence $(x_{n_j})$ of $(x_n)$ such that for each $j \geq 2$, we can find an $n_j \geq n_{j-1}$ such that $x_{n_j} \geq j$. But this shows that $x_{n_j} \rightarrow \infty = l$ as $j \rightarrow \infty$. For $l = -\infty$ we use very similar reasoning except that we construct a subsequence $(x_{n_j})$ such that $x_{n_j} < -j$ for each $j \in \mathbb{N}$ so that $x_{n_j} \rightarrow -\infty = l$ as $j \rightarrow \infty$. \\
+
+{\bf Definition} For a nonempty set of real numbers $S$, we write sup $S = \infty$ if $S$ is not bounded above. This means that given $\Delta$, there exists an element $s \in S$ such that $s > \Delta$ (or equivalently such that $s \geq \Delta$). We write inf $S = -\infty$ if $S$ is not bounded below. This means that given $\Delta$, there exists an element $s \in S$ such that $s < \Delta$ (or equivalently such that $s \leq \Delta$).\\
+
+{\bf Definition} We define the limit superior and limit inferior of the sequence $(x_n)$ as
+
+$$\text{lim sup } x_n = \text{inf}_{k\in \mathbb{N}} (\text{sup}_{n \geq k} \, x_n)$$
+$$\text{lim inf } x_n =\text{sup}_{k \in \mathbb{N}} (\text{inf}_{n\geq k} \, x_n) \;.$$
+
+{\bf Remark}\\
+For a real valued sequence $(x_n)$, the limit superior and limit inferior always exist in $\overline{\mathbb{R}}$ and 
+$$\text{sup}_{k \in \mathbb{N}} (\text{inf}_{n\geq k} \, x_n) = \text{lim}_{k\rightarrow \infty} (\text{inf}_{n\geq k} \, x_n) \in [-\infty, \infty]$$
+$$\text{inf}_{k \in \mathbb{N}} (\text{sup}_{n\geq k} \, x_n) = \text{lim}_{k\rightarrow \infty} (\text{sup}_{n\geq k} \, x_n) \in [-\infty, \infty] \;.$$
+
+Proof:\\
+
+Consider that the sequence (inf$_{n\geq k}\, x_n)_{k=1}^{\infty}$ $\subset [-\infty, \infty)$ is an increasing sequence and must converge to its supremum in $\overline{\mathbb{R}}$. The sequence (sup$_{n\geq k}\, x_n)_{k=1}^{\infty}$ $\subset (-\infty, \infty]$ is a decreasing sequence and must converge to is infimum in $\overline{\mathbb{R}}$. This means the limit superior and limit inferior always exist and may indeed be written as the improper limits stated above.\\
+
+{\bf Remark}\\
+The extended real number $\infty$ is the limit superior of $(x_n)$ if and only if given $\Delta$ and $k$, there is an $n\geq k$ such that $x_n > \Delta$. The extended real number $-\infty$ is the limit inferior of $(x_n)$ if and only if given $\Delta$ and $k$, there is an $n\geq k$ such that $x_n < \Delta$.\\
+
+Proof:
+\begin{align*}
+&\infty = \text{inf}_{k \in \mathbb{N}}(\text{sup}_{n\geq k} x_n) \\
+&\iff \infty \leq \text{inf}_{k \in \mathbb{N}}(\text{sup}_{n\geq k} x_n)\\
+&\iff \infty \leq \text{sup}_{n\geq k} x_n   \quad \forall k \in \mathbb{N}\\
+&\iff \infty=\text{sup}_{n\geq k} x_n  \quad (\forall k \in \mathbb{N)}\\
+&\iff \{x_n \;|\; n\geq k\} \text{ is not bounded above} \quad (\forall k \in \mathbb{N})\\
+&\iff \text{Given } \Delta, \text{there is an element } x_n \in \{x_n \;|\; n\geq k\} \text{ s.t. } x_n> \Delta \quad (\forall k \in \mathbb{N})\\
+&\iff \text{Given }\Delta \text{ and } k, \text{ there is an } x_n \text{ s.t. } n\geq k \text{ and } x_n > \Delta.
+\end{align*}
+
+\begin{align*}
+&-\infty = \text{sup}_{k \in \mathbb{N}}(\text{inf}_{n\geq k} x_n) \\
+&\iff -\infty \geq \text{sup}_{k \in \mathbb{N}}(\text{inf}_{n\geq k} x_n)\\
+&\iff -\infty \geq \text{inf}_{n\geq k} x_n   \quad \forall k \in \mathbb{N}\\
+&\iff -\infty=\text{inf}_{n\geq k} x_n  \quad (\forall k \in \mathbb{N)}\\
+&\iff \{x_n \;|\; n\geq k\} \text{ is not bounded below} \quad (\forall k \in \mathbb{N})\\
+&\iff \text{Given } \Delta, \text{there is an element } x_n \in \{x_n \;|\; n\geq k\} \text{ s.t. } x_n< \Delta \quad (\forall k \in \mathbb{N})\\
+&\iff \text{Given }\Delta \text{ and } k, \text{ there is an } x_n \text{ s.t. } n\geq k \text{ and } x_n < \Delta.
+\end{align*}
+
+{\bf Remark}\\
+The extended real number $-\infty$ is the limit superior of $(x_n)$ if and only if lim $x_n = -\infty$. The extended real number $\infty$ is the limit inferior of $(x_n)$ if and only if lim $x_n = \infty$.\\
+
+Proof:\\
+
+\begin{align*}
+&-\infty = \text{inf}_{k\in \mathbb{N}}\text{sup}_{n\geq k} x_n = \text{inf}\{\text{sup} \{x_n : n \geq k\} : k \in \mathbb{N}\}\\
+&\iff \text{inf}\{\text{sup} \{x_n : n \geq k\} : k \in \mathbb{N}\} \text{ is not bounded below}\\
+&\iff \text{Given } \Delta, \exists k \text{ s.t. } \text{sup}\{x_n : n \geq k\} \leq \Delta\\
+&\iff \text{Given } \Delta, \exists k \text{ s.t. } \forall n\geq k, x_n \leq \Delta \\
+&\iff \text{lim } x_n = -\infty\;.
+\end{align*}
+
+\begin{align*}
+&\infty = \text{sup}_{k\in \mathbb{N}}\text{inf}_{n\geq k} x_n = \text{sup}\{\text{inf} \{x_n : n \geq k\} : k \in \mathbb{N}\}\\
+&\iff \text{sup}\{\text{inf} \{x_n : n \geq k\} : k \in \mathbb{N}\} \text{ is not bounded above}\\
+&\iff \text{Given } \Delta, \exists k \text{ s.t. } \text{inf}\{x_n : n \geq k\} \geq \Delta\\
+&\iff \text{Given } \Delta, \exists k \text{ s.t. } \forall n\geq k, x_n \geq \Delta \\
+&\iff \text{lim } x_n = \infty\;.
+\end{align*}
+
+{\bf Remark}\\
+A real number $l$ is the limit superior of the sequence $(x_n)$ if and only if both\\
+(i) given $\epsilon >0$, $\exists k$ such that $x_n < l+\epsilon$ for all $n \geq k$ and \\
+(ii) given $\epsilon >0$ and given $k$, $\exists n \geq k$ such that $x_n > l - \epsilon$.\\
+
+Proof:\\
+
+Let $\epsilon > 0$ be arbitrary and let $l = \text{inf}\{\text{sup} \{x_n : n \geq k\} : k \in \mathbb{N}\}$.\\
+
+By definition of infimum, there exists a $k$ such that $\text{sup} \{x_n : n \geq k\} < l+\epsilon$. By definition of supremum, this means there is a $k$ such that $x_n < l + \epsilon$ for all $n \geq k$. So if $l$ is the limit superior of $(x_n)$, then (i) holds. \\
+
+Let $k$ be given. Since $l-\epsilon < l = \text{inf}\{\text{sup} \{x_n : n \geq k\} : k \in \mathbb{N}\}$, we have $l-\epsilon<l\leq \text{sup} \{x_n : n \geq k\}$ for any $k$ and therefore in particular the given $k$. This means that $l-\epsilon$ is not an upper bound of the set $\text{sup} \{x_n : n \geq k\}$ (for the given $k$), so there exists an element $x_n \in \text{sup} \{x_n : n \geq k\}$ such that $l-\epsilon < x_n$. That is, for $k$ given, there is an $n\geq k$ such that $l-\epsilon < x_n$. So if $l$ is the limit superior of $(x_n)$ then (ii) holds as well.\\
+
+We have shown that if $l$ is the limit superior of $(x_n)$, then both conditions (i) and (ii) hold.\\
+
+Next suppose that both conditions (i) and (ii) hold for a real number $l$.\\
+
+For any $\epsilon > 0$, there exists by (i) a $k \in \mathbb{N}$ such that $x_n < l+\epsilon$ for all $n\geq k$. So there exists a $k$ such that $\text{sup} \{x_n : n \geq k\} \leq l+\epsilon$. By definition of infimum, $\text{inf}\{\text{sup} \{x_n : n \geq k\} : k \in \mathbb{N}\} \leq \text{sup} \{x_n : n \geq k\} \leq l+\epsilon$. Since this inequality holds for all $\epsilon > 0$, we have $\text{inf}\{\text{sup} \{x_n : n \geq k\} : k \in \mathbb{N}\} \leq l$. \\
+
+Since (ii) holds we have for any $k \in \mathbb{N}$, that given any $\epsilon >0$ there is an $n\geq k$ such that $l-\epsilon < x_n$. Since $x_n \leq \text{sup} \{x_n : n \geq k\}$, this means that for all $k$, given $\epsilon>0$, it follows that $l-\epsilon < \text{sup} \{x_n : n \geq k\}$. Since this inequality holds for all $\epsilon >0$, $l \leq \text{sup} \{x_n : n \geq k\}$ for all $k$. This shows that $l$ is a lower bound of the set $\{\text{sup} \{x_n : n \geq k\} : k \in \mathbb{N}\}$ and so $\text{inf}\{\text{sup} \{x_n : n \geq k\} : k \in \mathbb{N}\} \leq l$.\\
+
+We have shown that if (i) holds, then lim sup $x_n \leq l$ and if (ii) holds, then lim sup $x_n \geq l$. Therefore, if both (i) and (ii) hold for a real number $l$, then lim sup $x_n = l$ as proposed. \\
+
+{\bf Remark}\\
+A real number $l$ is the limit inferior of the sequence $(x_n)$ if and only if both\\
+(i) given $\epsilon >0$, $\exists k$ such that $x_n > l-\epsilon$ for all $n \geq k$ and \\
+(ii) given $\epsilon >0$ and given $k$, $\exists n \geq k$ such that $x_n < l + \epsilon$.\\
+
+Proof:\\
+The proof of this remark is similar to the proof of the previous remark by modifying signs and directions of inequalities. Considering this, I will hazard the claim that it is reasonable to omit a full proof.\\
+
+{\bf Problem 9}\\
+{\bf a.} Show that lim sup $x_n$ and lim inf $x_n$ are respectively the largest and smallest cluster points of the sequence $(x_n)$. \\
+
+
+Write $u = $inf$_{k\in \mathbb{N}} $ sup$_{n \geq k} \; x_n$ to denote the limit supremum of the sequence $(x_n)$. First we will establish that $u$ is a cluster point of $(x_n)$ and then afterward show that if $c$ is a cluster point of $(x_n)$, $c\leq u$. We have separate definitions for limit supremum depending on whether the limit supremum is finite, $\infty$, or $-\infty$ and similarly for a cluster point. \\
+
+
+If $u \in \mathbb{R}$, then to show that $u \in \mathbb{R}$ is a cluster point of $(x_n)$, we need to show that given $\epsilon$ and given $N \in \mathbb{N}$ there is an $n \geq N$ such that $|x_n-u| < \epsilon$. Since $u$ is the limit superior of $(x_n)$, it follows that (i)  there exists a $k_1$ such that for all $n \geq k_1$, $x_n < u + \epsilon$ and (ii) there is a $k_2 \geq N$ such that $u - \epsilon < x_{k_2}$. Take $n^* = $ max$\{N,k_1,k_2\}$ (this is a nonempty finite set, so it is bounded, has a supremum, and contains its supremum). Since $n^* \geq k_1$, $x_{n^*} < u + \epsilon$. Since $n^* \geq k_2$, $u - \epsilon < x_{n^*}$. Therefore, given $\epsilon$ and given $N$, there exists an $n^* \geq N$ such that $u - \epsilon < x_{n^*} < u + \epsilon$, meaning $u$ is a cluster point of $(x_n)$.\\
+
+If $u = \infty$, then given $\Delta$ and $k$, there is an $n \geq k$ such that $x_n > \Delta$. We say that $\infty$ is a cluster point of $(x_n)$ if, given $\Delta$ and given $N$, there exists an $n \geq N$ such that $x_n \geq \Delta$. These definition are equivalent, which can be seen by very minor adjustments. Therefore, $\infty$ is the limit superior of $(x_n)$ if and only if $\infty$ is a cluster point of $(x_n)$. \\
+
+If $u = -\infty$ then lim $x_n = -\infty$, which by definition means that given $\Delta$, there exists a $k$ such that for all $n \geq k$, $x_n < \Delta$. We say that $-\infty$ is a cluster point of $(x_n)$ if given $\Delta$ and given $N$, there is an $n \geq N$ such that $x_n < \Delta$ (the definition is equivalent whether we use $<$ or $\leq$ in this case). So let $\Delta$ and $N$ be given. There exists a $k$ such $n \geq k$, $x_n < \Delta$. If $k \geq N$, then since $k\geq k$, $x_k < \Delta$ as desired. If $N>k$, then $N\geq N$ and $x_N < \Delta$ as desired. Therefore, if $u = -\infty$ is the limit superior of $(x_n)$, $u = -\infty$ is a cluster point of $(x_n)$. \\
+
+\underline{Milestone:} we have shown that if $u$ is the limit superior of $(x_n)$, $u$ is a cluster point of $(x_n)$. Next we need to prove that if $c \in \overline{\mathbb{R}}$ is a cluster point of $(x_n)$ (since the limit superior always exists, we must also always have at least one cluster point), $c\leq u$. The approach is similar to the above in that we consider cases. We have an arbitrary sequence $(x_n)$. This sequence has a limit superior $u$. Either $u \in \mathbb{R}$, $u = \infty$, or $u = -\infty$.\\
+
+Suppose $u \in \mathbb{R}$ and let $c \in \overline{\mathbb{R}}$ be a cluster point of $(x_n)$. Suppose for contradiction that $c>u$. $c-u>0$. There is a $k$ such that for all $n\geq k$, $x_n < u + (c-u)/2$. But this means for all $n\geq k$, $|x_n - c| \geq c - x_n > (c-u)/2$. So for $\epsilon := (c-u)/2 >0$ we have found a natural number $k$ such that there does not exist an $n\geq k$ for which $|x_n-c| < \epsilon$. Thus $c$ cannot be a cluster point of $(x_n)$. This is a contradiction that arose from the assumption $c>u$. Conclude that $c \leq u$ for any cluster point $c$. \\
+
+Suppose $u =\infty$ and let $c \in \overline{\mathbb{R}}$ be a cluster point of $(x_n)$. Assume $c>u$. Then $c>\infty$ which contradicts the fact that $y\leq \infty$ for all $y \in \overline{\mathbb{R}}$. Conclude that $c\leq u$ for any cluster point $c$. \\
+
+Suppose $u =-\infty$ and let $c \in \overline{\mathbb{R}}$ be a cluster point of $(x_n)$. Since $u = -\infty$, lim $x_n = -\infty$. Then lim $x_{n_j} = -\infty$ for any subsequence $(x_{n_j})$ of $(x_n)$ (if not then $(x_{n_j})$ is bounded below and so there must exist some $\Delta$ for which we can not produce a $k$ such that $x_n < \Delta$ for all $n\geq k$ for the original sequence). By problem 8, $c$ is the limit of a subsequence of $(x_n)$ and so $c = -\infty \iff c\leq -\infty$. Therefore $c\leq u$ for any cluster point $c$. \\
+
+\underline{Conclusion:} The work so far proves that the limit superior $u$ of a sequence $(x_n)$ is a cluster point of the sequence and that $u$ is greater than or equal to any cluster point of the sequence. \\
+
+Write $u = $sup$_{k\in \mathbb{N}} $ inf$_{n \geq k} \; x_n$ to denote the limit inferior of the sequence $(x_n)$. First we will establish that $u$ is a cluster point of $(x_n)$ and then afterward show that if $c$ is a cluster point of $(x_n)$, $c\geq u$. We have separate definitions for limit inferior depending on whether the limit inferior is finite, $\infty$, or $-\infty$ and similarly for a cluster point. \\
+
+If $u \in \mathbb{R}$, then to show that $u \in \mathbb{R}$ is a cluster point of $(x_n)$, we need to show that given $\epsilon$ and given $N \in \mathbb{N}$ there is an $n \geq N$ such that $|x_n-u| < \epsilon$. Since $u$ is the limit inferior of $(x_n)$, it follows that (i)  there exists a $k_1$ such that for all $n \geq k_1$, $x_n > u - \epsilon$ and (ii) there is a $k_2 \geq N$ such that $u + \epsilon < x_{k_2}$. Take $n^* = $ max$\{N,k_1,k_2\}$ (this is a nonempty finite set, so it is bounded, has a supremum, and contains its supremum). Since $n^* \geq k_1$, $x_{n^*} > u - \epsilon$. Since $n^* \geq k_2$, $u + \epsilon > x_{n^*}$. Therefore, given $\epsilon$ and given $N$, there exists an $n^* \geq N$ such that $u - \epsilon < x_{n^*} < u + \epsilon$, meaning $u$ is a cluster point of $(x_n)$.\\
+
+If $u = -\infty$, then given $\Delta$ and $k$, there is an $n \geq k$ such that $x_n < \Delta$. We say that $\infty$ is a cluster point of $(x_n)$ if, given $\Delta$ and given $N$, there exists an $n \geq N$ such that $x_n \leq \Delta$. These definition are equivalent, which can be seen by very minor adjustments. Therefore, $-\infty$ is the limit inferior of $(x_n)$ if and only if $-\infty$ is a cluster point of $(x_n)$. \\
+
+If $u = \infty$ then lim $x_n = \infty$, which by definition means that given $\Delta$, there exists a $k$ such that for all $n \geq k$, $x_n > \Delta$. We say that $\infty$ is a cluster point of $(x_n)$ if given $\Delta$ and given $N$, there is an $n \geq N$ such that $x_n > \Delta$ (the definition is equivalent if whether we use $>$ or $\geq$ in this case). So let $\Delta$ and $N$ be given. There exists a $k$ such $n \geq k$, $x_n > \Delta$. If $k \geq N$, then since $k\geq k$, $x_k > \Delta$ as desired. If $N>k$, then $N\geq N$ and $x_N > \Delta$ as desired. Therefore, if $u = \infty$ is the limit inferior of $(x_n)$, $u = \infty$ is a cluster point of $(x_n)$. \\
+
+\underline{Milestone:} we have shown that if $u$ is the limit inferior of $(x_n)$, $u$ is a cluster point of $(x_n)$. Next we need to prove that if $c \in \overline{\mathbb{R}}$ is a cluster point of $(x_n)$ (since the limit inferior always exists, we must also always have at least one cluster point), $c\geq u$. The approach is similar to the above in that we consider cases. We have an arbitrary sequence $(x_n)$. This sequence has a limit inferior $u$. Either $u \in \mathbb{R}$, $u = \infty$, or $u = -\infty$.\\
+
+Suppose $u \in \mathbb{R}$ and let $c \in \overline{\mathbb{R}}$ be a cluster point of $(x_n)$. Suppose for contradiction that $c<u$. $u-c>0$. There is a $k$ such that for all $n\geq k$, $x_n > u - (u-c)/2$. But this means for all $n\geq k$, $|x_n - c| \geq x_n - c > (c-u)/2$. So for $\epsilon := (c-u)/2 >0$ we have found a natural number $k$ such that there does not exist an $n\geq k$ for which $|x_n-c| < \epsilon$. Thus $c$ cannot be a cluster point of $(x_n)$. This is a contradiction that arose from the assumption $c<u$. Conclude that $c \geq u$ for any cluster point $c$. \\
+
+Suppose $u =-\infty$ and let $c \in \overline{\mathbb{R}}$ be a cluster point of $(x_n)$. Assume $c<u$. Then $c<\infty$ which contradicts the fact that $y\leq \infty$ for all $y \in \overline{\mathbb{R}}$. Conclude that $c\geq u$ for any cluster point $c$. \\
+
+Suppose $u =\infty$ and let $c \in \overline{\mathbb{R}}$ be a cluster point of $(x_n)$. Since $u = \infty$, lim $x_n = \infty$. Then lim $x_{n_j} = \infty$ for any subsequence $(x_{n_j})$ of $(x_n)$ (if not then $(x_{n_j})$ is bounded above and so there must exist some $\Delta$ for which we can not produce a $k$ such that $x_n > \Delta$ for all $n\geq k$ for the original sequence). By problem 8, $c$ is the limit of a subsequence of $(x_n)$ and so $c = \infty \iff c\geq \infty$. Therefore $c\geq u$ for any cluster point $c$. \\
+
+\underline{Conclusion:} At this point we have proved that the limit inferior $u$ of a sequence $(x_n)$ is a cluster point of the sequence and that $u$ is less than or equal to any cluster point of the sequence. \\
+
+{\bf b.} Show that every bounded infinite sequence has a subsequence that converges to a real number.\\
+
+We have shown that for a sequence $(x_n)$, lim $x_n = -\infty$ if and only if lim sup $x_n = -\infty$. Therefore, for a bounded sequence $(x_n)$, lim $x_n \neq -\infty$ and so lim sup $x_n \neq -\infty$. Using again the boundedness of $(x_n)$, we must also have lim sup $x_n \neq \infty$ (this is immediate from the definition of lim sup $x_n = \infty$ and the definition of a bounded sequence). Then it must be that lim sup $x_n \in \mathbb{R}$. Since lim sup $x_n$ is a cluster point of $(x_n)$, it follows from problem 8 that a subsequence of $(x_n)$ converges to lim sup $x_n \in \mathbb{R}$.\\
+
+{\bf Problem 17}\\
+Prove that if $x_n > 0$, $y_n\geq 0$, then lim sup $x_ny_n \leq $ (lim sup $x_n$)(lim sup $y_n$). Assume the product on the right is not of the form $0 \cdot \infty$, which in this textbook is defined to be 0.\\
+
+Proof:\\
+
+Since $x_n > 0$ and $y_n \geq 0$, sup$_n \,x_n> 0$ and sup$_n \,y_n \geq 0$. For any $k \in \mathbb{N}$, we have for all $n\geq k$,
+$$0 \leq x_ny_n \leq (\text{sup}_{n\geq k} x_n )y_n \leq (\text{sup}_{n\geq k} x_n )(\text{sup}_{n\geq k} y_n )\;.$$
+This shows that for any $k$, $(\text{sup}_{n\geq k} x_n )(\text{sup}_{n\geq k} y_n )$ is an upper bound of $x_ny_n$, $n\geq k$. Then for all $k$, $$\text{sup}_{n\geq k} x_ny_n \leq (\text{sup}_{n\geq k} x_n )(\text{sup}_{n\geq k} y_n )\;.$$
+
+Since this holds for all $k$, $\text{sup}_{n\geq k} x_ny_n$ is a lower bound of $(\text{sup}_{n\geq k} x_n )(\text{sup}_{n\geq k} y_n )$ and so
+\begin{align*}
+\text{lim sup } x_ny_n &:= \text{inf}_{k \in \mathbb{N}}(\text{sup}_{n\geq k} x_ny_n)\\
+&\leq \text{inf}_{k \in \mathbb{N}}((\text{sup}_{n\geq k} x_n )(\text{sup}_{n\geq k} y_n ))\\
+&=\text{lim}_{k\rightarrow \infty}\left((\text{sup}_{n\geq k} x_n )(\text{sup}_{n\geq k} y_n )\right)\\
+&=\text{lim}_{k\rightarrow \infty}(\text{sup}_{n\geq k} x_n )\text{lim}_{k\rightarrow \infty}(\text{sup}_{n\geq k} y_n )\\
+&=\text{inf}_{k\in \mathbb{N}}(\text{sup}_{n\geq k} x_n )\text{inf}_{k\in \mathbb{N}}(\text{sup}_{n\geq k} y_n )\\
+&=:(\text{lim sup }x_n)(\text{lim sup }y_n) \;.
+\end{align*}
+
+{\bf Definition} We say that the sequence $(x_n)$ is {\bf summable} to the real number $s$ or has the sum $s$ if the sequence $(s_n)$ defined by $s_n = \sum_{v=1}^n x_v$ has $s$ as a limit. In this case we write $s = \sum_{v=1}^\infty x_v$.\\
+
+{\bf Problem 18}\\
+Show that if $x_v \geq 0$ for all $v \in \mathbb{N}$ there is always an extended real number $s$ such that $s = \sum_{v=1}^\infty x_v$.\\
+
+Proof:\\
+
+Since $x_v \geq 0$ for all $v$, $s_{n+1} \geq s_n$  and $s_n \geq 0$ for all $n$. This means the sequence $(s_n)$ is increasing and bounded below by 0. Either $(s_n)$ is bounded above or $(s_n)$ is not bounded above.\\
+
+First consider the case that $(s_n)$ is bounded above. If $x_v = 0$ for all $v$, then $s_n = 0$ for all $n$ and $0 = $ lim $s_n$. Otherwise if $x_v >0$ for at least one $v$, set $s := \text{sup}\{s_n : n \in \mathbb{N}\}$. Since $\{s_n : n \in \mathbb{N}\} \neq \emptyset$ and $s_n > 0$ for all $n$ greater than some $N$ (since at least one term $x_v >0$), $s$ exists and $s \neq 0$. Let $\epsilon > 0$ be arbitrary. By definition of supremum, there exists an $N \in \mathbb{N}$ such that $$s - \epsilon < s_N <\leq s \;.$$
+Since $(s_n)$ is increasing we have for all $n\geq N$,
+$$ s-\epsilon < s_N < s_n \leq s < s+\epsilon \;.$$
+This shows that given $\epsilon >0$, there exists an $N$ such that for all $n\geq N$, $|s_n - s| < \epsilon$. Therefore, lim $s_n = s \in \mathbb{R}$ and so $s = \sum_{v = 1}^\infty x_v$. \\
+
+If $(s_n)$ is not bounded above, then given $\Delta$, there is an $N$ such that for all $n\geq N$, $s_n > \Delta$. That is $s = $ lim $s_n = \infty \in \overline{\mathbb{R}}$. Note that the definition given by the textbook only allows us to write $s = $ lim $s_n = \sum_{v=1}^\infty x_v$ if the result is a real number. So the problem is technically not possible to answer as stated. However, it is clear what the purpose of the problem is and one can reasonably infer what the author probably had in mind for the definition of $\sum_{v=1}^\infty s_v = \infty$ or $\sum_{v=1}^\infty s_v = -\infty$ even though these equalities are left undefined by the author. 
+
+
+
+\end{document}

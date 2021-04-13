@@ -1,0 +1,73 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 14}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+
+{\bf Proposition 8} If $f$ and $g$ are nonnegative measurable functions, then:\\
+
+(i)  $\int_E cf = c\int_E f$, $\quad c>0$. \\
+
+(ii) $\int_E (f+g) = \int_E f + \int_E g$.\\
+
+(iii) If $f \leq g$ a.e., then $\int_E f \leq \int_E g$. \\
+
+
+{\bf Problem 3} Let $f$ be a nonnegative measurable function. Show that $\int f = 0$ implies $f = 0$ a.e. \\
+
+For $n \in \mathbb{N}$, let $E_n = \{x : f(x) > 1/n\}$. If $x \in E_n$, then $f(x) > 1/n = 1/n \chi_{E_n}(x)$. If $x \not \in E_n$, then $1/n\chi_{E_n}(x)= 0  \leq f(x) \leq 1/n$. So $f(x) \geq \chi_{E_n}$ for all $x$. By proposition 8 (iii),
+
+$$ 0 = \int f \geq \int \frac{1}{n}\chi_{E_n} = \frac{1}{n}m(E_n) \implies 0 = m(E_n) \;.$$
+
+Since $f \geq 0$, $\{x : f(x) \neq 0 \} = \{x : f(x) > 0\}$. If $f(x) > 0$, then there is an $n\in \mathbb{N}$ such that $f(x) > 1/n$ by the axiom of Archimedes. Conversely if $f(x) > 1/n$ for some $n \in \mathbb{N}$ then $f(x) > 0 $. Then $\{x : f(x) > 0 \} = \bigcup_{n=1}^\infty \{x : f(x) > 1/n\} = \bigcup_{n=1}^\infty E_n$ from which it follows
+
+$$m\left(\{x : f(x) \neq 0\}\right) = m\left(\{x : f(x) \neq 0\}\right) = m\left(\bigcup_{n=1}^\infty E_n \right) \leq \sum_{n=1}^\infty m(E_n)  = \sum_{n=1}^\infty 0 = 0 \;.$$
+
+Conclude that $f = 0$ a.e.\\
+
+By the way, the converse is also true. If $f = 0$ a.e. then the set $E = \{x : f(x) > 0 \} = \{x : f(x) \neq 0\}$ has measure zero. Let $f_n = n \chi_{E}$. If $x \in E$, then for each $k \in \mathbb{N}$, $\inf_{n\geq k} n \chi_E = k$ so that $\lim_{k\rightarrow \infty} \inf_{n\geq k} f_n(x) = \infty \geq f(x)$. If $x \not \in E$, then $f(x) = 0$ and $\inf_{n\geq k} n\chi_E = 0$. So for all $x$, $f(x) \leq \lim \inf f_n(x)$. Since $f \geq 0$, $\int f \geq \int 0 = 0$ by proposition 8 (iii). Also using proposition 8 (iii) along with Fatou's Lemma,
+
+$$0 \leq \int f \leq \int \lim \inf f_n \leq \lim \inf \int f_n = \lim \inf \left(\frac{1}{n} m(E)\right) = \lim \inf 0 = 0 \implies \int f = 0 \;.$$
+
+
+
+\end{document}

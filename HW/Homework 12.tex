@@ -1,0 +1,249 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 12}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+
+{\bf Problem 20} \\
+
+(Part 1) Show that the sum of simple functions is a simple function and the product of simple functions is a simple function. \\
+
+Let $\phi_1$ and $\phi_2$ be simple functions both defined on the measurable set $E \subset \mathbb{R}$ (by definition, a simple function must be measurable which means its domain must be measurable) with:
+
+\begin{align*}
+\phi_1(x) &= \sum_{n = 1}^N \alpha_n \chi_{A_n}, \quad \text{ where } A_n = \{x : \phi_1(x) = \alpha_n \} \\
+\phi_2(x) &= \sum_{m = 1}^M \beta_m \chi_{B_m}, \quad \text{ where } B_m = \{x : \phi_2(x) = \beta_m \} \\
+\end{align*}
+
+Since $\phi_1$ and $\phi_2$ are measurable functions, the sum $\phi_1 +\phi_2$ is measurable. To show that $\phi_1 + \phi_2$ is simple, we need to show that $\phi_1 + \phi_2$ assumes only a finite number of values. Adding sets and relabeling if necessary, we can assume that $E = \cupdot A_m$ and $E = \cupdot$. This allows us to write:
+
+\begin{align*}
+\phi_1 + \phi_2 &= \sum_{m = 1}^M \sum_{n=1}^N (\alpha_n + \beta_m) \chi_{A_n \cap B_m} \\
+&= \sum_{m=1}^M \left[(\alpha_1 + \beta_m)\chi_{A_1\cap B_m} + ... + (\alpha_N + \beta_m)\chi_{A_N\cap B_m}\right] \\
+&= \left[(\alpha_1 + \beta_1)\chi_{A_1\cap B_1} + ... + (\alpha_N + \beta_1)\chi_{A_N\cap B_1}\right] \\
+&+ \left[(\alpha_1 + \beta_2)\chi_{A_1\cap B_2} + ... + (\alpha_N + \beta_2)\chi_{A_N\cap B_2}\right] \\ 
+&\vdots \\
+& + \left[(\alpha_1 + \beta_M)\chi_{A_1\cap B_M} + ... + (\alpha_N + \beta_M)\chi_{A_N\cap B_M}\right] \\
+\end{align*}
+\begin{align*}
+&:= [\gamma_1 \chi_{C_1} + ... + \gamma_N \chi_{C_N} ]\\
+&+ [\gamma_{N+1} \chi_{C_{N+1}} + ... + \gamma_{2N} \chi_{C_{2N}} ]\\
+& \vdots \\
+& + [\gamma_{(M-1)N + 1} \chi_{C_{(M-1)N + 1}} + ... + \gamma_{MN} \chi_{C_{MN}}] \\
+&= \sum_{i = 1}^{MN} \gamma_i \chi_{C_i} \; ,
+\end{align*}
+
+where we used the fact that for any pair $n,m$, $\alpha_n + \beta_m$ is a real number and $A_{n} \cap B_{m}$ is a measurable set so that we can we can assign a coefficient $\gamma_i$ and a characteristic function $\chi_{C_i}$ to each term in the finite sum. Also, since the $A_n$ and $B_m$ are disjoint, $(A_n \cap B_m) \cap (A_{n'} \cap B_{m'}) = \emptyset$ whenever $(n,m) \neq (n',m')$. This shows that $\phi_1 + \phi_2$ can be written in the form of a simple function and so takes on only a finite number of values. Conclude that $\phi_1+\phi_2$ is simple. By very similar reasoning, using coefficients of the form $\gamma_i = \alpha_n \beta_m$ instead of $\gamma_i = \alpha_n + \beta_m$ for the possible pairs $(n,m)$,
+
+$$\phi_1 \phi_2 = \sum_{m=1}^M \sum_{n  = 1}^N \alpha_n\beta_m \chi_{A_n \cap B_m} = \sum_{i = 1}^{MN} \gamma_i \chi_{C_i} \;,$$
+
+where the $C_i$ are disjoint measurable sets with $\cupdot C_i = E$. Conclude that $phi_1 \phi_2$ is a measurable function (as the product of measurable functions) that assumes only a finite number of values and is therefore a simple function. \\
+
+(Part 2) Let $A$ and $B$ be sets of real numbers and $\chi_A$ and $\chi_B$ corresponding characteristic functions. Show that the sum $\chi_A + \chi_B$ and the product $\chi_A \chi_B$ are simple functions and that,
+
+\begin{align*}
+\chi_{A\cap B} &= \chi_A \chi_B  \\
+\chi_{A\cup B} &= \chi_A + \chi_B - \chi_A \chi_B \\
+\chi_{A^c} &= 1 - \chi_{A}
+\end{align*}
+
+We may as well assume that $\chi_A, \chi_B, \chi_{A\cap B}, \chi_{A\cup B}, \chi_{\overline{A}} : D\subset \mathbb{R} \rightarrow \{0,1\}$; that is, all characteristic functions mentioned have the same domain $D$ where $A,B \subset D$. The reasoning would look the same for any choice of $D \subset \mathbb{R}$. Whether or not $D$ is measurable is not important for the identities we are proving here, only for whether the functions are measurable or not. Let $x \in D$.\\
+
+Either $x \in A\cap B$ or $x \not\in A\cap B$. If $x\in A\cap B$ then $\chi_{A\cap B}(x) = 1$, $\chi_A(x) = 1$, and $\chi_B(x) = 1$ so $\chi_{A\cap B}(x) = 1 = 1\cdot 1 = \chi_{A}(x) \chi_{B}(x)$. If $x \not\in A\cap B$ then $\chi_{A\cap B}(x) = 0$ and $\chi_{A}(x) = 0$ or $\chi_{B}(x) = 0$ (or both of course). Then $\chi_{A\cap B}(x) = 0 = \chi_{A}\chi_{B}$. Since $x$ was arbitrary, this shows that $\chi_{A\cap B} \equiv \chi_{A}\chi_{B}$ on $D$. \\
+
+Exactly one of these four possibilities must hold: (i) $x \in A\cap B$, (ii) $x \in A\backslash B$, (iii) $x \in B\backslash A$, or (iv) $x \not\in A\cup B$. We check that the equality $\chi_{A\cup B}(x) = \chi_A(x) + \chi_B(x) - \chi_{A\cap B}(x)$ is satisfied in each case. \begin{align*}
+&\text{(i) } \chi_{A\cup B}(x) = \chi_{A}(x) = \chi_{B}(x)  = \chi_{A\cap B}(x) = 1\\
+&\implies \chi_{A\cup B}(x) = 1 = 1+1 - 1 = \chi_{A}(x) + \chi_{B}(x) - \chi_{A\cap B}(x) \\
+&\text{(ii) } \chi_{A\cup B}(x) = \chi_{A}(x) = 1, \chi_{B}(x)  = \chi_{A\cap B}(x) = 0\\
+&\implies \chi_{A\cup B} = 1 = 1+0 - 0 = \chi_{A}(x) + \chi_{B}(x) - \chi_{A\cap B}(x) \\
+&\text{(iii) } \chi_{A\cup B}(x) = \chi_{B}(x) = 1, \chi_{A}(x)  = \chi_{A\cap B}(x) = 0 \\
+&\implies \chi_{A\cup B} = 1 = 0+1 - 0 = \chi_{A}(x) + \chi_{B}(x) - \chi_{A\cap B}(x) \\
+&\text{(iv) } \chi_{A\cup B}(x) = \chi_{A}(x) = \chi_{B}(x)  = \chi_{A\cap B}(x) = 0 \\
+&\implies \chi_{A\cup B}(x) = 0 = 0+0-0= \chi_{A}(x) + \chi_{B}(x) - \chi_{A\cap B}(x) \\
+\end{align*}
+
+Either $x \in A$ or $x \in A^c$. If $x \in A$, then $\chi_{A^c}(x) = 0$ and $\chi_{A} = 1$ so $\chi_{A^c} = 0 = 1-1 = 1-\chi_{A}$. If $x \in A^c$, then $\chi_{A^c} = 1$ and $\chi_{A} = 0$ so $\chi_{A^c} = 1 = 1 - 0 = 1-\chi_{A}$. Conclude that $\chi_{A^c} \equiv 1- \chi_{A}$ on $D$. \\
+
+{\bf Proposition 14} Let $(E_i)$ be a sequence of decreasing measurable sets, that is, a sequence with $E_{n+1} \subset E_n$ for each $n \in \mathbb{N}$. Let $m(E_1)<\infty$. Then,
+
+$$m\left(\bigcap_{i=1}^\infty E_i \right) = \text{lim}_{n\rightarrow \infty} \; m(E_n) \;.$$
+
+{\bf Proposition 15} Let $E$ be a given set. The following five statements are equivalent.\\
+
+i. $E$ is measurable.\\
+ii. Given $\epsilon > 0$ there is an open set $O \supset E$ such that $m^*(O \backslash E) < \epsilon$. \\
+iii. Given $\epsilon > 0$ there is a closed set $F \subset E$ such that $m^*(E \backslash F) < \epsilon$.\\
+iv. There is a $G \in G_{\delta}$ with $E \subset O$ such that $m^*(G \backslash E) = 0$.\\
+v. There is an $F \in F_\sigma$ with $F \subset E$ such that $m^*(E \backslash F) = 0$. \\
+
+If $m^*(E) < \infty$, the above statements are equivalent to:\\
+
+vi. Given $\epsilon > 0$, there is a finite union $U$ of open intervals such that $m^*(U \bigtriangleup E) < \epsilon$.\\
+
+{\bf Proposition 22} Let $f$ be a measurable function defined on an interval $[a,b]$, and assume that $f$ takes on the values $\pm \infty$ only on a set of measure zero. Then given $\epsilon$, we can find a step function $g$ and a continuous function $h$ such that
+
+$$|f-g| < \epsilon \text{ and } |f-h| < \epsilon $$
+
+except on a set of measure less than $\epsilon$; i.e., $m(\{x : |f(x) - g(x)| \geq \epsilon \}) < \epsilon$ and $m(\{x : |f(x) - g(x)| \geq \epsilon \}) < \epsilon$. If in addition, $m \leq f \leq M$, then we may choose the functions $g$ and $h$ such that $m \leq g,h \leq M$. \\
+
+{\bf Definition} If $A$ is any set, we define the \underline{characteristic function $\chi_A$ of the set $A$} as
+
+$$ \chi_A(x) = \begin{cases}
+1 & x \in A\\
+0 & x \not\in A
+\end{cases} \;.$$
+
+The function $A$ is measurable if and only if $A$ is measurable.\\
+
+{\bf Remark} By this definition, the existence of a nonmeasurable set implies the existance of a nonmeasurable function. \\
+
+{\bf Definition} A real-valued function $\phi$ is called \underline{simple} if it is measurable and assumes only a finite number of values. If $\phi$ is simple and has the values $\alpha_1,...,\alpha_n$ then $\phi = \sum_{i=1}^n \alpha_i \chi_{A_i}$ where $A_i = \{x : \phi(x) = \alpha_i\}$. The sum, product, and difference of two simple functions are simple. \\
+
+
+{\bf Problem 23} Prove Proposition 22 by establishing the following lemmas:\\
+
+(a) Given a measurable function $f$ on $[a,b]$ that takes on the values $\pm \infty$ only on a set of measure zero, and given $\epsilon > 0$, there is an $M$ such that $|f| \leq M$ except on a set of measure less than $\epsilon / 3$.\\
+
+Let $E_n = \{x : |f(x)| > n\}$ for each $n\in \mathbb{N}$. Since $f$ is measurable, $|f|$ is measurable and therefore each set $E_n$ is measurable. Also, $E_{n+1} \subset E_n$ for each $n$ and $m(E_1) \leq m([a,b]) < \infty$. By Proposition 14,
+
+$$ \text{lim}_{n\rightarrow \infty} m(E_n) =  m\left(\bigcap_{n=1}^\infty  E_n\right) = m(\{x : f(x) = \pm \infty \} ) = 0  \; . $$
+
+It follows that given $\epsilon > 0$, there is an $M$ such that for all $n \geq M$, $m(E_n) < \epsilon /3$. In particular, $m(E_M) < \epsilon / 3$ and $E_M^c = \{x : |f(x)| \leq M\}$. That is, $|f| \leq M$ except on the set $E_M$, which is of measure $\epsilon / 3$. \\
+
+(b) Let $f$ be a measurable function on $[a,b]$. Given $\epsilon > 0$ and $M \geq 0$ there is a simple function $\phi$ such that $|f(x) - \phi(x)| < \epsilon $ except where $|f(x)| \geq M$. If $m \leq f \leq M$, then we may take $\phi$ so that $m \leq \phi \leq M$. \\
+
+
+Let $\epsilon > 0$. Since $M < \infty$, there is a $k \in \mathbb{N}$ such that $k\epsilon \geq M$ and $-k\epsilon \leq M$. Assume $k$ to be the smallest such integer. 
+
+\begin{align*}
+A_1 &= f^{-1}([0,\epsilon)) ,\\
+A_2 &= f^{-1}([\epsilon, 2 \epsilon)),\\
+A_3 &= f^{-1}([2\epsilon, 3\epsilon)),\\
+&\vdots\\
+A_k &= f^{-1}([(k-1)\epsilon, k\epsilon))
+\end{align*}
+
+\begin{align*}
+A_{-1} &= f^{-1}([-\epsilon,0)),\\
+A_{-2} &= f^{-1}([-2\epsilon, -\epsilon))\\
+&\vdots \\
+A_{-k} &= f^{-1}([-k\epsilon, -(k-1)\epsilon))
+\end{align*}
+
+The $A_i$ are disjoint and for $ I:= \{-k,...,-1,1,...,k\}$, $\cupdot_{i \in I} A_n\supset [-M,M]$. So for each $x \in [a,b]$ such that $|f(x)| \leq M$, $f(x)$ lies within exactly one of the $A_i$. Let $\alpha_i = i\epsilon - \epsilon/2$ for $i = 1,...,k$ and $\alpha_i = -i\epsilon + \epsilon/2$ for $i = -1,...,-k$. That is, $\alpha_i$ is the midpoint of the half open interval used in the definition of the set $A_i$. Define $\phi(x) = \sum_{i \in I} \alpha_i \chi_{A_i}(x)$ for each $x \in [a,b]$ such that $|f(x)| \leq M$. Then since each of the $A_i$ are measurable (this follows from the fact that $f$ is measurable), $\chi_{A_i}$ is measurable for each $i$ and so $\phi$ is measurable. Since $\phi$ is measurable and assumes only finitely many values, $\phi$ is a simple function. Let $x \in [a,b]$ such that $|f(x)| \leq M$. Then $x \in A_i$ for some $i \in I$ so $|f(x) - \phi(x)| = |f(x) - \alpha_i| \leq \epsilon/2 < \epsilon$. \\
+
+If $m \leq f \leq M$ use a similar approach. Find $k \in \mathbb{N}$ such that $m + k\epsilon \leq M$ but for which $m + (k+1)\epsilon > M$. 
+
+\begin{align*}
+A_1 &= f^{-1}([m, m+\epsilon)) \\
+A_2 &= f^{-1}([m + \epsilon, m+ 2\epsilon))\\
+&\vdots \\
+A_k &= f^{-1}([m + (k-1)\epsilon, m + k\epsilon))\\
+A_{k+1} &= f^{-1}([m+k\epsilon, M]) \quad (\epsilon \geq M-(m+k\epsilon) \geq 0)
+\end{align*}
+
+Define $\alpha_1 = m + \epsilon/2$, $\alpha_2 = m + (3/2)\epsilon$,...,$\alpha_k = m+ (k-1/2)\epsilon$, $\alpha_{k+1} = (m+k\epsilon + M)/2$. That is, take $\alpha_i$ to be the midpoint of the interval used to define $A_i$.  Let $\phi = \sum_{i=1}^{k+1} \alpha_i\chi_{A_i}$. Then $\phi$ is a simple function. For each $x \in [a,b]$, $x \in A_i$ for exactly one of the disjoint $A_i$ and so $|\phi(x) - f(x)| < \epsilon$ and $m \leq \phi \leq M$. \\
+
+
+(c) Given a simple function $\phi$ defined on $[a,b]$, there is a step function $g$ defined on $[a,b]$ such that $g(x) = \phi(x)$ except on a set of measure $\epsilon / 3$. If $m\leq \phi(x) \leq M$, then we may take $g$ so that $m \leq g \leq M$.  \\
+
+Let $\phi : [a,b] \rightarrow \{\alpha_1, ... ,\alpha_n\}$, $\phi(x) = \sum_{i=1}^n \alpha_i \chi_{A_i}(x)$. Each $A_i$ is measurable and $m^*(A_i) = m(A_i) \leq m([a,b]) < \infty$. By Proposition 15 (ii) there is an open set $O_i'$ such that $m^*(O_i' \backslash A_i) < \epsilon / (6n)$. Let $O_i = O_i' \cap [a,b]$ for which we still have $A_i \subset O_i$ (since $A_i \subset [a,b]$ and $A_i \subset O_i'$) and $m^*(O_i \backslash A_i) < \epsilon / (6n)$. The open set $O_i$ can be written as a countable union of disjoint open intervals, $O_i = \cupdot_{n \in \mathbb{N}} I_n$.
+
+\begin{align*}
+m^*(O_i) &= m^*\left(\bigcupdot I_n\right) = m\left(\bigcupdot I_n\right)  = \sum_{n=1}^\infty m(I_n)
+= \text{lim}_{N\rightarrow \infty} \sum_{n=1}^N m(I_n)\\
+\implies &\exists N \text{ s.t. }  \sum_{N+1}^\infty m(I_n) < \epsilon / (6n) \quad \text{(the terms of a convergent series tend to zero)}\;.\\
+&\text{Define } U_i := \cupdot_{n=1}^N I_n \\
+m^*(O_i \backslash U_i) &= m^*(O_i \cap U_i^c) = m^*(\cupdot_{n=N+1}^\infty I_n) = m(\cupdot_{n =N+1}^\infty I_n) = \sum_{n =N+1}^\infty m(I_n) < \epsilon / (6n)
+\end{align*}
+
+Repeat this process for each $A_i$ to produce a $U_i$. Since each $U_i$ is a union of open intervals, we can define the step function $g = \sum_{i = 1}^n \alpha_i \chi_{U_i}$. Since the $U_i$ are disjoint, for each $x \in [a,b]$, $x \in U_i$ for at most one $U_i$. Then $g(x) =\alpha_i = \phi(x)$ for $x \in A_i \cap U_i$. So for each $i$ we have $\phi(x) = \alpha_i = g(x)$ except on $U_i \triangle A_i$ and:
+\begin{align*}
+m(U_i \triangle A_i) &= m((U_i \backslash A_i) \cup (A_i \backslash U_i)) \\
+&\leq m(U_i \backslash A_i) + m(A_i \backslash U_i)\\
+&=  m^*(U_i \backslash A_i) + m^*(A_i \backslash U_i)\\
+&\leq m^*(O_i\backslash A_i) + m^*(O_i \backslash U_i)\\
+&< \epsilon / (6n) + \epsilon / (6n) = \epsilon / (3n) \;.
+\end{align*} 
+
+In total, $\phi(x) = g(x)$ except on a set of measure $n\epsilon / (3n) = \epsilon / 3$. \\
+
+If $m \leq \phi(x) \leq M$, define $g$ just as before except that instead of using $\chi_{U_i}$, use
+
+$$\chi_{U_i}' = \begin{cases}
+1 & x \in U_i \\
+m & x \not\in U_i
+\end{cases} \;.
+$$
+
+Then whenever $\phi(x) = g(x)$, it must be that $m\leq g(x) \leq M$ and whenever $\phi(x) \neq g(x)$ we still have either $m\leq g(x) = \alpha_i \leq M$ for some $\alpha_i$ or $g(x) = m \leq M$. This change accounts for the possibility that $m > 0$ which would allow $g(x) = 0 < m$ to occur. \\
+
+(d) Given a step function $g$ defined on $[a,b]$ there is a continuous function $h$ defined on $[a,b]$ such that $g(x) = h(x)$ except on a set of measure $\epsilon / 3$. If $m\leq g \leq M$ we can take $h$ such that $m\leq h \leq M$. \\
+
+Let $g$ be a step function defined on $[a,b]$. Then $g$ can be written in the form $g = \sum_{i = 1}^m \alpha_i \chi_{I_i}$ where the $I_i$ are intervals. The intervals can be taken so that they are disjoint and $\cupdot_{i=1}^m I_i = [a,b]$. Also, if it is the case that $I_j$ and $I_k$ are consecutive intervals and $\alpha_j = \alpha_k$ then we can collapse $I_j$ and $I_k$ into a single interval $I_l = I_j \cup I_k$ on which $g(x) = \alpha_j = \alpha_k =: \alpha_l$. Relabelling if necessary, assume $a$ is the left endpoint of the interval $I_1$ and $b$ the right endpoint of the last interval, $I_m$, used in the definition of $g$. We will use a construction that does not depend on whether the endpoints of any particular interval are open or closed (to include $a$ and $b$ we need at least two closed endpoints). For purely notational convenience, therefore, we will write most of the intervals as if they were all open - but it should be understood that these intervals may not take this form. Write
+
+\begin{align*}
+I_1 &= [p_0, p_1) = [a,p_1) \\
+I_2 &= (p_1, p_2) \\
+&\vdots \\
+I_n &= (p_{n-1}, p_n] = (p_{n-1}, b] \;.
+\end{align*}
+
+The function $g$ is discontinuous at the $n-1$ points $p_1, ..., p_{n-1}$. We define $h$ to be equal to $g$ except at intervals of the size $\epsilon / [3(n-1)]$ around each of these points of discontinuity (if $n = 1$, $g$ is constant on $[a,b]$ and so already continuous itself). Let $\Delta x = \epsilon / [3(n-1)]$. 
+
+$$h(x) = \begin{cases}
+\alpha_1 &  a\leq x \leq p_1 - \Delta x / 2 \\
+\frac{\alpha_2 - \alpha_1}{\Delta x}[x - (p_1 - \Delta x / 2)] + \alpha_1 & p_1 - \Delta x / 2 < x < p_1 + \Delta x / 2 \\
+\alpha_2 & p_1 + \Delta x / 2 \leq x \leq p_2 - \Delta x /2 \\
+\frac{\alpha_3 - \alpha_2}{\Delta x}[x - (p_2 - \Delta x / 2)] + \alpha_2 & p_2 - \Delta x / 2 < x < p_2 + \Delta x / 2 \\
+\vdots \\
+\frac{\alpha_n - \alpha_{n-1}}{\Delta x}[x - (p_{n-1} - \Delta x / 2)] + \alpha_{n-1} & p_{n-1} - \Delta x / 2 < x < p_{n-1} + \Delta x / 2 \\
+\alpha_n & p_{n-1} + \delta x / 2 \leq x \leq b
+\end{cases}$$
+
+The result is that $h$ is constant and agrees with $g$ except near the 'jumps' of $g$, where $h$ is then defined to be a linear function connecting each of the constant portions in order to satisfy continuity. Then $h$ disagrees with $g$ on $n-1$ intervals each of length $\epsilon / [3(n-1)]$. That is, $h$ is a continuous function for which $h(x) = g(x)$ except on a set of measure $\epsilon/3$. Using this construction of $h$, it follows that if $m\leq g \leq M$, then $m\leq h \leq M$ as well. \\
+
+{\bf Conclusion} Let $f$ be a measurable function defined on $[a,b]$ and assume that $f$ takes on the values $\pm \infty$ only on a set of measure zero. Then given $\epsilon > 0$, there is an $M$ such that $|f| \leq M$ except on a set $A$ of measure less than $\epsilon / 3$ by (a). By (b) there is a simple function $\phi$ such that $|f - \phi| < \epsilon$ except where $|f| \geq M$. By (c) there is a step function $g$ such that $\phi = g$ except on a set $C$ of measure less than $\epsilon / 3$. So $|f - g| = |f-\phi| < \epsilon$ except possibly on $A\cup C$ where $m(A\cup C) < 2\epsilon / 3 < \epsilon$. By (d) there is a continuous function $h$ such that $g = h$ except on a set $D$ of measure less than $\epsilon / 3$. So $|f - h| = |f-g| = |f-\phi | < \epsilon$ except possibly on $A\cup C \cup D$ with $m(A\cup C \cup D) < 3 \epsilon / 3 = \epsilon$. The results are only improved if $m \leq f \leq M$ since in this case we can find $\phi$ such that $|f - \phi| < \epsilon$ over a more inclusive set. 
+
+
+
+\end{document}

@@ -1,0 +1,73 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 18}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Problem 10} Let $(f_n)$ be a sequence of functions in $L^\infty$. Prove that $(f_n)$ converges to $f$ in $L^\infty$ if and only if there is a set $E$ of measure zero such that $f_n$ converges to $f$ uniformly on $E^c$. \\
+
+Suppose that $(f_n)$ converges to $f$ in $L^\infty([0,1])$ and let $\epsilon > 0$. There is an $N \in \mathbb{N}$ such that $||f - f_n||_\infty < \epsilon$ for all $n \geq N$. But since $|f(x) - f_n(x)| \leq ||f - f_n||_\infty$ for almost all $x$, this means there is a set $E$ of measure zero such that $|f(x) - f_n(x)| \leq ||f- f_n||_\infty < \epsilon$ for all $x \in E^c$ and for all $n \geq N$. Therefore, $(f_n)$ converges to $f$ uniformly on $E^c$. \\
+
+Suppose there is a set $E$ of measure zero such that $(f_n)$ converges to $f$ uniformly on $E^c$. Let $\epsilon > 0$. There is an $N$ such that for all $n\geq N$ and all $x \in E^c$, $|f(x) - f_n(x)| < \epsilon$. That is, for $n \geq N$, $|f(x) - f_n(x)| < \epsilon$ almost everywhere so $\epsilon \in \{M : |f(x) - f_n(x)| < M \text{ a.e. } \}$. Then $||f- f_n||_\infty = \inf \{M : |f(x) - f_n(x)| \text{ a.e. } \} \leq \epsilon$. Since $\epsilon > 0$ was arbitrary, conclude that $||f - f_n|| \rightarrow 0 $ as $n \rightarrow \infty$. \\
+
+{\bf Problem 11} Prove that $L^\infty$ is complete.\\
+
+Suppose $(f_k)$ is a Cauchy sequence in $L^\infty([0,1])$. Then for each $n \in \mathbb{N}$, there is an $N$ such that $||f_k - f_j||_\infty < 1/n$ for all $k,j \geq N$. Then since $|f_k(x) - f_j(x)| \leq ||f_k - f_j||_\infty$ for almost all $x$, there is a set $E_{k,j,n}$ of measure zero such that 
+
+$$|f_k(x) - f_j(x)| < 1/n \quad \forall x \in E_{k,j,n}^c \;.$$
+
+Let $E = \bigcup_{k,j,n} E_{k,j,n}$ so that $m(E) = 0$ and for each $x$ in $E$, the sequence $(f_k(x))$ is a real Cauchy sequence and so convergent in $\mathbb{R}$. Define the function $f$ (actually equivalence class of functions equal a.e.) pointwise by $f(x) = \lim_{k\rightarrow \infty} f_k(x)$ for each $x$ in $N^c$. Since $m(E) = 0$, $f(x)$ can be defined arbitrarily for $x \in E$. Then for each $n$ there is an $N$ such that for all $j \geq N$ and all $x \in E^c$,
+
+$$|f(x) - f_j(x)|  = \lim_{k\rightarrow \infty} |f_k(x) - f_j(x)| \leq \lim_{k\rightarrow \infty} 1/n = 1/n \;.$$
+
+This shows that $(f_j)$ is a sequence of functions in $L^\infty([0,1])$ that converges uniformly to $f$ outside a set of measure zero. By problem 10, $(f_j)$ converges to $f$ in $L^\infty([0,1])$.\\
+
+{\bf Problem 13} Let $C = C([0,1])$ be the space of continuous functions on $[0,1]$ and define $||f|| = \max |f(x)|$. Show that $C$ is a Banach space. \\
+
+Let $(f_n)$ be Cauchy in $C([0,1])$ under the given norm. Note that for each $x \in [0,1]$ the sequence $(f_n(x))$ is a Cauchy sequence in $\mathbb{R}$. So we define the function $f : [0,1] \rightarrow \mathbb{R}$ pointwise as $f(x) = \lim_{n\rightarrow \infty} f_n(x)$. To show that $(f_n)$ converges to $f$ under the given norm, let $\epsilon > 0$ and take $N$ such that for all $m,n \geq N$, $||f_n - f_m|| < \epsilon$. But then for any $x \in [0,1]$ and $m \geq N$,
+
+$$|f(x) - f_m(x)| = \lim_{n\rightarrow \infty} |f_n(x) - f_m(x)| \leq \lim_{n\rightarrow \infty} ||f_n - f_m|| \leq \epsilon \;.$$
+
+This shows that the sequence $(f_n)$ of continuous functions  converges uniformly to on the compact set $[0,1]$ $f$ and therefore $f \in C([0,1])$. Also, $||f - f_m|| = \lim_{n\rightarrow \infty } ||f_n - f_m|| \leq \epsilon$ so that $(f_n)$ converges to $f$ under the given norm. Alternatively, to show continuity, we know that since each function in the sequence $(f_n)$ is continuous and $[0,1]$ is a compact set, each function in the sequence is uniformly continuous on $[0,1]$. Let $\epsilon >0 $ and take $N$ such that for $n \geq N$, $||f-f_n|| < \epsilon/3$ and $\delta > 0$ so that $|f_n(x) - f_n(y)| < \epsilon /3$ whenever $|x - y| < \delta$. 
+
+$$|f(x) - f(y)| \leq |f(x) - f_n(x)| + |f_n(x) - f_n(y)| + |f_n(y) - f(y)| < \frac{\epsilon}{3} + \frac{\epsilon}{3} + \frac{\epsilon}{3} = \epsilon \;.$$
+
+\end{document}

@@ -1,0 +1,91 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+\setcounter{section}{-1}
+\title{MA 503 : Homework 4}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+
+We define continuity using the usual $\epsilon, \delta$ definition of continuity at a point and say that a function is continuous on a set $A$ if it is continuous at every point in $A$. \\
+
+{\bf Remark (Assigned as HW Problem)} Suppose $f : E \rightarrow \mathbb{R}$ and let $A\subset E$. To say that $f$ is continuous on $A$ means that $f$ is continuous at every point $x \in A$. That is, if $x \in A$, then given $\epsilon > 0$  there is a $\delta > 0$ such that if $y \in E$ with $|x-y|<\delta$ then $|f(x) - f(y)| < \epsilon$. The function $f\rvert_A : A \rightarrow \mathbb{R}$ is a function defined on $A$ with $f\rvert_A(x) = f(x)$ for every $x \in A \subset E$. To say that $f\rvert_A$ is continuous means that $f\rvert_A$ is continuous on its domain. That is, at every point $x \in A$. This means that for every $x \in A$, given $\epsilon > 0$ there is a $\delta > 0$ such that if $y \in A$ with $|x-y| < \delta$ then $|\;f\rvert_A(x) - f\rvert_A(y)\;| < \epsilon$. The statements:\\
+
+(i) $f$ is continuous on $A \subset E$,\\
+(ii) $f\rvert_A$ is continuous,\\
+
+are identical except that for (ii), since $f\rvert_A : A \rightarrow \mathbb{R}$, we added the requirement that $y \in A$ while for (i) we allow $y \in E$. Then (i)$\implies$(ii). Suppose (i) holds and let $x \in A$ be arbitrary. Then for every $\epsilon > 0$ there is a $\delta>0$ such that for $y \in E$ with $|x-y|<\delta$ it follows that $|f(x) - f(y)| < \epsilon$. Then for any $y \in A$ with $|x-y|<\delta$, $y \in E$ since $A \subset E$ and $|\;f\rvert_A(x) - f\rvert_A(y)\;| = |f(x) - f(y)| < \epsilon$. Since $x \in A$ was arbitrary conclude that if $f$ is continuous on $A$, then $f\rvert_A$ is continuous. \\
+
+Statement (i), however, does not necessarily follow from statement (ii). Let us show this with a counterexample. Define $f : \mathbb{R} \rightarrow \mathbb{R}$ as $f(x) = 1$ if $x \in \mathbb{R} \backslash \mathbb{Q}$, $f(x) = 0$ if $x \in \mathbb{Q}$. Then $f\rvert_\mathbb{Q}$ is continuous but $f$ is not continuous on $\mathbb{Q}\subset \mathbb{R}$. Let $x \in \mathbb{Q}$ be arbitrary. Let $\epsilon > 0$ and take $\delta = 1$ (any choice of $\delta > 0$ will work). If $y \in \mathbb{Q}$ with $|x-y|<1$ then $|\;f\rvert_\mathbb{Q}(x) - f\rvert_\mathbb{Q}(y)\;| = |0 - 0| = 0 <\epsilon$. This shows that $f\rvert_\mathbb{Q}$ is continuous. To show that $f$ is not continuous on $\mathbb{Q}$, we need to show that $f$ is discontinuous at at least one rational number. In fact it is the case that $f$ is discontinuous at every rational number for this example. Let $q \in \mathbb{Q}$ and let $\epsilon = 1/27$. Then no matter our choice of $\delta > 0$ there is an irrational number $ y \in (q-\delta, q+\delta)$. Note that there is no requirement that $y \in \mathbb{Q}$ when considering whether $f$ is continuous at the point $q$ since $f:\mathbb{R}\rightarrow \mathbb{R}$.  Then $|q-y| < \delta$ but $|f(q) - f(y)| = 1>1/27$. This means given any rational number $q$, there is an $\epsilon > 0$ such that there does not exist $\delta > 0$ such that $|q- y| < \delta \implies |f(q) - f(y)| < \epsilon$. Therefore, $f$ is not continuous at any point $r \in \mathbb{Q}$ (again we only needed this at one point in $\mathbb{Q}$) and so $f$ is not continuous on $\mathbb{Q}$. \\
+
+{\bf Problem 40}
+
+Let $F$ be a closed set of real numbers and $f$ a real valued function which is defined and continuous on $F$. Show there is a function $g : \mathbb{R}\rightarrow \mathbb{R}$ such that $g$ is continuous and $f(x) = g(x)$ for each $x \in F$. \\
+
+If $F = \emptyset$, use $g(x) \equiv 0$. Then $g$ is continuous and the requirement that $f(x) = g(x)$ for each $x \in F$ is vacuously true.\\
+
+If $F = \mathbb{R}$, then set $g \equiv f$. Since $f$ is continuous $g$ is also continuous on $\mathbb{R}$ and $g(x) = f(x)$ for each $x \in F = \mathbb{R}$. \\
+
+If $F \subsetneq \mathbb{R}$ then $F^c$ is a nonempty open set of real numbers. Using Proposition 8, $F^c$ is the union of a countable collection of disjoint open sets, not all empty. As in the proof of this proposition, for each $y \in F^c$, there is an interval $I_y = (a_y,b_y) \subset F^c$ with $a_y = \text{inf}\{a \in \mathbb{R}: (a,y) \subset F^c\}$ and $b_y = \text{sup}\{b \in \mathbb{R}: (y,b) \subset F^c\}$. The disjoint union  $F^c = \cup_{y \in F^c}I_y$ is countable and so we may write $F^c = \cup_{i=1}^{\infty} (a_i,b_i)$ for real numbers $a_i,b_i, \;i \in \mathbb{N}$. Relabeling the intervals if necessary, assume $a_1<b_1<a_2<b_2<a_3<...$ (if it is possible to write $F^c = \cup_{i=1}^{n} (a_i,b_i)$ then assume $a_1<b_1<....<a_n<b_n$). We will handle the case that one or two of these intervals is an infinite interval soon since this will alter the linear equation we use to define $g$ if this occurs. For each interval $(a_i,b_i)$, $\text{sup }(a_i,b_i) = b_i \in F$ and $\text{inf }(a_i,b_i) = a_i \in F$. For each $(a_i,b_i)$ in the disjoint union $F^c = \cup_{i=1}^{\infty} (a_i,b_i)$ (or $F^c = \cup_{i=1}^{n} (a_i,b_i)$ if it is possible) set 
+
+$$g(x) = \frac{f(b_i) - f(a_i)}{b_i-a_i}(x-a_i) + f(a_i) \quad x \in (a_i,b_i) \;.$$
+
+Then for $x \in F$, set $g(x) = f(x)$. If $(a_i, b_i) = (-\infty, b_i)$ for some interval, set $g(x) = f(b_i)$ for all $x \in (-\infty, b_i)$. If $(a_i,b_i) = (a_i,\infty)$, set $g(x) = f(a_i)$ for all $x \in (a_i,\infty)$. If the intervals have been ordered and any interval contained within another interval has been deleted from the collection then $(-\infty,b_i) = (a_1,b_1)$ and $(a_n,b_n) = (a_n,\infty)$ if infinite intervals exist in the collection. Considering these cases, where we still consider $F^c$ as the disjoint union $F^c = \cup_i (a_i,b_i)$, 
+
+$$
+g(x) = \begin{cases} f(x) & x \in F\\
+ \frac{f(b_i) - f(a_i)}{b_i-a_i}(x-a_i) + f(a_i) & x \in (a_i,b_i) \text{ and } a_i,b_i \text{ finite}\\
+ f(b_i) & x \in (a_i,b_i) \text{ and } a_i= - \infty\\
+ f(a_i) & x \in (a_i,b_i) \text{ and } b_i = \infty
+ \end{cases}
+$$
+
+Since $g$ is linear on each open interval in $F^c = \cup_i (a_i,b_i)$, $g$ is continuous on $F^c$. For each endpoint $b_i$, since $g$ is continuous on $F^c$, $f=g$ on $F$ and $\text{lim}_{x\rightarrow b_i^-} g(x) = f(b_i) = g(b_i)$, $g$ is continuous at each interval endpoint $b_i$. Similarly, $g$ is continuous at each $a_i$. Since $f=g$ on $F$ and $f$ is continuous on $F$, $g$ is therefore continuous on all of $F$. Since $g$ is continuous for any $x \in F^c\cup F$, $g$ is continuous on $\mathbb{R}$.  \\
+
+
+{\bf Problem 42}
+Let $(f_n)$ be a sequence of functions defined on a set $E$. Prove that if $(f_n)$ converges uniformly to $f$ on $E$, then $f$ is continuous on $E$. \\
+
+Let $\epsilon>0$. Since $(f_n)$ converges to $f$ uniformly, there is an $N \in \mathbb{N}$ such that $|f_n(z) - f(z)| < \epsilon / 3$ for all $z \in E$ and $n\geq N$. In particular, $$|f_N(z) - f(z)| < \epsilon \text{ for all } z \in E \quad (1) \;.$$ Since $f_N$ is continuous, there is a $\delta > 0$ such that if $y \in E$ with $|x-y| < \delta$,
+$$|f_N(x)-f_N(y)| < \epsilon / 3 \quad (2) \;.$$
+Let $x \in E$. Then for any $y \in E$ with $|x-y|<\delta$,
+\begin{align*}
+|f(x) - f(y)| &= |f(x) -f_N(x) + f_N(x) -f_N(y) + f_N(y) - f(y)| \\
+&\leq |f(x) -f_N(x)| + |f_N(x) -f_N(y)| + |f_N(y) - f(y)| \\
+&< \underbrace{\frac{\epsilon}{3}}_{\text{By (1)}} + \underbrace{\frac{\epsilon}{3}}_{\text{By (2)}} +\underbrace{\frac{\epsilon}{3}}_{\text{By (1)}}\\
+&= \epsilon \;.
+\end{align*}
+
+Since $x \in E$ was arbitrary $f$ is continuous on $E$. \\
+
+{\bf Proposition 19 (Intermediate Value Theorem)} Let $f$ be a continuous real valued function on $[a,b]$ and suppose that $f(a) \leq \gamma \leq f(b)$ [or $f(b) \leq \gamma \leq f(b)$]; then there is a a point $c \in [a,b]$ such that $f(c) = \gamma$. \\
+ 
+{\bf Problem 45} Prove Proposition 19. \\
+
+Proof: Let $C = \{x \in [a,b] : f(x) < \gamma\}$. Since $a \in [a,b]$ and $f(a) < \gamma$, $C \neq \emptyset$ and since $C \subset [a,b]$, $C$ is bounded. Let $c = \text{sup } C$. If $f(c) > \gamma$, then since $f$ is continuous and $f(c) - \gamma > 0$, there is a $\delta > 0$ such that $f(y) > \gamma$ for all $y \in (c-\delta, c+\delta)$. But then we cannot have any point $x \in C$ with $x \in ( c- \delta, c+\delta)$ since otherwise $f(x) > \gamma$. But this contradicts the assumption that $c$ is the supremum of $C = \{x \in [a,b] : f(x) < \gamma\}$. So it must be the case that $f(c) \leq \gamma$. If $f(c) < \gamma$, then since $f$ is continuous and $0<\gamma - f(c)$ there is a $\delta > 0$ such that $f(y) < \gamma$ for all$y \in (c-\delta, c+\delta)$. But then there is an $x \in (c,c+\delta)$ such that $f(x) < \gamma$, which contradictions the assumption that $c$ is an upper bound of the set $C = \{x \in [a,b] : f(x) < \gamma\}$. So it cannot be the case that $f(c) < \gamma$ either. Therefore, conclude that $f(c) = \gamma$. Since $c$ is a cluster point of $C$ and $x\in [a,b]$ for all $x \in C$, the fact that $[a,b]$ is closed implies $c \in [a,b]$ as well. \\
+
+Could you read this alternative proof? I don't think it's correct since $x_n \in f^{-1}((\gamma-1/n, \gamma + 1/n))$ may be empty. But I wonder if something similar to this might be possible. 
+
+Proof: If $\gamma = f(a)$ or $\gamma = f(b)$ then since $a \in [a,b]$ and $b \in [a,b]$ the conclusion holds. So suppose $f(a) < \gamma < f(b)$. Then $(f(a),f(b))$ is an open set and $\gamma \in (f(a),f(b))$. There is an $\epsilon > 0$ such that $(\gamma - \epsilon, \gamma + \epsilon) \subset (f(a),f(b))$. Then for any $n \in \mathbb{N}$ with $1/n<\epsilon$ it follows that $(\gamma-1/n, \gamma + 1/n) \subset (f(a),f(b))$. Since $f$ is continuous, $f^{-1}((\gamma-1/n, \gamma + 1/n)) \subset (a,b)$ is open by Proposition 18 (while Proposition 18 is stated with a function defined on the real line, we saw in Problem 40 that it is possible to find a continuous extension of $f$ to the real line that matches $f$ on the compact set $[a,b]$ so we will continue to just use $f$ in this proof instead of the extension $g$). Then for each $n$ with $n<1/\epsilon$ take $x_n \in f^{-1}((\gamma-1/n, \gamma + 1/n))$ to construct the sequence $(x_n)$. Since $x_n \in [a,b]$ for all $n$ and $[a,b]$ is a closed and bounded set, there is a subsequence $(x_{n_k})$ of $(x_n)$ such that lim $x_{n_k} = c \in [a,b]$. Then lim $f(x_{n_k}) = f(c) = \gamma$ since $f$ is continuous. We know that $f(c) = \gamma$ since $f(x_n) \in (\gamma - 1/n, \gamma + 1/n) \rightarrow \{\gamma\}$ as $n \rightarrow \infty$ and $n_k \geq n$ for all $n$. \\
+
+
+\end{document}

@@ -1,0 +1,74 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Lebesgue Measure and Integration}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+\section*{Chapter 5 : Differentiation and Integration}
+
+\subsection*{1 Differentiation of Monotone Functions}
+
+{\bf Definition } Let $\mathcal{J}$ be a collection of intervals. We say that $\mathcal{J}$ {\bf covers $E$ in the sense of Vitali} if for each $\epsilon$ and any $x \in E$, there is an interval $I \in \mathcal{J}$ such that $x \in I$ and $l(I) < \epsilon$. The intervals may be open, half-open, or closed, but we do not allow degenerate intervals consisting of only one point. \\
+
+{\bf Lemma 1 (Vitali)} Let $E$ be a set of finite outer measure and $\mathcal{J}$ a collection of intervals that covers $E$ in the sense of Vitali. Then given $\epsilon >0$ there is a finite disjoint collection $\{I_1,...,I_N\}\subset \mathcal{J}$ such that 
+
+$$m^*\left[E \backslash \bigcup_{n=1}^N I_n \right] < \epsilon \;.$$
+
+Proof: The proof will assume that each interval in $\mathcal{J}$ is closed.
+
+Let $O$ be a set of finite measure containing $E$. Since $\mathcal{J}$ is a Vitali covering of $E$, assume without loss of generality that for each $I \in \mathcal{J}$, $I\subset O$. If $I \not\subset O$, then since $E \subset O$ it must be that for any point $x \in I$ such that $x \not\in O$, $x \not\in E$. So we can redefine $I$ so that $I \subset O$ without losing coverage of any point in $E$. Let $I_1$ be any interval in $\mathcal{J}$ and assume $I_1,...,I_n$ have been chosen. Let $k_n$ be the supremum of the lengths of the intervals of $\mathcal{J}$ that do not intersect with any of $I_1,...,I_n$. Since each interval is contained in $O$, $k_n \leq m(O) < \infty$. .....\\
+
+{\bf Definition} The {\bf derivates} of $f$ at $x$ are:
+
+$$D^+ f(x) = \lim_{h \rightarrow 0^+} \sup \frac{f(x+h) - f(x)}{h}$$
+$$D^- f(x) = \lim_{h \rightarrow 0^+} \sup \frac{f(x) - f(x-h)}{h}$$
+$$D_+ f(x) = \lim_{h \rightarrow 0^+} \inf \frac{f(x+h) - f(x)}{h}$$
+$$D_- f(x) = \lim_{h \rightarrow 0^+} \inf \frac{f(x) - f(x-h)}{h}$$
+
+Since $\inf \frac{f(x+h) - f(x)}{h} \leq \sup \frac{f(x+h) - f(x)}{h}$ for each $h > 0$, $D_+ f(x) \leq D^+ f(x)$. Similarly, $D_- f(x) \leq D^- f(x)$. If $D^+ f(x) = D_+ f(x) = D^- f(x) = D_- f(x) \neq \pm \infty$, we say that $f$ is {\bf differentiable} at $x$ and define $f'(x)$ to be the common value of the derivates at $x$. If $D^+ f(x) = D_+ f(x)$, $f$ has a {\bf right-hand derivative} at $x$ and define $f'(x+)$ as the common value. Similarly, $f$ has a {\bf left-hand derivative} at $x$ if $D^- f(x) = D_- f(x)$, with $f'(x-)$ defined as the common value.\\
+
+{\bf Proposition 2} If $f$ is continuous on $[a,b]$ and one of its derivates (say $D^+$) is everywhere nonnegative on $(a,b)$, then $f(x) \leq f(y)$ for $x \leq y$, $x,y \in [a,b]$. \\
+
+Proof: Suppose $x,y \in [a,b]$ with $x\leq y$. 
+
+
+
+\end{document}

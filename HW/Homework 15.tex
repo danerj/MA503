@@ -1,0 +1,92 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 15}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Theorem 10 (Monotone Convergence Theorem)} Let $(f_n)$ be an increasing sequence of nonnegative measurable functions such that $f = \lim f_n$ almost everywhere. Then,
+
+$$\int f = \lim \int f_n \;.$$ \\
+
+{\bf Problem 4} Let $f$ be a nonnegative measurable function. \\
+
+a. Show that there is an increasing sequence $(\varphi_n)$ of nonnegative simple functions each of which vanishes outside a set of finite measure such that $f = \lim \varphi_n$. \\
+
+The domain of $f$ is not given, but is probably assumed to be $\mathbb{R}$ and the reasoning would be the same if the domain is some other measurable subset of $\mathbb{R}$. For each $x \in \mathbb{R}$, define $\varphi_n(x) = \min\{f(x), n\} \chi_{[-n,n]} (x)$. \\
+
+(i) Each $\varphi_n$ is simple. In the general form of a simple function $\sum_{i=1}^k \alpha_i \chi_{E_i}$, we take $k = 1$, $\alpha_i = \alpha_k = \min \{f(x), n\} \in \mathbb{R}$, and $E_i = [-n,n] \in \mathfrak{M}$.\\
+
+(ii) Each $\varphi_n$ is nonnegative. Depending on the values of $x$ and $f(x)$, $\varphi_n(x)$ takes on one of the values: $0, n, f(x)$, and so $\varphi_n(x) \geq 0$ in any case. \\
+
+(iii) For each $x$, $\varphi_{n+1}(x) \geq \varphi_n(x)$ for all $n \in \mathbb{N}$. If $\varphi_n(x) = 0$ then by (ii) $\varphi_{n+1}(x) \geq 0 \geq \varphi_n(x)$. If $\varphi_{n}(x) = n$, this means that $x \in [-n,n]\subset [-n-1, n+1]$ and that $f(x) \geq n$. Then either $\varphi_{n+1}(x) = n+1 \geq \varphi_n(x)$ or $\varphi_{n+1}(x) = f(x) \geq n = \varphi_n(x)$. If $\varphi_n(x) = f(x)$, then $x \in [-n,n] \subset [-n-1, n+1]$ and $f(x) \leq n \leq n+1$, so $\varphi_{n+1}(x) = f(x) \geq \varphi_n(x)$. In any case, $\varphi_n(x) \leq \varphi_{n+1}(x)$. \\
+
+(iv) Each $\varphi_n$ vanishes for $x$ outside of $[-n,n]$, which has finite measure $m([-n,n]) = 2n$. \\
+
+(v) For each $x$, $\lim_{n\rightarrow \infty} \varphi_n (x) = f(x)$. If $f(x) = \infty$, then $\varphi_n(x) =\min \{f(x), n\}\chi_{[-n,n]} = n\chi_{[-n,n]}$ for all $n$ and $n\chi_{[-n,n]} \rightarrow \infty = f(x)$ as $n\rightarrow \infty$. If $f(x)$ is bounded such that $0 \leq f(x) \leq N_1$ for some $N_1 \in \mathbb{N}$, then $\min{f(x), n} = f(x)$ for all $n \geq N_1$. Since $x \in \mathbb{R}$, there is an $N_2 \in \mathbb{N}$ such that $x \in [-n,n]$ for all $n \geq N_2$. Therefore, for all $n \geq \max \{N_1,N_2\}$, $\varphi_n(x) = f(x)$ so that we conclude $\lim_{n\rightarrow \infty} \varphi_{n}(x) =f(x)$. \\
+
+This shows there is an increasing sequence of nonnegative simple functions $(\varphi_n)$ such that $\lim \varphi_n = f$. \\
+
+
+b. Show that $\int f = \sup \int \varphi$ over all simple functions $\varphi \leq f$. \\
+
+It is unclear whether the $\varphi$ are nonnegative or arbitrary. If the $\varphi$ are arbitrary, recall that we define $\int \varphi$ for $\varphi$ that vanish outside a set of finite measure. For integration over a set of arbitrary measure, we have only just in this section defined integration in this case for nonnegative functions. Since we have not specified the measure of the set we are integrating over in this problem and based on what was done in part (a) it would seem we should assume the measure may be infinite and that the $0 \leq \varphi \leq f$ and then afterward explain how to change this proof if this assumption is unwarranted.\\
+
+By hypothesis, $\varphi \leq f$ for each admissible simple function, so $\int \varphi \leq \int f$ for all $\varphi$ so that $\sup \int \varphi \leq \int f$. \\
+
+By part (a) there is an increasing sequence $(\varphi_n)$ of nonnegative measurable function (simple $\implies$ measurable) such that $\lim \varphi_n = f$. Since the sequence $(\varphi_n)$ is increasing, the sequence $(\int \varphi_n)$ is increasing so that $\lim_{n\rightarrow \infty} \int \varphi_n = \sup_{n} \int \varphi_n$. 
+
+\begin{align*}
+\int f & = \lim_{n\rightarrow \infty} \int \varphi_n \quad \text{(Theorem 10 Monotonce Converge Theorem)} \\
+&= \sup_{n} \int \varphi_n \\
+&\leq \sup_{0\leq \varphi \leq f} \int \varphi \;.
+\end{align*}
+
+The last inequality holds since the set $\{\int \varphi_n : n \in \mathbb{N}\}$ is a subset of the set $\{ \int \varphi : \varphi \text{ simple }, 0\leq \varphi \leq f \}$ (since each $\varphi_n$ is a nonnegative simple function bounded above by $f$ by our construction from part a). \\
+
+Note: If I am incorrect in assuming that $0\leq \varphi \leq f$, then the problem needs to state that $\varphi \leq f$ where $\varphi$ must be assumed to vanish outside a set of finite measure. There would only be minor changes to the above: We still have $\sup \int \varphi \leq \int f$ so need only prove that $\int f \leq \sup \int \varphi$ as well. The sequence $(\varphi_n)$ still satisfies the conditions of the MCT but the last inequality becomes 
+
+$$\sup_n \int \varphi_n \leq \sup_{\varphi \leq f} \int \varphi \;,$$
+
+which follows from the fact that the set $\{\int \varphi_n : n \in \mathbb{N}\}$ is also a subset of the set $\{\int \varphi : \varphi \text{ simple } $ $\text{and vanishes outside a set of finite measure and } \varphi \leq f\}$. That is, the sequence we constructed in part a will allow the necessary conclusion under either of the two possible assumptions we could make about what our choices of $\varphi$ may be. 
+
+
+
+\end{document}

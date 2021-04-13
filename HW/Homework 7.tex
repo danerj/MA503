@@ -1,0 +1,81 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 7}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Problem 9} Show that if $E$ is a measurable set that each translate $E + y$, $y \in \mathbb{R}$, of $E$ is also measurable.\\
+
+{\bf Lemma 9A} Let $D \subset \mathbb{R}$ and $x \in \mathbb{R}$. Then $(D+x)^c = D^c + x$.\\
+
+Proof: Let $a \in (D+x)^c$. Then $a \not\in D+x$ and so $a \neq d + x$ for any $d \in D$. This means that $a - x \neq d$ for any $d \in D$ and so $a-x \not\in D$. Thus $a - x \in D^c$ and so $a \in D^c + x$. \\
+
+Let $a \in D^c + x$. Then $a = \tilde{d} + x$ for some $\tilde{d} \in D^c$. Thus $a - x = \tilde{d} \in D^c$. Then $a-x \neq d$ for any $d \in D$ which means also $a \neq d+x$ for any $d \in D$. Then it cannot be the case that $a \in D+x$, so $a \in (D+x)^c$. \\
+
+{\bf Lemma 9B} Let $C,D \subset \mathbb{R}$ and $x \in \mathbb{R}$. Then $(C\cap D) -x = (C-x)\cap (D-x)$.\\
+
+Proof: Let $a \in (C\cap D) - x$. Then $a = b-x$ for some $b \in C\cap D$ and so $a = b-x$ for some $b$ such that $b \in C$ and $b \in D$. Thus $a=b-x \in C-x$ and $a = b-x \in D-x$. Therefore, $a \in (C-x) \cap (D-x)$. \\
+
+Let $a \in (C-x)\cap (D-x)$. Then $a \in C-x$ and $a \in D-x$. Therefore, $a = c-x$ for some $c \in C$ and $a = d-x$ for some $d \in D$. But since $c-x = d-x$, $c=d$ and so $c=d \in C\cap D$. Thus $a = c-x$ for some $c \in C\cap D$ and therefore $a \in (C\cap D) -x$. \\
+
+Now let $E$ be a measurable set, $A \subset \mathbb{R}$, and $y \in \mathbb{R}$.\\
+
+\begin{align*}
+m^*[A \cap (E+y)] + m^*[A \cap (E+y)^c] &= m^*[A\cap (E+y)] + m^*[A \cap (E^c+y)] \quad \text{(Lemma 9A)}\\
+&= m^*[\left(A\cap (E+y)\right) - y] + m^*[\left(A \cap (E^c +y\right) - y] \quad \text{(Problem 7)}\\
+&=m^*[(A-y)\cap(E+y-y)] + m^*[(A-y)\cap(E^c+y-y)] \quad \text{(Lemma 9B)}\\
+&=m^*[(A-y)\cap(E+0)] + m^*[(A-y)\cap(E^c+0)]\\
+&= m^*[(A-y)\cap E] + m^*[(A-y)\cap E^c]\\
+&= m^*(A-y)\quad \text{(Since } E \text{ is measurable)}\\
+&= m^*(A) \quad \text{(Problem 7)}\;.
+\end{align*}
+
+Since $A$ and $y$ were arbitrary, we have shown that for any translate $E+y$ of $E$, that $m^*(A) = m^*(A \cap (E+y)) + m^*(A \cap (E+y)^c)$ for any set $A$. Therefore, $E+y$ is measurable.\\
+
+{\bf Alternative Proof}\\
+Let $\{I_n\}$ be any cover of $E$ by open intervals. Then $\{I_n + y\}$ is a cover of $(E + y)$ by open intervals since if $x \in E+y$ then $x - y \in E$ so $x-y \in I_n$ for some interval in $\{I_n\}$. Thus $x \in I_n + y$. Also, for any interval $I_n = (a_n,b_n)$, $l(I_n) = b_n - a_n = (b_n +y ) - (a_n+y) = l(I_n + y)$. Since $A\cap E \subset E$ and $A\cap (E+y) \subset E+y$, any cover $\{I_n\}$ of $E$ by open intervals will be a cover of $A\cap E$ and since the corresponding cover $\{I_n + y\}$ contains $E+y$, $A\cap (E+y) \subset \bigcup (I_n+y)$. This means that the values of the sums in the set $\{\sum l(I_n) : (A\cap E) \subset \bigcup I_n\}$ are the same as the values of the sums in the set $\{\sum l(I_n + y) : (A\cap (E+y)) \subset \bigcup (I_n + y)\}$. Therefore, $m^*(A \cap E) = m^*(A\cap (E+y))$. Similarly, $m^*(A\cap E^c) = m^*(A \cap (E+y)^c) = m^*(A \cap (E^c + y))$ (Lemma 9A). By Problem 7, $m^*$ is translation invariant and since $E$ is measurable we have:
+
+$$m^*(A\cap (E+y)) + m^*(A \cap (E+y)^c) = m^*(A\cap E) + m^*(A \cap E^c) = m^*(A) \;.$$
+
+Since $A$ and $y$ were arbitrary this shows that if $E$ is measurable, $E+y$ is measurable. 
+
+
+\end{document}

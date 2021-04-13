@@ -1,0 +1,211 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 11}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Proposition 18} Let $f$ be an extended real-valued function whose domain is measurable. The following statements are equivalent:\\
+
+
+i. $\; \; \,$ For each real number $\alpha$ the set $\{x : f(x) > \alpha \}$ is measurable.\\
+ii. $\; \,$ For each real number $\alpha$ the set $\{x : f(x) \geq \alpha \}$ is measurable.\\
+iii. $\,$ For each real number $\alpha$ the set $\{x : f(x) < \alpha \}$ is measurable.\\
+iv. $\; $ For each real number $\alpha$ the set $\{x : f(x) \leq \alpha \}$ is measurable.\\
+These statements imply\\
+v. $\; \; \, $For each real number $\alpha$ the set $\{x : f(x) = \alpha\}$ is measurable. \\
+
+{\bf Definition} A function $f: D \rightarrow \overline{\mathbb{R}}$ is said to be (Lebesgue) measurable if $D \subset \mathbb{R}$ is measurable and $f$ satisfies one of statements (i)-(iv) in Proposition 18. \\
+
+{\bf Proposition 19} Let $c$ be a constant and $f$ and $g$ two measurable real-valued functions on the same domain $D$ (which must be measurable by the definition above). Then the functions $f+c$, $cf$, $f+g$, $g-f$, and $fg$ are also measurable. \\
+
+{\bf Problem 21}\\
+
+a. Let $E$ and $D$ be measurable sets and $f$ a function with domain $E\cup D$. Show that $f$ is measurable if and only if its restrictions to $D$ and $E$ are measurable. \\
+
+Suppose that $f$ is measurable and let $\alpha \in \mathbb{R}$ be given. Then the set $\{x \in E\cup D : f(x) < \alpha\}$ is measurable (the notation needs to be more explicit here so we can consider whether $x \in D$ or $x \in E$). Consider that
+
+$$\{x \in D : f\rvert_D(x) < \alpha\} = \{x \in D : f(x) < \alpha\} = \{x \in E\cup D : f(x) < \alpha\} \cap D \;.$$
+
+Then $\{x \in D : f(x) < \alpha\}$ is measurable as the intersection of two measurable sets. Since $\alpha$ was arbitrary, conclude that $\{x \in D : f\rvert_D(x) < \alpha\}$ is measurable for any $\alpha$. Conclude that the restriction of $f$ to $D$, $f\rvert_D$, is a measurable function. By swapping the positions of $D$ and $E$, the same reasoning shows that the restriction of $f$ to $E$, $f\rvert_E$, is a measurable function as well. \\
+
+Suppose that $f\rvert_D$ and $f\rvert_E$ are measurable functions and let $\alpha \in \mathbb{R}$ be given. Since $E$ and $D$ are measurable, the domain $E\cup D$ of $f$ is measurable and
+
+\begin{align*}
+\{x \in E\cup D : f(x) < \alpha\} &= \{x \in E : f(x) < \alpha\}\cup \{x \in D : f(x) < \alpha\}\\
+&= \{x \in E : f\rvert_E(x) < \alpha\}\cup \{x \in D : f\rvert_D(x) < \alpha\}\;.
+\end{align*}
+
+Since $\{x \in E : f\rvert_E(x) < \alpha\}$ and $\{x \in D : f\rvert_D(x) < \alpha\}$ are measurable sets, so is their union. Since $\alpha$ was arbitrary, $\{x \in E\cup D : f(x) < \alpha\}$ is measurable for each $\alpha$. Therefore, $f$ is a measurable function. \\
+
+b. Let $f$ be a function with a measurable domain $D$ and let
+
+$$g(x) = \begin{cases} f(x) & x \in D\\ 0 & x \not\in D \end{cases} \;.$$
+
+Show that $f$ is measurable if and only if $g$ is measurable.\\
+
+The domain of $g$ has not been specified in the problem.  If the domain of $g$ is not measurable, then by definition it is impossible for $g$ to be measurable and this problem cannot be completed. So we need to assume that the domain $E$ of $g$ is measurable. If $E = D$ then the result is immediate. If $E \subsetneq D$, then it would seem the definition of $g$ does not make sense and also it would not be possible to show that the measurability of $g$ implies the measurability of $f$. So most likely we are to assume that $E \supsetneq D$. Since the reasoning is similar for any such measurable $E$, just assume that the domain of $g$ is $\mathbb{R}$ (which is measurable in what follows. While the work below is still correct if $D = \mathbb{R}$, the result would again be immediate in this case and so this is meant to handle a measurable $D \subsetneq \mathbb{R}$. \\
+
+Suppose that $f$ is measurable and let $\alpha \in \mathbb{R}$ be given. 
+
+\begin{align*}
+\{x : g(x) < \alpha\} &= \{x \in D : g(x) < \alpha\} \cup \{x \not\in D : g(x) < \alpha\} \\
+&= \{x \in D : f(x) < \alpha\} \cup \{x \in D^c : 0 < \alpha\} \;. 
+\end{align*}
+
+Since $f$ is measurable, the set $\{x \in D : f(x) < \alpha\}$ is always measurable, so it remains for us to see if $D^c \cap \{x : g(x) < \alpha\} = \{x  \in D^c : g(x) < \alpha\} = \{x \in D^c : 0< \alpha\}$ is measurable. Either $0 < \alpha$ or $0\geq \alpha$. If $0 < \alpha$, $\{x \in D^c : 0<\alpha\} = D^c$. If $0 \geq \alpha$, $\{x \in D^c : 0 < \alpha\} = \emptyset$. Since $D^c$ and $\emptyset$ are measurable sets, $\{x \in D^c : 0 < \alpha\}$ in either case. Therefore, $\{x : g(x) < \alpha\}$ is measurable as the union of two measurable sets. \\
+
+Suppose that $g$ is measurable (again with the assumptions mentioned in the first paragraph about the domain of $g$ and $f$). Let $\alpha$ be given. The set $\{x \in \mathbb{R} : g(x) < \alpha\}$ is measurable and $D$ is measurable.
+
+$$\{x \in D : f(x) < \alpha\} = \{x \in D : g(x) < \alpha\} = \{x \in \mathbb{R} : g(x) < \alpha\} \cap D \;.$$
+
+Then $\{x \in D: f(x) < \alpha\}$ is measurable as the intersection of two measurable sets. Since $\alpha$ was arbitrary, $\{x \in D : f(x) < \alpha\}$ is measurable for any $\alpha$. Conclude that $f$ is a measurable function. \\
+
+{\bf Problem 22}\\
+
+a. Let $f : D \rightarrow \overline{\mathbb{R}}$ where $D$ is a measurable set. Let $D_1 = \{x : f(x) = \infty\}$ and $D_2 = \{x : f(x) = -\infty\}$. Show that $f$ is measurable if and only if $D_1$ and $D_2$ are measurable and the restriction of $f$ to $D \backslash (D_1 \cup D_2)$ is measurable. \\
+
+Suppose that $f$ is measurable and let $f^\dagger$ denote the restriction of $f$ to $D \backslash (D_1 \cup D_2)$. Since $\{x : f(x) > n\}$ and $\{x : f(x) < -n\}$ are measurable sets for each $n \in \mathbb{N}$,
+
+$$D_1 = \{x : f(x) = \infty\} = \cap_n \{x : f(x) > n\} \in \mathfrak{M},$$
+$$D_2 = \{x : f(x) = -\infty\} = \cap_n \{x : f(x) < -n \} \in \mathfrak{M} \;.$$
+
+This implies that $D\cap D_1^c\cap D_2^c = D \backslash (D_1\cup D_2)\in \mathfrak{M}$ as well. Let $\alpha \in \mathbb{R}$. Since $f^\dagger$ is only defined for $x \in D\backslash (D_1 \cup D_2)$,
+
+$$\{x: f^\dagger(x) < \alpha\} = \{x: f(x) < \alpha\} \cap (D_1\cup D_2)^c \;.$$
+
+This shows that $\{x : f^\dagger(x) < \alpha\}$ is measurable as the intersection of measurable sets. Since $\alpha$ was arbitrary, $\{x : f^\dagger(x) < \alpha\}$ is measurable for each $\alpha$ and since the domain of $f^\dagger$ is measurable, conclude that $f^\dagger$ is a measurable function. 
+
+Suppose that $f\dagger$ is measurable and that $D_1$ and $D_2$ are measurable sets. Let $\alpha \in \mathbb{R}$. The set $\{x : f^\dagger(x) < \alpha\}$ is measurable and so
+
+\begin{align*}
+\{x \in D : f(x) < \alpha \} &= \{x \in D\backslash (D_1 \cup D_2) : f(x) < \alpha \} \cup \{x \in D : f(x) = -\infty \}\\
+&= \{x : f^\dagger(x) < \alpha\}\cup D_2 \in \mathfrak{M} \;.
+\end{align*}
+
+Since $\alpha$ was arbitrary and $D$ is measurable, conclude that $f$ is measurable.\\
+
+b. Prove that the product of two measurable extended real-values functions is measurable. \\
+
+Let $f,g : D \rightarrow \overline{\mathbb{R}}$, where $D$ is a measurable set on which both $f$ and $g$ and thus $fg$ can be defined. Assume that both $f$ and $g$ are measurable. By part (a), the sets $\{x : f(x) = \infty\}$, $\{x : f(x) = -\infty\}$, $\{x : g(x) = \infty\}$, and $\{x : g(x) = -\infty\}$ are measurable. Also the sets $\{x : f(x) < 0\}$, $\{x : f(x) > 0\}$, $\{x : g(x)  < 0\}$, and $\{x : g(x)  > 0\}$ are measurable since $f$ and $g$ are measurable (and Proposition 18). By repeatedly using the fact that the $\sigma$-algebra $\mathfrak{M}$ is closed under complement and intersection and the conventions from section 2.3 for multiplication in $\overline{\mathbb{R}}$, the set
+
+
+\begin{align*}
+D_1 &:= \{x : (fg)(x) = \infty\}\\
+&=[\{x : f(x) = \infty\} \cap \{x : g(x) > 0\}]\\
+&\cup [\{x : f(x) = -\infty\} \cap \{x : g(x) < 0\}]\\
+&\cup [\{x : g(x) = \infty\} \cap \{x : f(x) > 0\}]\\
+&\cup [\{x : g(x) = -\infty\} \cap \{x : f(x) < 0\}]\\
+&\cup [\{x : f(x) = \infty\} \cap \{x : g(x) = \infty\}]\\
+&\cup [\{x : f(x) = -\infty\} \cap \{x : g(x) = -\infty\}]\\
+& \in \mathfrak{M} \;.
+\end{align*}
+
+Similarly,
+
+\begin{align*}
+D_2 &:= \{x : (fg)(x) = -\infty\}\\
+&=[\{x : f(x) = \infty\} \cap \{x : g(x) < 0\}]\\
+&\cup [\{x : f(x) = -\infty\} \cap \{x : g(x) > 0\}]\\
+&\cup [\{x : g(x) = \infty\} \cap \{x : f(x) < 0\}]\\
+&\cup [\{x : g(x) = -\infty\} \cap \{x : f(x) > 0\}]\\
+&\cup [\{x : f(x) = \infty\} \cap \{x : g(x) = -\infty\}]\\
+&\cup [\{x : f(x) = \infty\} \cap \{x : g(x) = -\infty\}]\\
+& \in \mathfrak{M} \;.
+\end{align*}
+
+This implies $D_1 \cup D_2$ and $D \backslash (D_1 \cup D_2)$ are measurable. By Problem 21 (a), the restriction of $f$ to $D \backslash (D_1 \cup D_2)$ is measurable. Similarly, the restriction of $g$ to $D \backslash (D_1 \cup D_2)$ is measurable. Moreover, these restrictions are measurable real-valued functions and so by Proposition 19, the restriction of $fg$ to $D \backslash (D_1 \cup D_2)$ is measurable. By part (a) of this problem, since $D_1$ and $D_2$ are measurable and the restriction of $fg$ to $D \backslash (D_1 \cup D_2)$ is measurable, we conclude that $fg$ is measurable. \\
+
+c. If $f$ and $g$ are measurable extended real-valued functions, and $\alpha \in \mathbb{R}$ is fixed, prove that
+
+$$
+(f+g)(x) := \begin{cases}
+\alpha & f(x) = \infty, \quad g(x) = -\infty \\
+\alpha & f(x) = -\infty, \quad g(x) = \infty \\
+f(x) + g(x) & \quad \quad \quad \text{otherwise}
+\end{cases} $$
+
+is measurable. \\
+
+Let $f,g : D \rightarrow \overline{\mathbb{R}}$. By part (a) the sets $\{x : f(x) = \infty\}$, $\{x : f(x) = -\infty\}$, $\{x : g(x) = \infty\}$, and $\{x : g(x) = -\infty\}$ are measurable. This implies $\{x : -\infty < g(x) < \infty\} = D \backslash (\{x : g(x) = \infty\} \cup \{x : g(x) = -\infty\})$ and similarly $\{x : -\infty < f(x) < \infty\}$ are measurable.
+
+\begin{align*}
+D_1 &:= \{x : (f+g)(x) = \infty\}\\
+&=[\{x : f(x) = \infty\} \cap \{x : -\infty < g(x) < \infty \}]\\
+&\cup [\{x : -\infty < f(x) < \infty \} \cap \{x:  g(x) = \infty\}]\\
+&\cup [\{x : f(x) = \infty \}\cap \{x : g(x) = \infty\}]\\
+\end{align*}
+\begin{align*}
+D_2 &:= \{x : (f+g)(x) = -\infty\}\\
+&=[\{x : f(x) = -\infty\} \cap \{x : -\infty < g(x) < \infty \}]\\
+&\cup [\{x : -\infty < f(x) < \infty \} \cap \{x:  g(x) = -\infty\}]\\
+&\cup [\{x : f(x) = -\infty \}\cap \{x : g(x) = -\infty\}]
+\end{align*}
+
+Since $\mathfrak{M}$ is a $\sigma$-algebra, $D_1$ and $D_2$ are measurable. By part (a), if we can show that the restriction of $f$ to $D\backslash (D_1 \cup D_2)$,  $h(x) := (f+g)\rvert_{D \backslash (D_1 \cup D_2)}(x)$ is measurable then we can conclude the extended real-valued function $f+g : D \rightarrow \overline{\mathbb{R}}$ is measurable. Let $E:=D \backslash (D_1 \cup D_2)$. Let $\beta \in \mathbb{R}$ be arbitrary. With Proposition 18 (iii) in mind, we want to show that the set $\{x \in E : h(x) := (f+g)(x) < \beta\}$ is measurable. Since $\alpha$ is fixed, consider whether $\alpha < \beta$ or $\alpha \geq \beta$. Let $F = E\cap\{x : -\infty < f(x) < \infty\}\cap\{x : -\infty < g(x) < \infty\} \in \mathfrak{M}$. For $x \in F$, $f(x)$ and $g(x)$ are both finite so that $h(x) = (f+g)(x)$ is a measurable function by Proposition 19. So the set $\{x \in F : h(x) < \beta\}$ is measurable.
+
+\begin{align*}
+\{x \in E : h(x) < \beta\} &= \{x \in F : h(x) < \beta\}\\ &\cup [\{x \in E : f(x) = \infty\} \cap \{x \in E : g(x) = -\infty\}]\\
+&\cup [\{x : f(x) = -\infty\} \cap \{x : g(x) = \infty\}] \in \mathfrak{M}, \quad \alpha < \beta\\
+\{x \in E : h(x) < \beta\} &= \{x \in F : h(x) < \beta\} \in \mathfrak{M}, \quad \alpha \geq \beta \;.
+\end{align*}
+
+Note that the sets above of a form like $\{x \in E : f(x) = \infty\} = \{x \in D: f(x) = \infty\}\cap D_1^c \cap D_2^c$ are indeed measurable and that it is necessary to mention these cases as $D_1 \cup D_2$ does not include all possible instances where $f$ and $g$ are infinite. Since $\beta$ was arbitrary, conclude that the restriction of $f+g$ to $D\backslash (D_1 \cup D_2)$ is measurable and so by part (a), the extended real valued function $f+g$ is measurable. \\
+
+(d) Let $f,g : D\rightarrow \overline{\mathbb{R}}$ be measurable extended real-valued functions such that $f$ and $g$ are each finite almost everywhere. Show that $f+g$ is measurable no matter how it is defined at points where it is of the form $\infty - \infty$ (and presumably $-\infty + \infty$).
+
+\begin{align*}
+&C_1 := \{x : f(x) = \infty\}\cup \{x : f(x) = -\infty\}\\
+&C_1 := \{x : g(x) = \infty\}\cup \{x : g(x) = -\infty\}\\
+&m(C_1) = m(C_2) = 0 \text{ by hypothesis.}\\
+& 0\leq m(C_1\cup C_2) \leq m(C_1) + m(C_2) = 0 \implies m(C_1\cup C_2) = 0\\
+& B:= [\{x : f(x) = \infty\} \cap \{x : g(x) = -\infty\}]\cup [\{x : f(x) = -\infty\} \cap \{x : g(x) = \infty\}]
+\end{align*}
+
+The set $B$ is the set of points at which $f+g$ is of the form $\infty - \infty$ or $-\infty + \infty$. Let $f+g$ be defined arbitrarily at points in $B$. To see that $B\subset C_1 \cup C_2$, let $y \in B$. If $y \in  \{x : f(x) = \infty\} \cap \{x : g(x) = -\infty\}$, then $f(y) = \infty$ and $g(y) = -\infty$. So $y \in C_1$ and $y \in C_2$ and $y \in C_1\cap C_2 \subset C_1 \cup C_2$. If $y \in \{x : f(x) = -\infty\} \cap \{x : g(x) = \infty\}$ it follows similarly that $y \in C_1 \cup C_2$. This implies that $m(B) = 0$. Define $h : D \rightarrow \overline{\mathbb{R}}$,
+
+$$h(x) = \begin{cases}
+(f+g)(x) & x \in B^c\\
+27 & x \in B \end{cases} \;. $$
+
+Then $h$ is measurable by part (c) and the set of points at which $h \neq f+g$ has measure zero. That is, $h$ is a measurable function and $h = f+g$ almost everywhere. By Proposition 21, conclude that $f+g$ is measurable. 
+
+
+\end{document}

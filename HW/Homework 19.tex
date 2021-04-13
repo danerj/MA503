@@ -1,0 +1,135 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{subfig}
+\setlength\parindent{0pt}
+\usepackage{amssymb}
+
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 503 : Homework 19}
+\author{Dane Johnson}
+
+\begin{document}
+\maketitle
+
+{\bf Proposition 14} Let $f$ be a nonnegative function which is integrable over a set $E$. Then given $\epsilon$, there is a $\delta$ such that for every set $A \subset E$ with $m(A) < \delta$ we have 
+
+$$\int_A f < \epsilon \;.$$
+
+Proof: If $f$ is bounded with $|f| \leq M$, then to get $\int_A f < \epsilon$, require that $m(A) < \delta = \epsilon / M$ so that $\int_A f \leq \int_A M = Mm(A) < M\epsilon / M = \epsilon$. So consider the case that $f$ is not bounded but still $f$ is integrable over $E$, meaning that $0 \leq \int_E f < \infty$ is bounded. Define
+
+$$f_n(x) = \begin{cases}
+f(x) & f(x) \leq n \\ n & f(x) > n \end{cases} \;. $$
+
+Each $f_n$ is bounded and nonnegative as $0\leq f_n(x) \leq n$. If $f(x) <\infty$, then there is an $N$ such that $f(x) \leq N$. Then $f_n(x) = f(x)$ for all $n \geq N$ and so $f_n(x) \rightarrow f(x)$. If $f(x) = \infty$ (measurable functions by definition may be extended real valued functions so it is necessary to consider this - it's unclear whether $\int_E f < \infty$ guarantees that $f(x)$ is finite for all $x \in E$, only that $f(x) = \infty$ on a set of measure zero), then $f_n(x) = n$ for all $n$. But then $f_n(x) = n \rightarrow \infty = f(x)$ as well. So $f_n \rightarrow f$ pointwise on $E$. Since $f(x)$ is measurable and $g(x) = n$ is measurable for each $n$, each $f_n$ is measurable. For each $x$, $f_n(x)$ is increasing since either $f_n(x) = n$ for all $n$ or $f_n(x) = n$ for finitely many $n$ and then constantly $f_n(x) = f(x)$ for all $n\geq N$ for some $N$. We have established that $(f_n)$ is an increasing sequence of nonnegative measurable functions that $f = \lim f_n$ pointwise (and thereby satisfies the weaker condition of a.e. convergence). That each $f_n$ is integrable follows from Proposition 8 (iii). By Theorem 10 (Monotone Convergence Theorem), 
+
+$$\int_E f = \lim \int f_n \;.$$
+
+Then given $\epsilon > 0$, there is an $N$ such that $\int_E f_n > \int_E f - \epsilon /2$ and so $\int_E (f - f_n) < \epsilon /2 $ for all $n\geq N$. In particular this holds for $N$ specifically. Then for any $A \subset E$ with $m(A) < \delta = \epsilon / 2N$.
+
+\begin{align*}
+\int_A f &= \int_A [(f - f_N) + f_N] = \int_A (f-f_N) + \int_A f_N\\
+&\leq \int_E (f-f_N) + \int_A N \\
+&< \frac{\epsilon}{2} + \int_A N \\
+&= \frac{\epsilon}{2} + Nm(A)\\
+&< \frac{\epsilon}{2}+ \frac{N\epsilon}{2N}\\
+&= \epsilon \;.
+\end{align*}
+
+{\bf Problem 24} Use proposition 14 to prove directly that if $f_n \rightarrow f$ in measure and if there is an integrable function $g$ such that for all $n$ we have $|f_n| \leq g$, then $\int |f_n - f| \rightarrow 0$. \\
+
+By proposition 18, there is a subsequence $(f_{n_k})$ of $(f_n)$ that converges to $f$ almost everywhere. Since $|f_{n_k}| \leq g$ for each $k$, it follows that $|f| \leq g$ almost everywhere. Therefore $\int |f| \leq \int g$. Since $|f_n| \leq g$ for each $n$, $\int |f_n| \leq \int g$ for each $n$. Then $\int |f_n - f| \leq \int |f_n| + |f|\leq 2\int g < \infty$. \\
+
+Let $\epsilon > 0$. Since $g$ is integrable, there is an $M \in \mathbb{N}$ such that $\int_{[-M,M]^c} g < \epsilon / 4$. Given $\epsilon / 4$, there exists by proposition 14 a $\delta > 0$ such that $\int_A |f_n - f| < \epsilon /4$ if $m(A) < \delta$. Let $\delta^* = \min \{\delta, \epsilon / (8M) \}$. Since $(f_n)$ converges to $f$ in measure, there is an $N \in \mathbb{N}$ such that for all $n \geq N$, $m(\{x : |f_n(x) - f(x)| \geq \delta^* \}) < \delta^* \leq \delta$. Let $A_n = \{x : |f_n(x) - f(x)| \geq \delta^*\}$. By proposition 14, $\int_{A_n} |f_n(x) - f(x)| < \epsilon / 4$.
+
+\begin{align*}
+\int |f_n - f| &= \int_{[-M,M]^c} |f_n - f| + \int_{[-M,M]} |f_n - f| \\
+&\leq \int_{[-M,M]^c} 2g + \int_{[-M,M]} |f_n - f| \\
+&< \frac{2\epsilon}{4} + \int_{[-M,M]} |f_n - f| \\
+&= \frac{\epsilon}{2} + \int_{[-M,M]\cap A_n} |f_n - f| + \int_{[-M,M]\cap A_n^c} |f_n - f| \\
+&\leq \frac{\epsilon}{2} + \int_{A_n} |f_n - f| + \int_{[-M,M]\cap A_n^c} |f_n - f| \\
+&<\frac{\epsilon}{2} + \frac{\epsilon}{4} + \int_{[-M,M]\cap A_n^c} |f_n - f| \\
+&\leq  \frac{\epsilon}{2} + \frac{\epsilon}{4} + \int_{[-M,M]\cap A_n^c} \delta^* \\
+&=  \frac{\epsilon}{2} + \frac{\epsilon}{4} + m([-M,M]\cap A_n^c) \delta^* \\
+&\leq  \frac{\epsilon}{2} + \frac{\epsilon}{4} + m([-M,M]) \delta^* \\
+&=  \frac{\epsilon}{2} + \frac{\epsilon}{4} + 2M \delta^* \\
+&\leq \frac{\epsilon}{2} + \frac{\epsilon}{4} + \frac{2M\epsilon}{8M} \\
+&= \epsilon \;.
+\end{align*}
+
+{\bf Problem 25} A sequence $f_n$ is said to be Cauchy in measure if given $\epsilon > 0$ there is an $N$ such that for all $m,n \geq N$ we have
+
+$$m\left(\{x : |f_n(x) - f_m(x)| \geq \epsilon \}\right) < \epsilon \;.$$
+
+Show that if $(f_n)$ is a Cauchy sequence in measure, then there is a function $f$ to which the sequence $(f_n)$ converges in measure.\\
+
+I had trouble figuring out how to work with the hint so did something probably much more complicated instead.\\
+
+Since $(f_n)$ is Cauchy, for each $v \in \mathbb{N}$, there is an $n_v$ such that for all $k,j \geq n_v$ we have $m(\{x : |f_k(x) - f_j(x)| \geq 2^{-v} \}) < 2^{-v}$. In particular, $m(\{x : |f_{n_v} - f_{n_{v+1}}(x)| \geq 2^{-v}\}) < 2^{-v}$ and we can choose each $n_{v+1}$ such that $n_{v+1} > n_v$. Let $E_v = \{x : |f_{n_{v+1}}(x) - f_{n_v}(x)| \geq 2^{-v} \}$ and $F_v = \bigcup_{j = v}^\infty E_j$ so that $F_v$ is measurable and $m(F_v) < 2^{-(v-1)}$. If $i \geq j \geq v$ and $x \not\in F_v$, then
+$$|f_{n_i}(x) - f_{n_j}(x)| \leq |f_{n_i}(x) - f_{n_{i-1}}(x)| + ... + |f_{n_{j+1}}(x) - f_{n_{j}}(x)| \leq \frac{1}{2^{i-1}} + ... + \frac{1}{2^j} < \frac{1}{2^{j-1}} \;.$$
+
+Let $F = \bigcap_{v=1}^\infty F_v$ so that $F$ is measurable and $m(F) = 0$. Then $(f_{n_j})$ converges outside of $F$. Define,
+
+$$f(x) = \begin{cases}
+\lim f_{n_j}(x) & x \not\in F \\
+0 & x \in F \end{cases} $$
+
+so that $(f_{n_j})$ converges a.e. to the measurable real valued function $f$. As $i\rightarrow \infty$, we have that if $j \geq v$ and $x \not\in F_v$, then
+
+$$|f(x) - f_{n_j}(x)| \leq \frac{1}{2^{j-1}} \leq \frac{1}{2^{k-1}} \;. $$
+
+This shows that $(f_{n_j})$ converges uniformly to $f$ on the complement of each set $F_v$. Let $\alpha , \epsilon$ be positive real numbers and take $v$ large enough such that $m(F_v) < 2^{-(v-1)} < \min\{\alpha, \epsilon \}$. If $j \geq v$, we have
+
+$$\{x : |f(x) - f_{n_j}(x)| \geq \alpha \} \subseteq \{x : |f(x) - f_{n_j}(x)| > 2^{-(v-1)} \} \subseteq F_v \;.$$
+
+But then $m\left(x : |f(x) - f_{n_j}(x)| \geq \alpha\} \right) \leq m(F_v) < \epsilon$ for all $j \geq v$ so that $(f_{n_j})$ converges in measure to $f$. \\
+
+We have seen that there is a subsequence $(f_{n_v})$ of $(f_n)$ which converges in measure to $f$ and next need to show that the entire sequence converges in measure to $f$. Since,
+
+$$|f(x) - f_n(x)| \leq |f(x) - f_{n_v}(x)| + |f_{n_v}(x) - f_n(x)| \; ,$$
+
+it follows that,
+
+$$\{x : |f(x) - f_n(x)| \geq \alpha \} \subseteq \{x : |f(x) - f_{n_v}(x) \geq \frac{\alpha}{2} \} \bigcup \{x : |f_{n_v}(x) - f_n(x)| \geq \frac{\alpha}{2} \} \;.$$
+
+The convergence in measure of $(f_n)$ to $f$ follows from this relation above and since $(f_{n_v})$ converges to $f$ in measure and $(f_{n})$ converges in measure to $f_{n_v}$ (I think this is how it would work but not totally sure).\\
+
+ This function $f$ is a.e. unique. Suppose that $(f_n)$ converges to $f$ and $g$ in measure.
+ 
+ $$|f(x) - g(x)| \leq |f(x) - f_n(x)| + |f_n(x) - g(x)|$$
+
+$$\{x : |f(x) - g(x)| \geq \alpha \} \subseteq \{x : |f(x) - f_n(x)| \geq \frac{\alpha}{2}\} \bigcup \{x : |f_n(x) - g(x)| \geq \frac{\alpha}{2} \} \;.$$
+
+Then $m(\{x : |f(x) - g(x)| \geq \alpha \}) = 0$ for all $\alpha > 0$. Then taking $\alpha = 1/n$ for each $n \in \mathbb{N}$, conclude that $f=g$ except on a set of measure zero. 
+
+\end{document}
